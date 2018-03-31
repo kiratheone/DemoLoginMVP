@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DemoLoginMVP</string>
+    <string name="login">Login</string>
+    <string name="no_account_yet_create_one">No account yet? Create one</string>
+    <string name="loading">loading</string>
+    <string name="profile_phone">Phone</string>
+    <string name="profile_user_name">User Name</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_address">Address</string>
+    <string name="profile_vehicle">Vehicle</string>
+    <string name="save">save</string>
+    <string name="cancel">cancel</string>
+</resources>
