@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ticket"
+        android:icon="@drawable/ic_action_ticket"
+        android:title="@string/ticket" />
+    <item
+        android:id="@+id/ticket_history"
+        android:icon="@drawable/ic_list_ticket"
+        android:title="@string/ticket_history" />
+</menu>

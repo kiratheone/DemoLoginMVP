@@ -1,13 +1,72 @@
 <resources>
+    <string name="title_activity_maps">Map</string>
+
+    <!--              Permissions              -->
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
+    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
+    <string name="permission_required_toast">Location permission is required</string>
+
+    <!--              BottomNavBar             -->
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="setting">Setting</string>
+    <string name="ticket">Ticket</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_ticket">Ticket</string>
+    <string name="nav_notifications">Notification</string>
+    <string name="nav_settings">Setting</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_service_pack_name">default service pack name</string>
+
+
+    <string name="service_clean">Cleaning</string>
+    <string name="service_parking">Parking</string>
+    <string name="service_repair">Repairs</string>
+    <string name="service_rescue">Rescue</string>
+    <string name="service_booking">Book Car</string>
+    <string name="service_charging">Charging</string>
+    <string name="title_activity_test">test</string>
+    <string name="booking">Book Slot</string>
+    <string name="loading">Loading…</string>
+    <string name="time_travel">0 min</string>
+    <string name="call">Call</string>
+    <string name="map">Map</string>
+    <string name="direction">Direction</string>
+    <string name="more_information">MORE INFORMATION</string>
+    <string name="title_activity_account">AccountActivity</string>
+    <string name="ticket_number">000011112222</string>
+    <string name="ticket_title">There Are TwoType Of Pain</string>
+    <string name="ticket_duration">2h 30min</string>
+    <string name="ticket_type">Car 4 seats</string>
+    <string name="date">Date</string>
+    <string name="ticket_date_example">03/08/2018</string>
+    <string name="ticket_time">Time</string>
+    <string name="ticket_time_example">23:30</string>
+    <string name="ticket_car_type">Type</string>
+    <string name="ticket_car_type_example">Car 4 seats</string>
+    <string name="ticket_history">History</string>
+
+    <!--    Map    -->
+    <string name="map_last_lat_location">last_lat_location</string>
+    <string name="map_last_lng_location">last_lng_location</string>
+    <string name="ic_gps">gps</string>
+    <string name="user_name">User Name</string>
+
+    <!--    Button    -->
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="profile_user_name">User Name</string>
+    <string name="profile_phone">Phone</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_address">Your Address</string>
+
     <string name="app_name">DemoLoginMVP</string>
     <string name="login">Login</string>
     <string name="no_account_yet_create_one">No account yet? Create one</string>
-    <string name="loading">loading</string>
-    <string name="profile_phone">Phone</string>
-    <string name="profile_user_name">User Name</string>
-    <string name="profile_email">Email</string>
-    <string name="profile_address">Address</string>
     <string name="profile_vehicle">Vehicle</string>
-    <string name="save">save</string>
-    <string name="cancel">cancel</string>
 </resources>
