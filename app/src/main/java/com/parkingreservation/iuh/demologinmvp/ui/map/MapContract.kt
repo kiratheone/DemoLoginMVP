@@ -9,6 +9,7 @@ class MapContract {
     }
 
     interface View : BaseView {
+        fun loadUserHeader(user: LoginModel)
 
     }
 }

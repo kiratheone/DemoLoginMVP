@@ -5,10 +5,10 @@ import android.content.Context
 import com.parkingreservation.iuh.demologinmvp.base.BaseView
 import dagger.Module
 import dagger.Provides
+import android.content.SharedPreferences
+import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
+import javax.inject.Singleton
 
-/**
-* Created by Kushina on 25/03/2018.
-*/
 
 @Module
 @Suppress("unused")
@@ -34,5 +34,18 @@ object ContextModule {
     @JvmStatic
     internal fun provideApplication(context: Context): Application {
         return context.applicationContext as Application
+    }
+
+    /**
+     * Provides the Shared Preferences
+     * @param context Context in which the application is running
+     * @return the Shared Preferences to be provied
+     */
+    @Singleton
+    @Provides
+    @JvmStatic
+    internal fun provideSharedPreferences(context: Context): SharedPreferences {
+        return context.getSharedPreferences(MySharedPreference.SharedPrefKey.DATA_STORE,
+                Context.MODE_PRIVATE)
     }
 }

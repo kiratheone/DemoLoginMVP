@@ -1,5 +1,6 @@
 package com.parkingreservation.iuh.demologinmvp.injection.component
 
+import android.content.SharedPreferences
 import com.parkingreservation.iuh.demologinmvp.base.BaseView
 import com.parkingreservation.iuh.demologinmvp.injection.module.ContextModule
 import com.parkingreservation.iuh.demologinmvp.injection.module.NetworkModule
@@ -17,6 +18,11 @@ import javax.inject.Singleton
 interface PresenterInjector {
 
     fun inject(loginPresenter: LoginPresenter)
+
+    /**
+     * using for get saved data from client
+     */
+    fun getSharedPreferences(): SharedPreferences
 
     @Component.Builder
     interface Builder {

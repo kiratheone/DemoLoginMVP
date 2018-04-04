@@ -40,4 +40,6 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
             is LoginPresenter -> injector.inject(this)
         }
     }
+
+
 }
