@@ -2,6 +2,7 @@ package com.parkingreservation.iuh.demologinmvp.injection.module
 
 import com.parkingreservation.iuh.demologinmvp.service.LoginService
 import com.parkingreservation.iuh.demologinmvp.service.MapService
+import com.parkingreservation.iuh.demologinmvp.service.ProfileService
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -29,12 +30,26 @@ object NetworkModule {
         return retrofit.create(LoginService::class.java)
     }
 
+    /**
+     *
+     */
     @Provides
     @Reusable
     @JvmStatic
     internal fun provideMapService(retrofit: Retrofit): MapService {
         return retrofit.create(MapService::class.java)
     }
+
+    /**
+     *
+     */
+    @Provides
+    @Reusable
+    @JvmStatic
+    internal fun provideProfileService(retrofit: Retrofit): ProfileService {
+        return retrofit.create(ProfileService::class.java)
+    }
+
 
     /**
      * Provides the Retrofit object.

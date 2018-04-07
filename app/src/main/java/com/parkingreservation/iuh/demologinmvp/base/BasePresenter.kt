@@ -4,9 +4,15 @@ import com.parkingreservation.iuh.demologinmvp.injection.component.DaggerPresent
 import com.parkingreservation.iuh.demologinmvp.injection.component.PresenterInjector
 import com.parkingreservation.iuh.demologinmvp.injection.module.ContextModule
 import com.parkingreservation.iuh.demologinmvp.injection.module.NetworkModule
+import com.parkingreservation.iuh.demologinmvp.ui.account.AccountPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfilePresenter
+import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit.EditingProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
 
 /**
 * Created by Kushina on 25/03/2018.
@@ -44,8 +50,13 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
             is MapPresenter -> injector.inject(this)
             is MapViewPresenter -> injector.inject(this)
 
-//            is ProfilePresenter -> injector.inject(this)
-//            is EditingProfilePresenter -> injector.inject(this)
+            is AccountPresenter -> injector.inject(this)
+            is ProfilePresenter -> injector.inject(this)
+            is EditingProfilePresenter -> injector.inject(this)
+
+            is TicketPresenter -> injector.inject(this)
+            is TicketDetailPresenter -> injector.inject(this)
+            is TicketHistoryPresenter -> injector.inject(this)
         }
     }
 

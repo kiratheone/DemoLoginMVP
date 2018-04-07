@@ -4,11 +4,15 @@ import android.content.SharedPreferences
 import com.parkingreservation.iuh.demologinmvp.base.BaseView
 import com.parkingreservation.iuh.demologinmvp.injection.module.ContextModule
 import com.parkingreservation.iuh.demologinmvp.injection.module.NetworkModule
+import com.parkingreservation.iuh.demologinmvp.ui.account.AccountPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit.EditingProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -25,6 +29,15 @@ interface PresenterInjector {
 
     fun inject(presenter: MapPresenter)
     fun inject(presenter: MapViewPresenter)
+
+    fun inject(presenter: AccountPresenter)
+    fun inject(presenter: ProfilePresenter)
+    fun inject(presenter: EditingProfilePresenter)
+
+    fun inject(presenter: TicketPresenter)
+    fun inject(presenter: TicketDetailPresenter)
+    fun inject(presenter: TicketHistoryPresenter)
+
 
     /**
      * using for get saved data from client

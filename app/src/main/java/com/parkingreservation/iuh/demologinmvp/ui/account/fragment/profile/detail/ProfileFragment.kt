@@ -13,7 +13,6 @@ import com.parkingreservation.iuh.demologinmvp.model.Account
 
 class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
 
-
     companion object {
         private var fragment = ProfileFragment()
         @JvmStatic
@@ -30,7 +29,13 @@ class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
         return view
     }
 
+    override fun transferProfile(profile: Account) {
+        binding.profile = profile
+    }
 
+    override fun getContexts(): Context {
+        return this.baseActivity
+    }
 
     override fun showError(string: String) {
     }
@@ -42,12 +47,5 @@ class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
         return ProfilePresenter(this)
     }
 
-    override fun transferProfile(profile: Account) {
-        binding.profile = profile
-    }
-
-    override fun getContexts(): Context {
-        return this.context!!
-    }
 
 }

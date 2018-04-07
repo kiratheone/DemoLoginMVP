@@ -78,4 +78,11 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$google_service_version"
     implementation 'com.akexorcist:googledirectionlibrary:1.1.1' // direct way
 
+    // ticket view
+    implementation 'com.vipulasri:ticketview:1.0.4'
+
+    // expand panel
+    implementation 'com.github.florent37:expansionpanel:1.1.1'
+
+
 }

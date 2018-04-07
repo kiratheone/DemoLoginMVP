@@ -42,9 +42,9 @@ import com.parkingreservation.iuh.demologinmvp.base.BaseActivity
 import com.parkingreservation.iuh.demologinmvp.databinding.ActivityMapBinding
 import com.parkingreservation.iuh.demologinmvp.model.LoginModel
 import com.parkingreservation.iuh.demologinmvp.ui.account.AccountActivity
-import com.parkingreservation.iuh.demologinmvp.ui.account.AccountPagerAdapter
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewFragment
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.servicepack.ServicePackFragment
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketActivity
 import com.parkingreservation.iuh.demologinmvp.util.NavbarSelectionType
 import com.parkingreservation.iuh.demologinmvp.util.StringLengthHandler
 import com.parkingreservation.iuh.guest.models.Station
@@ -111,7 +111,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
                 R.id.nav_ticket -> {
                     navItemIndex = NavbarSelectionType.TICKET.index
                     CURRENT_TAG = NavbarSelectionType.TICKET.tag
-//                    startActivity(Intent(this, TicketActivity::class.java))
+                    startActivity(Intent(this, TicketActivity::class.java))
                 }
                 R.id.nav_account -> {
                     navItemIndex = NavbarSelectionType.ACCOUNT.index

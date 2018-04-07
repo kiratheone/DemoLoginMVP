@@ -34,7 +34,7 @@ class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingP
     }
 
     override fun getContexts(): Context {
-        return this.context!!
+        return this.baseActivity
     }
 
     override fun instantiatePresenter(): EditingProfilePresenter {

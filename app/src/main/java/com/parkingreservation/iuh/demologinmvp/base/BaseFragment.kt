@@ -17,10 +17,6 @@ abstract class BaseFragment<P : BasePresenter<BaseView>> : BaseView, Fragment() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         presenter = instantiatePresenter()
     }
 

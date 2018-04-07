@@ -3,13 +3,12 @@ package com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.model.Account
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
-import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfileContract
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class EditingProfilePresenter(profileEditingView: EditingProfileContract.View) : BasePresenter<EditingProfileContract.View>(profileEditingView)
+class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter<EditingProfileContract.View>(view)
                     , EditingProfileContract.Presenter{
 
     @Inject
