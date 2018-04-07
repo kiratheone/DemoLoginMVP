@@ -11,12 +11,12 @@ interface BaseView {
     /**
      * start loading process
      */
-    fun showLoading()
+    fun showError(string: String)
 
     /**
      * terminate loading process
      */
-    fun hideLoading()
+    fun showSuccess(string: String)
 
     /**
      *  activity context

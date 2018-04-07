@@ -1,18 +1,17 @@
 package com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit
 
-import android.content.Context
-import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
+import com.parkingreservation.iuh.demologinmvp.model.Account
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfileContract
-import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfilePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class EditingProfilePresenter(profileEditingView: EditingProfileContract.View) : BasePresenter<EditingProfileContract.View>(profileEditingView)
-                    , ProfileContract.Presenter{
+                    , EditingProfileContract.Presenter{
+
     @Inject
     lateinit var profileService: ProfileService
 
@@ -36,4 +35,13 @@ class EditingProfilePresenter(profileEditingView: EditingProfileContract.View) :
     override fun onViewDestroyed() {
         subscription?.dispose()
     }
+
+    override fun editProfile(profile: Account) {
+        // post profile
+        loadProfile()
+    }
+
+
+
+
 }

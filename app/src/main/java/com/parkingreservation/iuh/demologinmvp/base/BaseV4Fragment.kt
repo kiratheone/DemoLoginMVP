@@ -1,15 +1,11 @@
 package com.parkingreservation.iuh.demologinmvp.base
 
+import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
 
-/**
-* Created by Kushina on 26/03/2018.
-*/
-
-abstract class BaseFragment<P : BasePresenter<BaseView>> : BaseView, Fragment() {
+abstract class BaseV4Fragment<P : BasePresenter<BaseView>> : BaseView, Fragment() {
 
     protected lateinit var baseActivity: BaseActivity<*>
     protected lateinit var presenter: P

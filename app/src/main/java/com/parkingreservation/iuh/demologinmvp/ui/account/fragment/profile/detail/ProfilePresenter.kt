@@ -17,7 +17,6 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
     var subscription: Disposable? = null
 
     override fun onViewCreated() {
-        loadProfile()
     }
 
     private fun loadProfile() {

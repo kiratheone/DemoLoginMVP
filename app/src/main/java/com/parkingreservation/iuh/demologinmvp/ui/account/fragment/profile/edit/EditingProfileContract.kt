@@ -5,7 +5,7 @@ import com.parkingreservation.iuh.demologinmvp.model.Account
 
 class EditingProfileContract {
     interface Presenter {
-
+        fun editProfile(profile: Account)
     }
 
     interface View : BaseView {

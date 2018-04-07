@@ -5,6 +5,8 @@ import com.parkingreservation.iuh.demologinmvp.injection.component.PresenterInje
 import com.parkingreservation.iuh.demologinmvp.injection.module.ContextModule
 import com.parkingreservation.iuh.demologinmvp.injection.module.NetworkModule
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPresenter
 
 /**
 * Created by Kushina on 25/03/2018.
@@ -38,6 +40,12 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
     private fun inject() {
         when (this) {
             is LoginPresenter -> injector.inject(this)
+
+            is MapPresenter -> injector.inject(this)
+            is MapViewPresenter -> injector.inject(this)
+
+//            is ProfilePresenter -> injector.inject(this)
+//            is EditingProfilePresenter -> injector.inject(this)
         }
     }
 

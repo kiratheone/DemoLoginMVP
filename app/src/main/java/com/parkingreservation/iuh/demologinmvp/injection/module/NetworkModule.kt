@@ -1,6 +1,7 @@
 package com.parkingreservation.iuh.demologinmvp.injection.module
 
 import com.parkingreservation.iuh.demologinmvp.service.LoginService
+import com.parkingreservation.iuh.demologinmvp.service.MapService
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -20,12 +21,19 @@ object NetworkModule {
      * @param retrofit the Retrofit object used to instantiate the service
      * @return the Post service implementation.
      */
-    private const val BASE_URL = "https://jsonplaceholder.typicode.com"
+    private const val BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/"
     @Provides
     @Reusable
     @JvmStatic
     internal fun provideLoginService(retrofit: Retrofit): LoginService {
         return retrofit.create(LoginService::class.java)
+    }
+
+    @Provides
+    @Reusable
+    @JvmStatic
+    internal fun provideMapService(retrofit: Retrofit): MapService {
+        return retrofit.create(MapService::class.java)
     }
 
     /**

@@ -13,8 +13,11 @@ import com.parkingreservation.iuh.demologinmvp.model.Account
 
 class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
 
-    override fun getContexts(): Context {
-        return this.context!!
+
+    companion object {
+        private var fragment = ProfileFragment()
+        @JvmStatic
+        fun getInstance() = fragment
     }
 
     lateinit var binding: FragmentProfileBinding
@@ -23,8 +26,16 @@ class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         binding.profile = Account("1", "2", "3", "4")
 
-        val view = binding.getRoot()
+        val view = binding.root
         return view
+    }
+
+
+
+    override fun showError(string: String) {
+    }
+
+    override fun showSuccess(string: String) {
     }
 
     override fun instantiatePresenter(): ProfilePresenter {
@@ -33,6 +44,10 @@ class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
 
     override fun transferProfile(profile: Account) {
         binding.profile = profile
+    }
+
+    override fun getContexts(): Context {
+        return this.context!!
     }
 
 }

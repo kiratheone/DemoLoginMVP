@@ -10,10 +10,10 @@ import com.parkingreservation.iuh.demologinmvp.R
 /**
 * Created by Kushina on 25/03/2018.
 */
-abstract class BaseActivity<P : BasePresenter<BaseView>> : BaseView, AppCompatActivity(), BaseFragment.Callback {
+abstract class BaseActivity<P : BasePresenter<BaseView>> : BaseView, AppCompatActivity(), BaseFragment.Callback, BaseV4Fragment.Callback {
     protected lateinit var presenter: P
 
-    @BindView(R.id.toolbar) private
+    @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +31,6 @@ abstract class BaseActivity<P : BasePresenter<BaseView>> : BaseView, AppCompatAc
      */
     protected abstract fun instantiatePresenter(): P
 
-    override fun showLoading() {}
-
-    override fun hideLoading() {}
 
     override fun onFragmentAttached() { }
 

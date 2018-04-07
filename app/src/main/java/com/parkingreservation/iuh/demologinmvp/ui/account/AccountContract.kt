@@ -1,5 +1,13 @@
 package com.parkingreservation.iuh.demologinmvp.ui.account
 
-/**
- * Created by Kushina on 29/03/2018.
- */
+import com.parkingreservation.iuh.demologinmvp.base.BaseView
+
+class AccountContract {
+    interface Presenter {
+
+    }
+
+    interface  View : BaseView {
+
+    }
+}

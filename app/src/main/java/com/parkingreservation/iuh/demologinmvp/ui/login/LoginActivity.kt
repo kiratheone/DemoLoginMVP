@@ -13,16 +13,13 @@ import com.parkingreservation.iuh.demologinmvp.model.LoginModel
 
 class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
 
-
     @BindView(R.id.input_name)
-    private
     lateinit var inputUserName: EditText
 
     @BindView(R.id.input_password)
-    private
     lateinit var inputPassword: EditText
 
-    private lateinit var binding: ActivityLoginBinding
+    lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +29,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     }
 
     override fun updateUser(users: List<LoginModel>) {
+//        inputUserName.setText("aaaa")
         binding.user = users[0]
     }
 
@@ -47,6 +45,12 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         return inputPassword.text.toString()
     }
 
+    override fun showError(string: String) {
+    }
+
+    override fun showSuccess(string: String) {
+    }
+
 
     override fun instantiatePresenter(): LoginPresenter {
         return LoginPresenter(this)
@@ -55,7 +59,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     override fun getContexts(): Context { return this }
 
     @OnClick(R.id.btn_signIn)
-    private fun signIn() {
+    public fun signIn() {
         val userName = getUserName()
         val password = getPassword()
         presenter.signIn(userName, password)

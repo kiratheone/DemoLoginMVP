@@ -13,13 +13,19 @@ import com.parkingreservation.iuh.demologinmvp.model.Account
 
 class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingProfileContract.View {
 
+    companion object {
+        private var fragment = EditingProfileFragment()
+        @JvmStatic
+        fun getInstance() = fragment
+    }
+
     lateinit var binding: FragmentEditingProfileBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing_profile, container, false)
         binding.profile = Account("1", "2", "3", "4")
 
-        val view = binding.getRoot()
+        val view = binding.root
         return view
     }
 
@@ -34,5 +40,12 @@ class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingP
     override fun instantiatePresenter(): EditingProfilePresenter {
         return EditingProfilePresenter( this)
     }
+
+    override fun showError(string: String) {
+    }
+
+    override fun showSuccess(string: String) {
+    }
+
 
 }
