@@ -13,6 +13,7 @@ import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPre
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(mapView), MapContract.Presenter {
@@ -51,21 +52,17 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
 
 
     override fun loadStationContent(marker: Marker) {
-        subscription = mapService.getStationDetail(marker.id)
+        subscription = mapService.getStationDetail(marker.title)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ data ->
                     view.addStationContent(data)
                     Log.i(TAG, "get station successfully")
                 }, {
-                    Log.w(TAG, "error while loading station from server")
+                    Log.w(TAG, "error while loading station from server + ${it.message}")
                     view.showError("Cannot load station")
                     view.addStationContent(null)
                 })
-    }
-
-    private fun loadUserHeader() {
-
     }
 
     private fun userAlreadyExistOnLocal(): Boolean = pref.getData(USER, User::class.java) != null

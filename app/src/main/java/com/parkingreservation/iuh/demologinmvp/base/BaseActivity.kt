@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import butterknife.BindView
+import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
 
 /**
@@ -35,4 +36,9 @@ abstract class BaseActivity<P : BasePresenter<BaseView>> : BaseView, AppCompatAc
     override fun onFragmentAttached() { }
 
     override fun onFragmentDetached(tag: String) { }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
 }

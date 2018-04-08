@@ -34,8 +34,8 @@ class AccountActivity : BaseActivity<AccountPresenter>(),AccountContract.View {
         binding.adapter = accountAdapter
 
         ButterKnife.bind(this)
-        setSupportActionBar(toolbar)
 
+        configToolbar()
         setUpPager()
         presenter.onViewCreated()
     }

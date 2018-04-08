@@ -2,7 +2,7 @@ package com.parkingreservation.iuh.demologinmvp.model
 
 
 data class Station(val id: Int, val address: String, val name: String, val description: String, val level: Int,
-                   val coordinate: String, val imageLink: Array<String>) {
+                   val coordinate: String) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

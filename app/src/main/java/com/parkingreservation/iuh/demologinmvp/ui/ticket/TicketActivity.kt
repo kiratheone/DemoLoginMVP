@@ -29,9 +29,12 @@ class TicketActivity : BaseActivity<TicketPresenter>(), TicketConstract.View {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ticket)
         ButterKnife.bind(this)
-        presenter.onViewCreated()
+
+        configToolbar()
         setUpBottomBar()
         transactionFragment()
+
+        presenter.onViewCreated()
     }
 
     private fun setUpBottomBar(){

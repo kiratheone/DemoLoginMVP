@@ -18,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -164,6 +165,8 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
                 (currentFragment as MapViewFragment).setOnMarkerClick(object : MapEvents.OnParkingMakerEvents {
                     override fun onMarkerClickListener(marker: Marker) {
                         currentMarker = marker
+                        images.shuffle()
+                        binding.adapter = ParkingLotCoverPagerAdapter(getContexts(), images.toIntArray())
                         presenter.loadStationContent(marker)
                     }
                 })
@@ -206,14 +209,20 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
     }
 
     override fun showError(string: String) {
+        showStatus(string)
     }
 
     override fun showSuccess(string: String) {
+        showStatus(string)
+    }
+
+    private fun showStatus(s: String) {
+        Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
 
     override fun addStationContent(station: Station?) {
         if (station != null) {
-            binding.station = station
+            binding.station= StringLengthHandler.getText(station.name)
             sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
             mergedBehavior.setToolbarTitle(StringLengthHandler.getText(station.name))
         }
@@ -351,4 +360,9 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10))
         return polyline
     }
+
+    private val images = mutableListOf(R.drawable.z1, R.drawable.z2,
+            R.drawable.z3, R.drawable.z4, R.drawable.z5, R.drawable.z6
+                         , R.drawable.z3, R.drawable.z8, R.drawable.z10, R.drawable.z11, R.drawable.z13
+                         , R.drawable.z14, R.drawable.z15, R.drawable.z16, R.drawable.z17)
 }

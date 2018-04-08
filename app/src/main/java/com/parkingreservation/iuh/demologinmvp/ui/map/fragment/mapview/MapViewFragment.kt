@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.Toast
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -237,7 +238,7 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         val pos = mMap.cameraPosition.target
         val zoomLevel = mMap.cameraPosition.zoom
         Log.d(TAG, "Center location is lat = " + pos.latitude + ", long = {}" + pos.longitude + " zoom level = " + zoomLevel)
-        if (zoomLevel >= MAP_ZOOM_LEVEL) {
+        if (zoomLevel >= 13) {
             Log.i(TAG, "map is high enough for loading station")
             presenter.getNearbyStation(com.parkingreservation.iuh.demologinmvp.model.temp.Location(pos.latitude, pos.longitude))
         } else {
@@ -248,15 +249,21 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
 
     override fun loadNearbyStation(stationLocations: Array<StationLocation>) {
         stationLocations.forEach {
-            val mOption = MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.id.toString())
+            val mOption = MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.stationID.toString())
             mMap.addMarker(mOption)
         }
     }
 
     override fun showError(string: String) {
+        showStatus(string)
     }
 
     override fun showSuccess(string: String) {
+        showStatus(string)
+    }
+
+    private fun showStatus(s: String) {
+        Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
 
 

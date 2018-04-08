@@ -16,6 +16,6 @@ class MapViewContract {
          *  downloaded all location successfully
          *  it's happening when all location have been loaded on client
          */
-        fun loadNearbyStation(mapResult: Array<StationLocation>)
+        fun loadNearbyStation(stationLocations: Array<StationLocation>)
     }
 }

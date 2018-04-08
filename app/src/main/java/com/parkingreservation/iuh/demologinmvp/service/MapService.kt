@@ -17,7 +17,7 @@ interface MapService {
      * @Lng horizontal axis
      * @return List of Station
      */
-    @GET("radius=${MapUtil.PROXIMITY_RADIUS}")
+    @GET("maps/place?rad=${MapUtil.PROXIMITY_RADIUS}")
     fun getNearbyStation(@Query("lat") lat: String,
                          @Query("lng") lng: String): Observable<Array<StationLocation>>
 
@@ -27,6 +27,6 @@ interface MapService {
      * @userId Station userId
      * @return a specific Station
      */
-    @GET("/stations/{userId}")
-    fun getStationDetail(@Path("userId")id: String): Observable<Station>
+    @GET("stations/{id}")
+    fun getStationDetail(@Path("id")id: String): Observable<Station>
 }

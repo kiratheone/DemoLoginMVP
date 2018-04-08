@@ -101,7 +101,7 @@ class TicketHistoryAdapter(private val context: Context) : RecyclerView.Adapter<
         private var expansionLayout : ExpansionLayout
         init {
             ButterKnife.bind(this, item)
-            expansionLayout = item.findViewById(R.id.expansionLayout)
+            expansionLayout = item.findViewById(R.stationID.expansionLayout)
         }
 
         fun bind(ticket: Ticket) {
