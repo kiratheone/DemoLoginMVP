@@ -33,8 +33,7 @@ class MapViewPresenter(mapView: MapViewContract.View) : BasePresenter<MapViewCon
     }
 
     override fun getNearbyStation(location: Location) {
-        val loc = "" + location.lat + "," + location.lng
-        mapService.getNearbyParkingPlace(loc)
+        mapService.getNearbyStation(location.lat.toString(), location.lng.toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe ({

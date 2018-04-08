@@ -1,4 +1,4 @@
-package com.parkingreservation.iuh.guest.models
+package com.parkingreservation.iuh.demologinmvp.model
 
 
 data class Location(

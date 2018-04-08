@@ -3,6 +3,7 @@ package com.parkingreservation.iuh.demologinmvp.injection.module
 import com.parkingreservation.iuh.demologinmvp.service.LoginService
 import com.parkingreservation.iuh.demologinmvp.service.MapService
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
+import com.parkingreservation.iuh.demologinmvp.service.TicketService
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -17,12 +18,15 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 @Module
 @Suppress("unused")
 object NetworkModule {
+
+    private const val BASE_URL = "http://45.119.81.16:8080/parking_reservation_1.0-1.0.0/api/"
+
     /**
-     * Provides the Post service implementation.
+     * Using for log-in, log-out user
+     * Provides the Login service implementation.
      * @param retrofit the Retrofit object used to instantiate the service
-     * @return the Post service implementation.
+     * @return the Login service implementation.
      */
-    private const val BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/"
     @Provides
     @Reusable
     @JvmStatic
@@ -31,7 +35,9 @@ object NetworkModule {
     }
 
     /**
-     *
+     *  Related to the getting location in a area
+     *  @param retrofit the Retrofit object used to instantiate the service
+     *  @return the Map service implementation.
      */
     @Provides
     @Reusable
@@ -41,13 +47,27 @@ object NetworkModule {
     }
 
     /**
-     *
+     *  Related to the getting user profile
+     *  @param retrofit the Retrofit object used to instantiate the service
+     *  @return the Map service implementation.
      */
     @Provides
     @Reusable
     @JvmStatic
     internal fun provideProfileService(retrofit: Retrofit): ProfileService {
         return retrofit.create(ProfileService::class.java)
+    }
+
+    /**
+     *  Related to the getting User Ticket
+     *  @param retrofit the Retrofit object used to instantiate the service
+     *  @return the Map service implementation.
+     */
+    @Provides
+    @Reusable
+    @JvmStatic
+    internal fun provideTicketService(retrofit: Retrofit): TicketService {
+        return retrofit.create(TicketService::class.java)
     }
 
 
@@ -59,7 +79,6 @@ object NetworkModule {
     @Reusable
     @JvmStatic
     internal fun provideRetrofitInterface(): Retrofit {
-
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())

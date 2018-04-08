@@ -28,7 +28,7 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
     lateinit var pref: MySharedPreference
 
     override fun onViewCreated() {
-        loadUser()
+//        loadUser()
     }
 
     override fun onViewDestroyed() {
@@ -39,7 +39,7 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun loadUser() {
+    /*private fun loadUser() {
         if (userAlreadyExistOnLocal()) {
             Log.i(TAG, "User already logged in client")
             val userPref = pref.getData(SharedPrefKey.USER, LoginModel::class.java) as LoginModel
@@ -57,7 +57,7 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
                             { Log.w(TAG, "error while loading user from db") }
                     )
         }
-    }
+    }*/
 
     private fun userAlreadyExistOnLocal(): Boolean
             = pref.getData(SharedPrefKey.USER, LoginModel::class.java) != null

@@ -33,8 +33,8 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseV4Fragment
+import com.parkingreservation.iuh.demologinmvp.model.StationLocation
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapEvents
-import com.parkingreservation.iuh.guest.models.MapResult
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
@@ -246,9 +246,9 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         }
     }
 
-    override fun loadNearbyStation(mapResult: MapResult) {
-        mapResult.results.onEach {
-            val mOption = MarkerOptions().position(LatLng(it.geometry.location.lat, it.geometry.location.lng)).title(it.name)
+    override fun loadNearbyStation(stationLocations: Array<StationLocation>) {
+        stationLocations.forEach {
+            val mOption = MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.id.toString())
             mMap.addMarker(mOption)
         }
     }

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
-import com.parkingreservation.iuh.guest.models.ServicePack
+import com.parkingreservation.iuh.demologinmvp.model.ServicePack
 import android.support.design.widget.BottomSheetBehavior
 import com.parkingreservation.iuh.demologinmvp.R
 import java.lang.reflect.Field

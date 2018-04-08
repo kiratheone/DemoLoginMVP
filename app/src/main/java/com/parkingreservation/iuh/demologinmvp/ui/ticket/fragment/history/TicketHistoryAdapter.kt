@@ -9,9 +9,9 @@ import butterknife.ButterKnife
 import com.github.florent37.expansionpanel.ExpansionLayout
 import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection
 import com.parkingreservation.iuh.demologinmvp.R
-import com.parkingreservation.iuh.guest.models.TicketHistory
+import com.parkingreservation.iuh.demologinmvp.model.Ticket
 
-class TicketHistoryAdapter(private val tickets: MutableList<TicketHistory>) : RecyclerView.Adapter<TicketHistoryAdapter.RecyclerHolder>() {
+class TicketHistoryAdapter(private val tickets: MutableList<Ticket>) : RecyclerView.Adapter<TicketHistoryAdapter.RecyclerHolder>() {
 
     private var expandCollections : ExpansionLayoutCollection = ExpansionLayoutCollection()
 

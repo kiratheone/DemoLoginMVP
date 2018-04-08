@@ -4,10 +4,12 @@ import android.util.Log
 import com.google.android.gms.maps.model.Marker
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.model.LoginModel
+import com.parkingreservation.iuh.demologinmvp.model.User
+import com.parkingreservation.iuh.demologinmvp.model.Vehicle
 import com.parkingreservation.iuh.demologinmvp.service.LoginService
 import com.parkingreservation.iuh.demologinmvp.service.MapService
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
-import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey
+import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -32,56 +34,41 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
     var subscription: Disposable? = null
 
     override fun onViewCreated() {
-//        loadUserHeader()
-
+        fakeUser()
     }
 
     override fun onViewDestroyed() {
         subscription?.dispose()
     }
 
-
-    override fun signIn(name: String, pass: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun fakeUser() {
+        if (!userAlreadyExistOnLocal()) {
+            val user = User("02417146-1c56-46ab-8a19-0a90d4b0d6f0", "User Name", "096281088497",
+                    "user_97@gmail.com", "Owner Address", emptyArray())
+            pref.putData(USER, user, User::class.java)
+        }
     }
+
 
     override fun loadStationContent(marker: Marker) {
         subscription = mapService.getStationDetail(marker.id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    data ->
-                    Log.i(TAG, "get station successfully")
+                .subscribe({ data ->
                     view.addStationContent(data)
-                }, { Log.w(TAG, "error while loading station from server")
+                    Log.i(TAG, "get station successfully")
+                }, {
+                    Log.w(TAG, "error while loading station from server")
                     view.showError("Cannot load station")
                     view.addStationContent(null)
                 })
-
     }
 
     private fun loadUserHeader() {
-        if (userAlreadyExistOnLocal()) {
-            Log.i(TAG, "User already logged in client")
-            view.loadUserHeader(pref.getData(SharedPrefKey.USER, LoginModel::class.java)!!)
 
-        } else {
-            Log.i(TAG, "There is no user on client, so have to load user")
-            subscription = loginService.getUser()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(
-                            { data ->
-                                view.loadUserHeader(user = data[0])
-                                pref.putData(SharedPrefKey.USER, data[0], LoginModel::class.java)
-                            },
-                            { Log.w(TAG, "error while loading user from db") }
-                    )
-        }
     }
 
-    private fun userAlreadyExistOnLocal(): Boolean
-            = pref.getData(SharedPrefKey.USER, LoginModel::class.java) != null
+    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(USER, User::class.java) != null
 
 
 }

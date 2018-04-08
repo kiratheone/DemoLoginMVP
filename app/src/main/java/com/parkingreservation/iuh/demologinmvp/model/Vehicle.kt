@@ -1,3 +1,3 @@
-package com.parkingreservation.iuh.guest.models
+package com.parkingreservation.iuh.demologinmvp.model
 
-data class Vehicle(val id: String, val name: String){ }
+data class Vehicle(val id: String, val name: String)

@@ -6,10 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentProfileBinding
-import com.parkingreservation.iuh.demologinmvp.model.Account
+import com.parkingreservation.iuh.demologinmvp.model.User
 
 class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
 
@@ -23,13 +24,13 @@ class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-        binding.profile = Account("1", "2", "3", "4")
 
         val view = binding.root
+        presenter.onViewCreated()
         return view
     }
 
-    override fun transferProfile(profile: Account) {
+    override fun transferProfile(profile: User) {
         binding.profile = profile
     }
 
@@ -38,9 +39,15 @@ class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
     }
 
     override fun showError(string: String) {
+        showStatus(string)
     }
 
     override fun showSuccess(string: String) {
+        showStatus(string)
+    }
+
+    private fun showStatus(s: String) {
+        Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
 
     override fun instantiatePresenter(): ProfilePresenter {

@@ -1,9 +1,15 @@
 package com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history
 
+import android.util.Log
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
-import com.parkingreservation.iuh.guest.models.TicketHistory
+import com.parkingreservation.iuh.demologinmvp.model.User
+import com.parkingreservation.iuh.demologinmvp.service.TicketService
+import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit.EditingProfilePresenter
+import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class TicketHistoryPresenter(view: TicketHistoryContract.View): BasePresenter<TicketHistoryContract.View>(view), TicketHistoryContract.Presenter {
@@ -11,6 +17,9 @@ class TicketHistoryPresenter(view: TicketHistoryContract.View): BasePresenter<Ti
     companion object {
         var TAG = TicketHistoryPresenter::class.java.simpleName
     }
+
+    @Inject
+    lateinit var ticketService: TicketService
 
     @Inject
     lateinit var pref: MySharedPreference
@@ -27,14 +36,25 @@ class TicketHistoryPresenter(view: TicketHistoryContract.View): BasePresenter<Ti
     }
 
     private fun loadTicketHistory() {
-        var tickets = mutableListOf<TicketHistory>()
-        tickets.add(TicketHistory("01/01/2017", "Bao Loc", "Xe 4 Banh"))
-        tickets.add(TicketHistory("11/07/2017", "Thau Loc", "Xe 2 Banh"))
-        tickets.add(TicketHistory("01/12/2007", "Bao Loc", "Xe 4 Banh"))
-        tickets.add(TicketHistory("01/12/2007", "Bao Loc", "Xe 4 Banh"))
-        tickets.add(TicketHistory("01/12/2007", "Bao Loc", "Xe 4 Banh"))
-        tickets.add(TicketHistory("01/12/2007", "Bao Loc", "Xe 4 Banh"))
-        tickets.add(TicketHistory("01/12/2007", "Bao Loc", "Xe 4 Banh"))
-        view.loadHistoryTicket(tickets)
+        Log.i(TAG, "loading ticket history")
+        if(isLoggedIn()) {
+            val id = (pref.getData(USER, User::class.java) as User).userId
+            ticketService.getExpiredTicketByUser(id)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                            {data ->
+                                view.loadHistoryTicket(data)
+                                Log.i(EditingProfilePresenter.TAG, "load ticket history successfully")
+                            },
+                            {
+                                view.showError("oOps!!, there is some error from server, pls try again")
+                            }
+                    )
+        } else {
+            view.showError("Hey!!, You are not logged in yet")
+        }
     }
+
+    private fun isLoggedIn(): Boolean = pref.getData(USER, User::class.java) != null
 }

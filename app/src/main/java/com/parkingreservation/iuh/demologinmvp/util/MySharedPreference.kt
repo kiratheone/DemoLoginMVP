@@ -26,6 +26,7 @@ class MySharedPreference @Inject constructor(private val mSharedPreferences: Sha
     class SharedPrefKey {
         companion object {
             const val USER = "user"
+            const val USER_PROFILE = "user_profile"
             const val TOKEN = "token"
             const val DATA_STORE = "data store"
         }

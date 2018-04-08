@@ -12,12 +12,4 @@ import retrofit2.http.POST
 
 interface LoginService {
 
-    @GET("/users")
-    fun getUser(): Observable<List<LoginModel>>
-
-    @POST
-    fun signOut(): Observable<LoginModel>
-
-    @POST
-    fun register(): Observable<LoginModel>
 }

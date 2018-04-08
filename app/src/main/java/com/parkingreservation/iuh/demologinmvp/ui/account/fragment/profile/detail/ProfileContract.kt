@@ -1,7 +1,7 @@
 package com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail
 
 import com.parkingreservation.iuh.demologinmvp.base.BaseView
-import com.parkingreservation.iuh.demologinmvp.model.Account
+import com.parkingreservation.iuh.demologinmvp.model.User
 
 class ProfileContract {
     interface Presenter {
@@ -9,6 +9,6 @@ class ProfileContract {
     }
 
     interface View : BaseView {
-        fun transferProfile(profile: Account)
+        fun transferProfile(profile: User)
     }
 }

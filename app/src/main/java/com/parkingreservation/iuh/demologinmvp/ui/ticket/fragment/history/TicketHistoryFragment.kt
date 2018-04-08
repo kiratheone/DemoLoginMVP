@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentTicketHistoryBinding
-import com.parkingreservation.iuh.guest.models.TicketHistory
+import com.parkingreservation.iuh.demologinmvp.model.Ticket
 
 class TicketHistoryFragment: BaseFragment<TicketHistoryPresenter>(), TicketHistoryContract.View {
 
@@ -31,8 +31,8 @@ class TicketHistoryFragment: BaseFragment<TicketHistoryPresenter>(), TicketHisto
     override fun showError(string: String) {
     }
 
-    override fun loadHistoryTicket(tickets: MutableList<TicketHistory>) {
-       binding.adapter = TicketHistoryAdapter(tickets)
+    override fun loadHistoryTicket(tickets: Array<Ticket>) {
+       binding.adapter = TicketHistoryAdapter(tickets.toMutableList())
     }
 
     override fun showSuccess(string: String) {

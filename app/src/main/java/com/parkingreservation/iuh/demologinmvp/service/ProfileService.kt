@@ -1,20 +1,26 @@
 package com.parkingreservation.iuh.demologinmvp.service
 
-import com.parkingreservation.iuh.demologinmvp.model.Account
+import com.parkingreservation.iuh.demologinmvp.model.User
 import io.reactivex.Observable
 import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.Path
 
 
 interface ProfileService {
 
-    @GET("/profile")
-    fun getUserProfile(): Observable<Account>
+    /**
+     * get all of User
+     * @return list of User
+     */
+    @GET("owners")
+    fun getAllUser(): Observable<Array<User>>
 
-    @PUT
-    fun updateUserProfile(a: Account): Observable<Account>
+    /**
+     * get specific User
+     * @userId User userId
+     * @return a User
+     */
+    @GET("owners/{userId}")
+    fun getUser(@Path("userId")id: String): Observable<User>
 
-    @POST
-    fun createNewUser(a: Account): Observable<Account>
 }

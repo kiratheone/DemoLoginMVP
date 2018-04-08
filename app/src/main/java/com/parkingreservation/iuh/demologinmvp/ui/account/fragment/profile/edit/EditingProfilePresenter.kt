@@ -1,19 +1,30 @@
 package com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit
 
+import android.util.Log
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
-import com.parkingreservation.iuh.demologinmvp.model.Account
+import com.parkingreservation.iuh.demologinmvp.model.LoginModel
+import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
+import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
+import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
+import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER_PROFILE
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter<EditingProfileContract.View>(view)
-                    , EditingProfileContract.Presenter{
+        , EditingProfileContract.Presenter {
+
+    companion object {
+        var TAG = EditingProfilePresenter::class.java.simpleName
+    }
 
     @Inject
     lateinit var profileService: ProfileService
 
+    @Inject
+    lateinit var pref: MySharedPreference
     private
     var subscription: Disposable? = null
 
@@ -22,12 +33,37 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
     }
 
     private fun loadProfile() {
-        profileService.getUserProfile()
+        if(isLoggedIn()) {
+            val id = (pref.getData(USER, User::class.java) as User).userId
+            if (userAlreadyExistOnLocal()) {
+                loadLocalProfile()
+            } else {
+                loadServerProfile(id)
+            }
+        } else {
+            Log.w(TAG, "user are not logged in")
+            view.showError("Hey!!, You are not logged in yet")
+        }
+    }
+
+    private fun loadLocalProfile() {
+        Log.i(TAG, "on local profile loading")
+        val userPref = pref.getData(USER_PROFILE, User::class.java) as User
+        view.transferProfile(userPref)
+    }
+
+    private fun loadServerProfile(id: String) {
+        Log.i(TAG, "on server profile loading")
+        profileService.getUser(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        {data -> view.transferProfile(data)},
-                        {}
+                        { data ->
+                            view.transferProfile(data)
+                            pref.putData(USER_PROFILE, data, User::class.java)
+                            Log.i(TAG, "get user successfully")
+                        },
+                        {view.showError("oOps!!, there is some error from server, pls try again")}
                 )
     }
 
@@ -35,12 +71,6 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
         subscription?.dispose()
     }
 
-    override fun editProfile(profile: Account) {
-        // post profile
-        loadProfile()
-    }
-
-
-
-
+    private fun isLoggedIn(): Boolean = pref.getData(USER, User::class.java) != null
+    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(USER_PROFILE, LoginModel::class.java) != null
 }

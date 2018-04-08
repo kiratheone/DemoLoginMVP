@@ -9,7 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.parkingreservation.iuh.demologinmvp.R
-import com.parkingreservation.iuh.guest.models.ServicePack
+import com.parkingreservation.iuh.demologinmvp.model.ServicePack
 
 class ServicePackAdapter(private val mContext: Context, private val packs: List<ServicePack>) : BaseAdapter() {
 

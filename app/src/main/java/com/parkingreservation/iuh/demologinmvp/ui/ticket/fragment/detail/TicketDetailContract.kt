@@ -1,6 +1,7 @@
 package com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail
 
 import com.parkingreservation.iuh.demologinmvp.base.BaseView
+import com.parkingreservation.iuh.demologinmvp.model.Ticket
 
 class TicketDetailContract {
     interface Presenter {
@@ -8,6 +9,6 @@ class TicketDetailContract {
     }
 
     interface View: BaseView {
-        fun loadTicketDetail()
+        fun loadTicketDetail(ticket: Ticket)
     }
 }

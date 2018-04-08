@@ -47,7 +47,7 @@ import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.servicepack.Servi
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketActivity
 import com.parkingreservation.iuh.demologinmvp.util.NavbarSelectionType
 import com.parkingreservation.iuh.demologinmvp.util.StringLengthHandler
-import com.parkingreservation.iuh.guest.models.Station
+import com.parkingreservation.iuh.demologinmvp.model.Station
 
 class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
