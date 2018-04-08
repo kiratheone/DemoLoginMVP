@@ -2,8 +2,8 @@
 <layout>
     <data>
         <variable
-            name=""
-            type=""/>
+            name="ticket"
+            type="com.parkingreservation.iuh.demologinmvp.model.Ticket"/>
     </data>
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

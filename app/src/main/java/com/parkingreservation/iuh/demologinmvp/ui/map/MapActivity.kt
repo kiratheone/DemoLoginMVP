@@ -213,8 +213,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     override fun addStationContent(station: Station?) {
         if (station != null) {
-            tvBsTitle.text = StringLengthHandler.getText(station.name)
-            tvBsDes.text = StringLengthHandler.getText(station.description)
+            binding.station = station
             sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
             mergedBehavior.setToolbarTitle(StringLengthHandler.getText(station.name))
         }
@@ -294,6 +293,11 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
             (currentFragment as MapViewFragment)._gps()
     }
 
+    @OnClick(R.id.float_button_gps)
+    fun backToMap() {
+        sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
+    }
+
     private var currentPolylineDirection: Polyline? = null
     @OnClick( R.id.bt_direction, R.id.layout_direction )
     fun directWays() {
@@ -335,7 +339,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     private val WIDTH_WAYS = 8
     fun drawDirectionWays(map: GoogleMap, direction: Direction?, context: Context): Polyline {
-        Log.i(TAG, "in directway function draw a line from your location to destination")
+        Log.i(TAG, "in direct way function draw a line from your location to destination")
         val route = direction!!.routeList[0]
 
         val directionPositionList = route.legList[0].directionPoint

@@ -33,6 +33,7 @@ class TicketDetailFragment: BaseFragment<TicketDetailPresenter>(), TicketDetailC
     }
 
     override fun loadTicketDetail(ticket: Ticket) {
+        binding.ticket = ticket
     }
 
     override fun showError(string: String) {

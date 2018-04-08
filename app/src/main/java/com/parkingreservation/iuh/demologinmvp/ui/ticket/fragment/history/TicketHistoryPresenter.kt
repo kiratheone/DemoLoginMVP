@@ -42,6 +42,7 @@ class TicketHistoryPresenter(view: TicketHistoryContract.View): BasePresenter<Ti
             ticketService.getExpiredTicketByUser(id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
+                    .take(10)
                     .subscribe(
                             {data ->
                                 view.loadHistoryTicket(data)

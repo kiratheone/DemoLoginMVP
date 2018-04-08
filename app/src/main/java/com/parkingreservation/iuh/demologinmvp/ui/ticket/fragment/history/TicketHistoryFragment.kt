@@ -21,8 +21,12 @@ class TicketHistoryFragment: BaseFragment<TicketHistoryPresenter>(), TicketHisto
 
     lateinit var binding: FragmentTicketHistoryBinding
 
+    val adapter =  TicketHistoryAdapter(getContexts())
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ticket_history, container, false)
+        binding.adapter = adapter
+
         presenter.onViewCreated()
         val view = binding.root
         return view
@@ -32,7 +36,7 @@ class TicketHistoryFragment: BaseFragment<TicketHistoryPresenter>(), TicketHisto
     }
 
     override fun loadHistoryTicket(tickets: Array<Ticket>) {
-       binding.adapter = TicketHistoryAdapter(tickets.toMutableList())
+        adapter.updateTickets(tickets.toList())
     }
 
     override fun showSuccess(string: String) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -28,20 +29,20 @@
 
                 <TextView
                     android:id="@+id/tv_bs_title"
+                    android:textSize="19sp"
+                    android:text="@{station.name}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/loading"
-                    android:textColor="@android:color/white"
-                    android:textSize="19sp" />
+                    android:textColor="@android:color/white"/>
 
 
                 <TextView
                     android:id="@+id/tv_bs_description"
+                    android:textSize="14sp"
+                    android:text="@{station.description}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/loading"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:textColor="@android:color/white"/>
 
                 <RatingBar
                     android:id="@+id/ratingBar"
@@ -59,25 +60,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                tools:ignore="RelativeOverlap,UseCompoundDrawables">
 
                 <ImageView
+                    android:tint="@color/white"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_gravity="center"
-                    android:tint="@color/white"
-                    android:src="@drawable/ic_directions" />
+                    android:src="@drawable/ic_directions"
+                    android:contentDescription="@string/direction" />
 
                 <TextView
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/time_travel"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp" />
+                    android:text="@string/time_travel"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -92,57 +95,62 @@
 
             <LinearLayout
                 android:id="@+id/moreInfo"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
+                    android:layout_marginEnd="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/more_information" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/more_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/white" />
             </LinearLayout>
 
 
             <Button
                 android:id="@+id/bt_booking"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="@string/booking"
+                tools:ignore="RelativeOverlap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:drawableEnd="@drawable/ic_local_parking_primary"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                android:text="@string/booking"
-                android:theme="@style/ButtonMaterialStyle" />
+                android:theme="@style/ButtonMaterialStyle"
+                android:drawableEnd="@drawable/ic_local_parking_primary"/>
         </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:layout_margin="8dp"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:background="@drawable/border_bottom"
-        android:gravity="center_horizontal"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp">
+        android:baselineAligned="false">
 
         <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/bt_direction"
@@ -151,68 +159,73 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:src="@drawable/ic_directions"/>
+                android:src="@drawable/ic_directions"
+                android:contentDescription="@string/direction" />
 
             <TextView
                 style="@style/IconColor"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:text="@string/direction" />
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/bt_call"
+                android:gravity="center"
                 style="@style/IconColor"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:src="@drawable/ic_local_phone" />
+                android:src="@drawable/ic_local_phone"
+                android:contentDescription="@string/profile_phone" />
 
             <TextView
                 style="@style/IconColor"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:text="@string/call" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/back_to_map"
             android:orientation="vertical"
-            android:onClick="backToMapView">
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/bt_save"
                 style="@style/IconColor"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:src="@drawable/ic_map_white" />
+                android:src="@drawable/ic_map_white"
+                android:contentDescription="@string/map" />
 
             <TextView
                 style="@style/IconColor"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:text="@string/map" />
         </LinearLayout>
     </LinearLayout>
@@ -225,13 +238,13 @@
 
         <ImageView
             android:id="@+id/establecimiento_icon_sucursales"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
             android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             app:srcCompat="@android:drawable/ic_secure" />
 
 
