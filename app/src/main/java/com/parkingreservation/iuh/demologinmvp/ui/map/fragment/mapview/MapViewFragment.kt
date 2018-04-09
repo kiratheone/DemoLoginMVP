@@ -29,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
@@ -249,7 +250,7 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
 
     override fun loadNearbyStation(stationLocations: Array<StationLocation>) {
         stationLocations.forEach {
-            val mOption = MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.stationID.toString())
+            val mOption = MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.stationID.toString()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker))
             mMap.addMarker(mOption)
         }
     }
