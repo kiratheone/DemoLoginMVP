@@ -50,6 +50,14 @@ class ProfileFragment : BaseFragment<ProfilePresenter>(), ProfileContract.View {
         Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
 
+    override fun showLoading() {
+        binding.progressVisibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        binding.progressVisibility = View.GONE
+    }
+
     override fun instantiatePresenter(): ProfilePresenter {
         return ProfilePresenter(this)
     }

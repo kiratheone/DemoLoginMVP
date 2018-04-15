@@ -13,6 +13,9 @@ import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPr
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehiclePresenter
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.adding.VehicleAddingPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.list.VehicleListPresenter
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -38,7 +41,9 @@ interface PresenterInjector {
     fun inject(presenter: TicketDetailPresenter)
     fun inject(presenter: TicketHistoryPresenter)
 
-
+    fun inject(presenter: VehiclePresenter)
+    fun inject(presenter: VehicleListPresenter)
+    fun inject(presenter: VehicleAddingPresenter)
     /**
      * using for get saved data from client
      */

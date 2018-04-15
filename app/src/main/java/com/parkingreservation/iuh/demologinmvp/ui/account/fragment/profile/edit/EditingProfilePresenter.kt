@@ -34,7 +34,7 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
 
     private fun loadProfile() {
         if(isLoggedIn()) {
-            val id = (pref.getData(USER, User::class.java) as User).userId
+            val id = (pref.getData(USER, User::class.java) as User).userID
             if (userAlreadyExistOnLocal()) {
                 loadLocalProfile()
             } else {
@@ -48,19 +48,21 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
 
     private fun loadLocalProfile() {
         Log.i(TAG, "on local profile loading")
-        val userPref = pref.getData(USER_PROFILE, User::class.java) as User
+        val userPref = pref.getData(USER, User::class.java) as User
         view.transferProfile(userPref)
     }
 
     private fun loadServerProfile(id: String) {
         Log.i(TAG, "on server profile loading")
-        profileService.getUser(id)
+        view.showLoading()
+        profileService.getDriver(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .doOnTerminate { view.hideLoading() }
                 .subscribe(
                         { data ->
                             view.transferProfile(data)
-                            pref.putData(USER_PROFILE, data, User::class.java)
+                            pref.putData(USER, data, User::class.java)
                             Log.i(TAG, "get user successfully")
                         },
                         {view.showError("oOps!!, there is some error from server, pls try again")}
@@ -72,5 +74,5 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
     }
 
     private fun isLoggedIn(): Boolean = pref.getData(USER, User::class.java) != null
-    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(USER_PROFILE, LoginModel::class.java) != null
+    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(USER, LoginModel::class.java) != null
 }

@@ -15,6 +15,7 @@
     <dimen name="bottom_sheet_peek_height_head">74dp</dimen>
     <dimen name="bottom_sheet_peek_height">122dp</dimen>
     <dimen name="bottom_gps_height">152dp</dimen>
+    <dimen name="row_padding_vertical">8dp</dimen>
     <!-- Map-->
     <integer name="map_zoom_level">15</integer>
 </resources>

@@ -9,25 +9,25 @@ interface TicketService {
 
     /**
      * get all user's ticket
-     * @userId userId of user
+     * @userID userID of user
      * @return list of user's Ticket
      */
-    @GET("tickets/user/{userId}")
-    fun getTicketByUser(@Path("userId") id: String): Observable<Array<Ticket>>
+    @GET("api/tickets/user/{userID}")
+    fun getTicketByUser(@Path("userID") id: String): Observable<Array<Ticket>>
 
     /**
      * get list of Tickets are using
-     * @userId: user userId
+     * @userID: user userID
      * @return: list of Ticket
      */
-    @GET("tickets/user/{userId}?status=dkm")
-    fun getTicketByUserCurrentlyInUse(@Path("userId") id: String): Observable<Array<Ticket>>
+    @GET("api/tickets/user/{userID}?status=dkm")
+    fun getCurrentTicket(@Path("userID") id: String): Observable<Array<Ticket>>
 
     /**
      * get list of tickets were used
-     * @userId user userId
+     * @userID user userID
      * @return list of ticket
      */
-    @GET("tickets/user/{userId}?status=mkc")
-    fun getExpiredTicketByUser(@Path("userId") id: String): Observable<Array<Ticket>>
+    @GET("api/tickets/user/{id}?status=Used")
+    fun getUsedTicket(@Path("id") id: String): Observable<Array<Ticket>>
 }

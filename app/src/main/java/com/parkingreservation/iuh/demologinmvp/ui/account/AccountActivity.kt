@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
+import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
@@ -50,6 +51,12 @@ class AccountActivity : BaseActivity<AccountPresenter>(),AccountContract.View {
     }
 
     override fun showSuccess(string: String) {
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
     }
 
     override fun getContexts(): Context {

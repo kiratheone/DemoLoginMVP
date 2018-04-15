@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vehicle"
+            type="com.parkingreservation.iuh.demologinmvp.model.Vehicle"/>
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/row_padding_vertical"
+        android:paddingBottom="@dimen/row_padding_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/vehicle_name"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/primary_text_light"
+            android:text="@{vehicle.name}"/>
+
+        <TextView
+            android:id="@+id/vehicle_license"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vehicle_name"
+            android:textColor="@android:color/secondary_text_light"
+            android:text="@{vehicle.licensePlate}"/>
+
+        <TextView
+            android:id="@+id/vehicle_type_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/secondary_text_light"
+            android:text="@{vehicle.id}"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+</layout>

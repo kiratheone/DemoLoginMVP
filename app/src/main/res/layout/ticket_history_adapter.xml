@@ -71,7 +71,7 @@
                 <TextView
                     android:gravity="center"
                     android:background="#EEE"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:text="@{ticket.checkInTime}"
                     />
@@ -79,7 +79,7 @@
                 <TextView
                     android:gravity="center"
                     android:background="#EEE"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:text="@{ticket.checkInTime}"
                      />

@@ -6,8 +6,8 @@ import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class TicketPresenter(view: TicketConstract.View): BasePresenter<TicketConstract.View>(view)
-                        , TicketConstract.Presenter {
+class TicketPresenter(view: TicketContract.View): BasePresenter<TicketContract.View>(view)
+                        , TicketContract.Presenter {
     companion object {
         var TAG = MapPresenter::class.java.simpleName
     }

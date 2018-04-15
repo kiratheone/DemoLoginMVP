@@ -1,6 +1,10 @@
 package com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail
 
 import android.util.Log
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.WriterException
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.TicketService
@@ -28,6 +32,7 @@ class TicketDetailPresenter(view: TicketDetailContract.View): BasePresenter<Tick
 
     override fun onViewCreated() {
         loadTicketDetail()
+        generateQrCode()
     }
 
     override fun onViewDestroyed() {
@@ -35,12 +40,14 @@ class TicketDetailPresenter(view: TicketDetailContract.View): BasePresenter<Tick
     }
 
     private fun loadTicketDetail() {
+        view.showLoading()
         Log.i(TAG, "loading ticket ")
         if(isLoggedIn()) {
-            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userId
-            ticketService.getTicketByUserCurrentlyInUse(id)
+            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID
+            ticketService.getCurrentTicket(id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
+                    .doOnTerminate { view.hideLoading() }
                     .subscribe(
                             {data ->
                                 view.loadTicketDetail(data[0])
@@ -56,4 +63,18 @@ class TicketDetailPresenter(view: TicketDetailContract.View): BasePresenter<Tick
     }
 
     private fun isLoggedIn(): Boolean = pref.getData(USER, User::class.java) != null
+
+    private fun generateQrCode() {
+        val text = "14121234"
+        val multiFormatWriter = MultiFormatWriter()
+        try {
+            val bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,200,200)
+            val barcodeEncoder = BarcodeEncoder()
+            val bitmap = barcodeEncoder.createBitmap(bitMatrix)
+            view.setQrCodeView(bitmap)
+        } catch (e: WriterException) {
+            e.printStackTrace()
+        }
+
+    }
 }

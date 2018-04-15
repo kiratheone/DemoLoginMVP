@@ -4,9 +4,15 @@
 
     <data>
 
+        <import type="com.parkingreservation.iuh.demologinmvp.R"/>
+
         <variable
             name="profile"
             type="com.parkingreservation.iuh.demologinmvp.model.User" />
+
+        <variable
+            name="progressVisibility"
+            type="Integer" />
     </data>
 
     <LinearLayout
@@ -53,7 +59,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="Roboto Regular"
                     android:paddingStart="16dp"
-                    android:text="@{profile.name}"
+                    android:text="@{profile.driverName}"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="16sp"
                     tools:ignore="RtlSymmetry" />

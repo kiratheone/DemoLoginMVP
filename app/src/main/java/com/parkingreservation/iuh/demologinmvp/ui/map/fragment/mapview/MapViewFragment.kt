@@ -267,6 +267,12 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
 
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
 
     override fun onResume() {
         super.onResume()

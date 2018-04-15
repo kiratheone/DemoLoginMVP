@@ -49,6 +49,8 @@ import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketActivity
 import com.parkingreservation.iuh.demologinmvp.util.NavbarSelectionType
 import com.parkingreservation.iuh.demologinmvp.util.StringLengthHandler
 import com.parkingreservation.iuh.demologinmvp.model.Station
+import com.parkingreservation.iuh.demologinmvp.ui.login.LoginActivity
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehicleActivity
 
 class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
@@ -119,10 +121,15 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
                     CURRENT_TAG = NavbarSelectionType.ACCOUNT.tag
                     startActivity(Intent(this, AccountActivity::class.java))
                 }
+                R.id.nav_vehicle -> {
+                    navItemIndex = NavbarSelectionType.VEHICLE.index
+                    CURRENT_TAG = NavbarSelectionType.VEHICLE.tag
+                    startActivity(Intent(this, VehicleActivity::class.java))
+                }
                 R.id.nav_notifications -> {
                     navItemIndex = NavbarSelectionType.NOTIFICATION.index
                     CURRENT_TAG = NavbarSelectionType.NOTIFICATION.tag
-//                    startActivity(Intent(this, NotificationActivity::class.java))
+                    startActivity(Intent(this, LoginActivity::class.java))
                 }
                 else -> {
                     navItemIndex = NavbarSelectionType.HOME.index
@@ -218,6 +225,12 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     private fun showStatus(s: String) {
         Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
     }
 
     override fun addStationContent(station: Station?) {

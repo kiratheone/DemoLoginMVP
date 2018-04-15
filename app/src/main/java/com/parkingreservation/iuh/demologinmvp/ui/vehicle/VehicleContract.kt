@@ -1,8 +1,8 @@
-package com.parkingreservation.iuh.demologinmvp.ui.ticket
+package com.parkingreservation.iuh.demologinmvp.ui.vehicle
 
 import com.parkingreservation.iuh.demologinmvp.base.BaseView
 
-class TicketConstract {
+class VehicleContract {
     interface Presenter {
 
     }

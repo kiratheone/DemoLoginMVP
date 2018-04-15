@@ -7,6 +7,10 @@
         <variable
             name="profile"
             type="com.parkingreservation.iuh.demologinmvp.model.User" />
+
+        <variable
+            name="progressVisibility"
+            type="Integer" />
     </data>
 
     <LinearLayout
@@ -33,7 +37,7 @@
                 android:id="@+id/edt_input_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{profile.name}"
+                android:text="@{profile.driverName}"
                 android:inputType="text"
                 tools:ignore="LabelFor" />
         </LinearLayout>
@@ -113,7 +117,7 @@
                 tools:ignore="LabelFor" />
         </LinearLayout>
 
-        <!--Location-->
+        <!--Vehicle-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

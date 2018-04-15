@@ -5,7 +5,6 @@ import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.TicketService
-import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit.EditingProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -36,24 +35,27 @@ class TicketHistoryPresenter(view: TicketHistoryContract.View): BasePresenter<Ti
     }
 
     private fun loadTicketHistory() {
+        view.showLoading()
         Log.i(TAG, "loading ticket history")
         if(isLoggedIn()) {
-            val id = (pref.getData(USER, User::class.java) as User).userId
-            ticketService.getExpiredTicketByUser(id)
+            val id = (pref.getData(USER, User::class.java) as User).userID
+            ticketService.getUsedTicket(id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .take(10)
+                    .doOnTerminate { view.hideLoading() }
                     .subscribe(
                             {data ->
                                 view.loadHistoryTicket(data)
-                                Log.i(EditingProfilePresenter.TAG, "load ticket history successfully")
+                                Log.i(TAG, "load ticket history successfully")
                             },
                             {
                                 view.showError("oOps!!, there is some error from server, pls try again")
+                                Log.w(TAG, "There is some thing error while loading Ticket ${it.message}")
                             }
                     )
         } else {
             view.showError("Hey!!, You are not logged in yet")
+            Log.w(TAG, "User are not logged in yet")
         }
     }
 

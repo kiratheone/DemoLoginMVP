@@ -14,6 +14,16 @@ interface BaseView {
     fun showError(string: String)
 
     /**
+     * start loading process
+     */
+    fun showLoading()
+
+    /**
+     * start loading process
+     */
+    fun hideLoading()
+
+    /**
      * terminate loading process
      */
     fun showSuccess(string: String)

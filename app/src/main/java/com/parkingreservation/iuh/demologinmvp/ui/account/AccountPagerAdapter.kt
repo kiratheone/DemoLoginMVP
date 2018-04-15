@@ -32,5 +32,4 @@ class AccountPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapt
             else -> "Your Profile"
         }
     }
-
 }

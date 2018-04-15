@@ -1,6 +1,7 @@
 package com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail
 
 import android.util.Log
+import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.model.LoginModel
 import com.parkingreservation.iuh.demologinmvp.model.User
@@ -32,8 +33,9 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
     }
 
     private fun loadProfile() {
-        if(isLoggedIn()) {
-            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userId
+        view.showLoading()
+        if (isLoggedIn()) {
+            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID
             if (userAlreadyExistOnLocal()) {
                 loadLocalProfile()
             } else {
@@ -43,34 +45,45 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
             Log.w(TAG, "user are not logged in")
             view.showError("Hey!!, You are not logged in yet")
         }
+        view.hideLoading()
     }
 
     private fun loadLocalProfile() {
         Log.i(TAG, "on local profile loading")
-        val userPref = pref.getData(MySharedPreference.SharedPrefKey.USER_PROFILE, User::class.java) as User
+        val userPref = pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User
         view.transferProfile(userPref)
     }
 
     private fun loadServerProfile(id: String) {
+        view.showLoading()
         Log.i(TAG, "on server profile loading")
-        profileService.getUser(id)
+        profileService.getDriver(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .doOnTerminate { view.hideLoading() }
                 .subscribe(
                         { data ->
                             view.transferProfile(data)
-                            pref.putData(MySharedPreference.SharedPrefKey.USER_PROFILE, data, User::class.java)
+                            pref.putData(MySharedPreference.SharedPrefKey.USER, data, User::class.java)
                             Log.i(TAG, "get user successfully")
                         },
-                        {view.showError("oOps!!, there is some error from server, pls try again")}
+                        {
+                            view.transferProfile(emptyUser())
+                            view.showError("oOps!!, there is some error from server, pls try again")
+                            Log.i(TAG, "error while loading profile ${it.message}")
+                        }
                 )
     }
 
+    private fun emptyUser(): User {
+        val l = view.getContexts().resources.getString(R.string.loading)
+        return User(l, l, l, 0, emptyList(), l)
+    }
 
     override fun onViewDestroyed() {
         subscription?.dispose()
     }
 
     private fun isLoggedIn(): Boolean = pref.getData(MySharedPreference.SharedPrefKey.USER, LoginModel::class.java) != null
-    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(MySharedPreference.SharedPrefKey.USER_PROFILE, LoginModel::class.java) != null
+    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(MySharedPreference.SharedPrefKey.USER, LoginModel::class.java) != null
 }

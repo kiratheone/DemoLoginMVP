@@ -3,8 +3,11 @@ package com.parkingreservation.iuh.demologinmvp.ui.login
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import butterknife.BindView
+import butterknife.ButterKnife
 import butterknife.OnClick
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseActivity
@@ -25,6 +28,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        ButterKnife.bind(this)
+
         presenter.onViewCreated()
     }
 
@@ -34,7 +39,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     }
 
     override fun onLoginSuccessfully() {
-
+        finish()
     }
 
     override fun getUserName(): String {
@@ -46,9 +51,23 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     }
 
     override fun showError(string: String) {
+        showStatus(string)
     }
 
     override fun showSuccess(string: String) {
+        showStatus(string)
+    }
+
+    override fun showLoading() {
+        binding.progressVisibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        binding.progressVisibility = View.GONE
+    }
+
+    private fun showStatus(s: String) {
+        Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
 
 

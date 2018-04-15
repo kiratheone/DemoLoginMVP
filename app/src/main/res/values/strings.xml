@@ -13,6 +13,7 @@
     <string name="ticket">Ticket</string>
     <string name="nav_home">Home</string>
     <string name="nav_account">Account</string>
+    <string name="nav_vehicle">Vehicle</string>
     <string name="nav_ticket">Ticket</string>
     <string name="nav_notifications">Notification</string>
     <string name="nav_settings">Setting</string>
@@ -60,6 +61,7 @@
     <!--    Button    -->
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+
     <string name="profile_user_name">User Name</string>
     <string name="profile_phone">Phone</string>
     <string name="profile_email">Email</string>
@@ -69,4 +71,12 @@
     <string name="login">Login</string>
     <string name="no_account_yet_create_one">No account yet? Create one</string>
     <string name="profile_vehicle">Vehicle</string>
+
+    <!--    Vehicle    -->
+    <string name="vehicle_name">Name</string>
+    <string name="vehicle_type">Vehicle Type</string>
+    <string name="vehicle_license_plates">license plates</string>
+    <string name="vehicle_name_adding">Your Vehicle Name</string>
+    <string name="vehicle_license_adding">your license plate</string>
+    <string name="other">Other</string>
 </resources>

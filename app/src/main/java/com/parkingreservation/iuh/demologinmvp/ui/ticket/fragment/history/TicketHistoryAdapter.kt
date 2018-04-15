@@ -15,10 +15,9 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.databinding.TicketHistoryAdapterBinding
 import com.parkingreservation.iuh.demologinmvp.model.Ticket
 
-class TicketHistoryAdapter (val context: Context): RecyclerView.Adapter<TicketHistoryAdapter.RecyclerHolder>() {
+class TicketHistoryAdapter(val context: Context, private val tickets: Array<Ticket>) : RecyclerView.Adapter<TicketHistoryAdapter.RecyclerHolder>() {
 
-    private var expandCollections : ExpansionLayoutCollection = ExpansionLayoutCollection()
-    private var tickets: List<Ticket> = listOf()
+    private var expandCollections: ExpansionLayoutCollection = ExpansionLayoutCollection()
 
     companion object {
         val TAG = TicketHistoryAdapter::class.java.simpleName
@@ -29,14 +28,14 @@ class TicketHistoryAdapter (val context: Context): RecyclerView.Adapter<TicketHi
     }
 
     override fun getItemCount(): Int {
-        Log.d(TAG,"check item count = " +  this.tickets.size.toString())
+        Log.d(TAG, "check item count = " + this.tickets.size.toString())
         return this.tickets.size
     }
 
 
     lateinit var binding: TicketHistoryAdapterBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerHolder {
-         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.ticket_history_adapter, parent, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.ticket_history_adapter, parent, false)
         return RecyclerHolder(binding)
     }
 
@@ -45,22 +44,19 @@ class TicketHistoryAdapter (val context: Context): RecyclerView.Adapter<TicketHi
         expandCollections.add(holder.getExpansionLayouts())
     }
 
-    fun updateTickets(tickets: List<Ticket>) {
-        this.tickets = tickets
-        notifyDataSetChanged()
-    }
 
     class RecyclerHolder(val binding: TicketHistoryAdapterBinding) : RecyclerView.ViewHolder(binding.root) {
 
         @BindView(R.id.expansionLayout)
-        lateinit var expansionLayout : ExpansionLayout
+        lateinit var expansionLayout: ExpansionLayout
 
         fun bind(ticket: Ticket) {
             this.binding.ticket = ticket
+            ButterKnife.bind(this, binding.root)
             expansionLayout.collapse(false)
         }
 
-        fun getExpansionLayouts(): ExpansionLayout?{
+        fun getExpansionLayouts(): ExpansionLayout? {
             return expansionLayout
         }
     }

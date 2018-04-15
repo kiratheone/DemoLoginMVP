@@ -53,4 +53,12 @@ class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingP
     private fun showStatus(s: String) {
         Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
+
+    override fun showLoading() {
+        binding.progressVisibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        binding.progressVisibility = View.GONE
+    }
 }

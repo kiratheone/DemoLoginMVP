@@ -1,20 +1,22 @@
 package com.parkingreservation.iuh.demologinmvp.model
 
+import com.google.gson.annotations.SerializedName
 
-data class User (val userId: String, val name: String, val phoneNumber: String, val email: String, val address: String
-                 , val vehicles: Array<Vehicle>){
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as User
-
-        if (userId != other.userId) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return userId.hashCode()
-    }
-}
+data class User(@SerializedName("password")
+                val password: String? = "",
+                @SerializedName("phoneNumber")
+                val phoneNumber: String = "",
+                @SerializedName("address")
+                val address: String = "",
+                @SerializedName("balance")
+                val balance: Int? = 0,
+                @SerializedName("vehicles")
+                val vehicles: List<Vehicle>?,
+                @SerializedName("driverName")
+                val driverName: String = "",
+                @SerializedName("applicationID")
+                val applicationID: String? = "",
+                @SerializedName("userID")
+                val userID: String = "",
+                @SerializedName("email")
+                val email: String = "")

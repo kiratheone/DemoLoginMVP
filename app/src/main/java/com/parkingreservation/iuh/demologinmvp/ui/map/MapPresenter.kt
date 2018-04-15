@@ -35,20 +35,20 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
     var subscription: Disposable? = null
 
     override fun onViewCreated() {
-        fakeUser()
+//        fakeUser()
     }
 
     override fun onViewDestroyed() {
         subscription?.dispose()
     }
 
-    private fun fakeUser() {
-        if (!userAlreadyExistOnLocal()) {
-            val user = User("02417146-1c56-46ab-8a19-0a90d4b0d6f0", "User Name", "096281088497",
-                    "user_97@gmail.com", "Owner Address", emptyArray())
-            pref.putData(USER, user, User::class.java)
-        }
-    }
+//    private fun fakeUser() {
+//        if (!userAlreadyExistOnLocal()) {
+//            val user = User("2f060cb6-9a21-46bd-9e8d-34805ae39988", "Driver Vehicle", "096281088447",
+//                    "user_47@gmail.com", "Owner Address", emptyArray())
+//            pref.putData(USER, user, User::class.java)
+//        }
+//    }
 
 
     override fun loadStationContent(marker: Marker) {

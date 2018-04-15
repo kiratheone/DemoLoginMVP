@@ -4,6 +4,10 @@
         <variable
             name="ticket"
             type="com.parkingreservation.iuh.demologinmvp.model.Ticket"/>
+
+        <variable
+            name="progressVisibility"
+            type="Integer" />
     </data>
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,6 +19,17 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="60dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{safeUnbox(progressVisibility)}"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.vipulasri.ticketview.TicketView
             android:id="@+id/ticketView"
@@ -52,6 +67,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/im_qr_code"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"

@@ -13,6 +13,9 @@ import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPr
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehiclePresenter
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.adding.VehicleAddingPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.list.VehicleListPresenter
 
 /**
 * Created by Kushina on 25/03/2018.
@@ -57,6 +60,10 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
             is TicketPresenter -> injector.inject(this)
             is TicketDetailPresenter -> injector.inject(this)
             is TicketHistoryPresenter -> injector.inject(this)
+
+            is VehiclePresenter -> injector.inject(this)
+            is VehicleListPresenter -> injector.inject(this)
+            is VehicleAddingPresenter -> injector.inject(this)
         }
     }
 

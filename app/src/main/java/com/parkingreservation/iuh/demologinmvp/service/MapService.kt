@@ -1,7 +1,6 @@
 package com.parkingreservation.iuh.demologinmvp.service
 
 import com.parkingreservation.iuh.demologinmvp.util.MapUtil
-import com.parkingreservation.iuh.guest.models.MapResult
 import com.parkingreservation.iuh.demologinmvp.model.Station
 import com.parkingreservation.iuh.demologinmvp.model.StationLocation
 import io.reactivex.Observable
@@ -17,16 +16,16 @@ interface MapService {
      * @Lng horizontal axis
      * @return List of Station
      */
-    @GET("maps/place?rad=${MapUtil.PROXIMITY_RADIUS}")
+    @GET("api/maps/place?rad=${MapUtil.PROXIMITY_RADIUS}")
     fun getNearbyStation(@Query("lat") lat: String,
                          @Query("lng") lng: String): Observable<Array<StationLocation>>
 
 
     /**
      * get specific Station
-     * @userId Station userId
+     * @userID Station userID
      * @return a specific Station
      */
-    @GET("stations/{id}")
+    @GET("api/stations/{id}")
     fun getStationDetail(@Path("id")id: String): Observable<Station>
 }

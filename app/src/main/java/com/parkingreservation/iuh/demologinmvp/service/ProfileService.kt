@@ -3,8 +3,7 @@ package com.parkingreservation.iuh.demologinmvp.service
 import com.parkingreservation.iuh.demologinmvp.model.User
 import io.reactivex.Observable
 import retrofit2.http.GET
-import retrofit2.http.Path
-
+import retrofit2.http.Query
 
 interface ProfileService {
 
@@ -17,10 +16,9 @@ interface ProfileService {
 
     /**
      * get specific User
-     * @userId User userId
+     * @userID User userID
      * @return a User
      */
-    @GET("owners/{userId}")
-    fun getUser(@Path("userId")id: String): Observable<User>
-
+    @GET("api/drivers/find")
+    fun getDriver(@Query("userName")name: String): Observable<User>
 }

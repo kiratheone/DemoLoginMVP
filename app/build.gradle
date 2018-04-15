@@ -36,30 +36,30 @@ dependencies {
     implementation "com.android.support:design:$app_combat_version"
     implementation "com.android.support:mediarouter-v7:$app_combat_version"
     implementation "com.android.support:animated-vector-drawable:$app_combat_version"
-
+    implementation "com.android.support:recyclerview-v7:$app_combat_version"
     implementation "com.android.support:cardview-v7:$app_combat_version"
     implementation "com.android.support:appcompat-v7:$app_combat_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(path: ':googlemaps-like')
 
     //Retrofit 2
-    implementation "com.squareup.retrofit2:retrofit:2.3.0"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
-    implementation "com.squareup.retrofit2:converter-moshi:2.3.0"
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
     // Dagger 2
     kapt "com.google.dagger:dagger-compiler:2.14.1"
-    implementation "com.google.dagger:dagger:2.14.1"
-    compileOnly "org.glassfish:javax.annotation:3.1.1"
+    implementation 'com.google.dagger:dagger:2.14.1'
+    compileOnly 'org.glassfish:javax.annotation:3.1.1'
 
     //Rx
-    implementation "io.reactivex.rxjava2:rxjava:2.1.9"
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
     // Data binding
     kapt "com.android.databinding:compiler:3.1.0"
@@ -76,13 +76,32 @@ dependencies {
     // Map
     implementation "com.google.android.gms:play-services:$google_service_version"
     implementation "com.google.android.gms:play-services-maps:$google_service_version"
-    implementation 'com.akexorcist:googledirectionlibrary:1.1.1' // direct way
+    implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
 
+    // direct way
     // ticket view
     implementation 'com.vipulasri:ticketview:1.0.4'
 
     // expand panel
     implementation 'com.github.florent37:expansionpanel:1.1.1'
 
+    // QR code render
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 
+    // coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.19.3'
+
+    implementation files('libs/DefaultValue.jar')
+    implementation files('libs/KeypairHelper.jar')
+    implementation files('libs/StationServices.jar')
+    implementation files('libs/TicketStatus.jar')
+    implementation files('libs/UserRole.jar')
+    implementation files('libs/UserStatus.jar')
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
