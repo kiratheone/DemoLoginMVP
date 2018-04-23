@@ -3,7 +3,7 @@
     <data>
         <variable
             name="ticket"
-            type="com.parkingreservation.iuh.demologinmvp.model.Ticket"/>
+            type="com.parkingreservation.iuh.demologinmvp.model.Tickets"/>
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

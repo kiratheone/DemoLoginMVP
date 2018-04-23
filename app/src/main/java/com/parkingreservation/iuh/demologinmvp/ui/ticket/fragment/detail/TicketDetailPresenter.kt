@@ -10,12 +10,13 @@ import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.TicketService
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
+import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class TicketDetailPresenter(view: TicketDetailContract.View): BasePresenter<TicketDetailContract.View>(view), TicketDetailContract.Presenter {
+class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<TicketDetailContract.View>(view), TicketDetailContract.Presenter {
 
     companion object {
         var TAG = TicketDetailPresenter::class.java.simpleName
@@ -32,7 +33,6 @@ class TicketDetailPresenter(view: TicketDetailContract.View): BasePresenter<Tick
 
     override fun onViewCreated() {
         loadTicketDetail()
-        generateQrCode()
     }
 
     override fun onViewDestroyed() {
@@ -42,15 +42,17 @@ class TicketDetailPresenter(view: TicketDetailContract.View): BasePresenter<Tick
     private fun loadTicketDetail() {
         view.showLoading()
         Log.i(TAG, "loading ticket ")
-        if(isLoggedIn()) {
-            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID
-            ticketService.getCurrentTicket(id)
+        if (isLoggedIn()) {
+            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID!!
+            val token = TokenHandling.getTokenHeader(pref)
+            subscription = ticketService.getCurrentTicket(id, token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnTerminate { view.hideLoading() }
                     .subscribe(
-                            {data ->
+                            { data ->
                                 view.loadTicketDetail(data[0])
+                                generateQrCode(data[0].qRCode)
                                 Log.i(TAG, "load ticket history successfully")
                             },
                             {
@@ -64,11 +66,10 @@ class TicketDetailPresenter(view: TicketDetailContract.View): BasePresenter<Tick
 
     private fun isLoggedIn(): Boolean = pref.getData(USER, User::class.java) != null
 
-    private fun generateQrCode() {
-        val text = "14121234"
+    private fun generateQrCode(code: String) {
         val multiFormatWriter = MultiFormatWriter()
         try {
-            val bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,200,200)
+            val bitMatrix = multiFormatWriter.encode(code, BarcodeFormat.QR_CODE, 250, 250)
             val barcodeEncoder = BarcodeEncoder()
             val bitmap = barcodeEncoder.createBitmap(bitMatrix)
             view.setQrCodeView(bitmap)

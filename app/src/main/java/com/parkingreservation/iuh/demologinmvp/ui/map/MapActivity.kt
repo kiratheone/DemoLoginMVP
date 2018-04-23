@@ -2,6 +2,7 @@ package com.parkingreservation.iuh.demologinmvp.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Build
@@ -12,10 +13,13 @@ import android.support.design.widget.NavigationView
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.AppCompatSpinner
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -41,7 +45,6 @@ import com.mahc.custombottomsheetbehavior.MergedAppBarLayoutBehavior
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseActivity
 import com.parkingreservation.iuh.demologinmvp.databinding.ActivityMapBinding
-import com.parkingreservation.iuh.demologinmvp.model.LoginModel
 import com.parkingreservation.iuh.demologinmvp.ui.account.AccountActivity
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewFragment
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.servicepack.ServicePackFragment
@@ -49,6 +52,7 @@ import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketActivity
 import com.parkingreservation.iuh.demologinmvp.util.NavbarSelectionType
 import com.parkingreservation.iuh.demologinmvp.util.StringLengthHandler
 import com.parkingreservation.iuh.demologinmvp.model.Station
+import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginActivity
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehicleActivity
 
@@ -88,7 +92,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         createServicePack()
         presenter.onViewCreated()
 
-       /*  make sure this is the first times activity was called */
+        /*  make sure this is the first times activity was called */
         if (savedInstanceState == null) {
             navItemIndex = 0
             CURRENT_TAG = NavbarSelectionType.HOME.tag
@@ -145,9 +149,9 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     private fun changeCheckedItem(item: MenuItem) = !item.isChecked
 
-    override fun loadUserHeader(user: LoginModel) {
+    override fun loadUserHeader(user: User) {
         Log.i(TAG, "set navigation header user profile")
-        tvName.text = user.name
+        tvName.text = user.driverName
         tvWebsite.text = user.email
         navigation.menu.getItem(NavbarSelectionType.NOTIFICATION.index).setActionView(R.layout.menu_dot)
         Glide.with(this).load(R.mipmap.ic_launcher).thumbnail(0.5f).apply(RequestOptions.circleCropTransform()).into(ivProfile)
@@ -228,6 +232,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
     }
 
     override fun showLoading() {
+
     }
 
     override fun hideLoading() {
@@ -235,7 +240,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     override fun addStationContent(station: Station?) {
         if (station != null) {
-            binding.station= StringLengthHandler.getText(station.name)
+            binding.station = StringLengthHandler.getText(station.name)
             sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
             mergedBehavior.setToolbarTitle(StringLengthHandler.getText(station.name))
         }
@@ -320,8 +325,41 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
     }
 
+    @OnClick(R.id.bt_booking)
+    fun bookParkingLot() {
+        val builder = AlertDialog.Builder(this)
+        createVehiclesDialog(builder)
+        builder.create().show()
+    }
+
+    @SuppressLint("InflateParams")
+    private fun createVehiclesDialog(builder: AlertDialog.Builder) {
+
+        val view = layoutInflater.inflate(R.layout.dialog_vehicles, null)
+        builder.setTitle("Choose Your Vehicle")
+
+        val sp = view.findViewById<AppCompatSpinner>(R.id.sp_vehicles)
+        val adapterSp = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getUserVehicle())
+        adapterSp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        val spTypes= view.findViewById<AppCompatSpinner>(R.id.sp_ticket_types)
+        val adapterSpTypes = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getTicketTypes())
+        adapterSpTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        builder.setPositiveButton(R.string.booking) { dialog, _ ->
+            presenter.bookParkingLot(currentMarker!!.title, sp.selectedItemPosition, spTypes.selectedItemPosition)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+
+        sp.adapter = adapterSp
+        spTypes.adapter = adapterSpTypes
+
+        builder.setView(view)
+    }
+
     private var currentPolylineDirection: Polyline? = null
-    @OnClick( R.id.bt_direction, R.id.layout_direction )
+    @OnClick(R.id.bt_direction, R.id.layout_direction)
     fun directWays() {
         if (currentMarker != null) {
             val lastKnowLocation = (currentFragment as MapViewFragment).getLastKnowLocation()
@@ -376,6 +414,6 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     private val images = mutableListOf(R.drawable.z1, R.drawable.z2,
             R.drawable.z3, R.drawable.z4, R.drawable.z5, R.drawable.z6
-                         , R.drawable.z3, R.drawable.z8, R.drawable.z10, R.drawable.z11, R.drawable.z13
-                         , R.drawable.z14, R.drawable.z15, R.drawable.z16, R.drawable.z17)
+            , R.drawable.z3, R.drawable.z8, R.drawable.z10, R.drawable.z11, R.drawable.z13
+            , R.drawable.z14, R.drawable.z15, R.drawable.z16, R.drawable.z17)
 }

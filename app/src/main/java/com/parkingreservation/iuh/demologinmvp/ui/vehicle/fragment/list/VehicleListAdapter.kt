@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.databinding.VehicleListAdapterBinding
-import com.parkingreservation.iuh.demologinmvp.model.Vehicle
+import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 
-class VehicleListAdapter(val context: Context, private val vehicles: List<Vehicle> ): RecyclerView.Adapter<VehicleListAdapter.RecyclerHolder>() {
+class VehicleListAdapter(val context: Context, private val vehicles: List<VehicleModel> ): RecyclerView.Adapter<VehicleListAdapter.RecyclerHolder>() {
 
     lateinit var  binding: VehicleListAdapterBinding
 
@@ -32,7 +32,7 @@ class VehicleListAdapter(val context: Context, private val vehicles: List<Vehicl
         /**
          *  binding data to view
          */
-        fun bind(vehicle: Vehicle) {
+        fun bind(vehicle: VehicleModel) {
             this.binding.vehicle = vehicle
             ButterKnife.bind(this, binding.root)
             binding.executePendingBindings()

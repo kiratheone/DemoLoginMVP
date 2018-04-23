@@ -3,12 +3,15 @@ package com.parkingreservation.iuh.demologinmvp.ui.login
 import android.util.Base64
 import android.util.Log
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
+import com.parkingreservation.iuh.demologinmvp.exception.AuthorizationException
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.model.UserAccessToken
 import com.parkingreservation.iuh.demologinmvp.service.LoginService
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
+import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
+import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -48,7 +51,7 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
         view.showLoading()
 
         val base = LoginUtil.LOGIN_CLIENT + ":" + LoginUtil.LOGIN_PRIVATE
-        val authHeader = "Basic " + Base64.encodeToString(base.toByteArray(), Base64.NO_WRAP) // "Basic: " required by Header
+        val authHeader = "Basic " + Base64.encodeToString(base.toByteArray(), Base64.NO_WRAP) // "Basic " required by Header
 
         loginService.signIn(authHeader, name, pass)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -81,12 +84,23 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
     private fun saveUserProfile(name: String) {
         Log.i(TAG, "Saving... user profile by user name: $name")
 
-        profileService.getDriver(name)
+        try {
+            val token = TokenHandling.getTokenHeader(pref)
+            Log.i(TAG, "token name is: $token")
+            saveDriverToPref(name, token)
+        } catch (e: AuthorizationException) {
+            view.showError(e.message + "User cant access this view")
+            Log.w(ProfilePresenter.TAG, e.message)
+        }
+    }
+
+    private fun saveDriverToPref(id: String, token: String) {
+        profileService.getDriver(id, token)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         { data ->
-                            Log.i(TAG, "load user successfully with user name: ${data.driverName}")
+                            Log.i(TAG, "load user successful with user name: ${data.driverName}")
                             saveUserPref(data)
                         },
                         {
@@ -95,6 +109,7 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
                         }
                 )
     }
+
 
     private fun saveUserPref(user: User) {
         pref.putData(MySharedPreference.SharedPrefKey.USER, user, User::class.java)

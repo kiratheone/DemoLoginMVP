@@ -13,9 +13,11 @@ import android.widget.Spinner
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentVehicleAddingBinding
+import com.parkingreservation.iuh.demologinmvp.model.Vehicle
 import com.parkingreservation.iuh.demologinmvp.model.VehicleTypes
 
 class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAddingContract.View {
@@ -48,23 +50,12 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_vehicle_adding, container, false)
         ButterKnife.bind(this, binding.root)
 
-        adapter = VehicleAddingAdapter(this.activity!!, getListVehicleType())
-        val arr = arrayListOf("Bike", "Car", "Truck", "Bus")
-        binding.adapter = ArrayAdapter<String>(this.activity!!, android.R.layout.simple_spinner_dropdown_item, arr)
-//        spinner.adapter = adapter
+        adapter = VehicleAddingAdapter(this.activity!!, presenter.getListVehicleType())
+        binding.adapter = adapter
         presenter.onViewCreated()
 
         val view = binding.root
         return view
-    }
-
-    private fun getListVehicleType(): List<VehicleTypes> {
-        val list = emptyList<VehicleTypes>()
-        list.plus(VehicleTypes("2", "Car", R.drawable.ic_vehicle_car))
-        list.plus(VehicleTypes("4", "Bus", R.drawable.ic_vehicle_bus))
-        list.plus(VehicleTypes("1", "Bike", R.drawable.ic_vehicle_bike))
-        list.plus(VehicleTypes("3", "Truck", R.drawable.ic_vehicle_truck))
-        return list
     }
 
     override fun showError(string: String) {
@@ -73,6 +64,7 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
 
     override fun showSuccess(string: String) {
         showStatus(string)
+        this.baseActivity.finish()
     }
 
     private fun showStatus(s: String) {
@@ -93,6 +85,20 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
 
     override fun instantiatePresenter(): VehicleAddingPresenter {
         return VehicleAddingPresenter(this)
+    }
+
+    @OnClick(R.id.save)
+    fun save() {
+        presenter.saveVehicle(Vehicle(
+                vehicleTypeID = spinner.selectedItemPosition,
+                licensePlate = edtLicensePlate.text.toString(),
+                name =  edtLicense.text.toString()
+        ))
+    }
+
+    @OnClick(R.id.cancel)
+    fun cancel() {
+        this.baseActivity.finish()
     }
 
 }

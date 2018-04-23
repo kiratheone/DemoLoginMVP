@@ -7,11 +7,11 @@ import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
-import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER_PROFILE
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter<EditingProfileContract.View>(view)
         , EditingProfileContract.Presenter {
@@ -32,13 +32,50 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
         loadProfile()
     }
 
+    override fun editDriver(driver: User) {
+        view.showLoading()
+        val id = getUserId()
+        if (id != null) {
+            driver.userID = id
+            profileService.updateDriver(id, driver)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .doOnTerminate { view.hideLoading() }
+                    .subscribe(
+                            { user ->
+                              if(user != null)  {
+                                  thread {
+                                      updateUserProfilePref(user)
+                                  }
+                                  view.showSuccess("Edit user successfully")
+                                  view.onEditSuccess()
+                              }
+                            },
+                            {
+                                view.showError("oOps!!, some thing error while updating, check your network")
+                                Log.e(TAG, "error while updating: ${it.message}")
+                            }
+                    )
+        } else {
+            view.showError("oOps!!, some thing error while updating, please login again")
+            Log.e(TAG, "User are not logged in yet")
+        }
+    }
+
+    private fun updateUserProfilePref(user: User) {
+        pref.putData(USER, user, User::class.java)
+    }
+
+    fun getUserId(): String? {
+        return (pref.getData(USER, User::class.java) as User).userID
+    }
+
     private fun loadProfile() {
-        if(isLoggedIn()) {
-            val id = (pref.getData(USER, User::class.java) as User).userID
+        if (isLoggedIn()) {
             if (userAlreadyExistOnLocal()) {
                 loadLocalProfile()
             } else {
-                loadServerProfile(id)
+
             }
         } else {
             Log.w(TAG, "user are not logged in")
@@ -50,23 +87,6 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
         Log.i(TAG, "on local profile loading")
         val userPref = pref.getData(USER, User::class.java) as User
         view.transferProfile(userPref)
-    }
-
-    private fun loadServerProfile(id: String) {
-        Log.i(TAG, "on server profile loading")
-        view.showLoading()
-        profileService.getDriver(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnTerminate { view.hideLoading() }
-                .subscribe(
-                        { data ->
-                            view.transferProfile(data)
-                            pref.putData(USER, data, User::class.java)
-                            Log.i(TAG, "get user successfully")
-                        },
-                        {view.showError("oOps!!, there is some error from server, pls try again")}
-                )
     }
 
     override fun onViewDestroyed() {

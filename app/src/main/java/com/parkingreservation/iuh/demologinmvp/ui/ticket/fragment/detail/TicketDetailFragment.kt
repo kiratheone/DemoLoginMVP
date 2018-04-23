@@ -9,14 +9,13 @@ import android.support.v7.widget.AppCompatImageView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentTicketDetailBinding
-import com.parkingreservation.iuh.demologinmvp.model.Ticket
+import com.parkingreservation.iuh.demologinmvp.model.Tickets
 
 class TicketDetailFragment: BaseFragment<TicketDetailPresenter>(), TicketDetailContract.View {
 
@@ -44,7 +43,7 @@ class TicketDetailFragment: BaseFragment<TicketDetailPresenter>(), TicketDetailC
         return view
     }
 
-    override fun loadTicketDetail(ticket: Ticket) {
+    override fun loadTicketDetail(ticket: Tickets) {
         binding.ticket = ticket
     }
 

@@ -7,8 +7,8 @@ data class Vehicle(@SerializedName("vehicleTypeID")
                    @SerializedName("licensePlate")
                    val licensePlate: String = "",
                    @SerializedName("driverID")
-                   val driverID: String? = "",
+                   var driverID: String = "",
                    @SerializedName("name")
                    val name: String = "",
                    @SerializedName("id")
-                   val id: String = "")
+                   var id: String? = "")

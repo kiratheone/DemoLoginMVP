@@ -5,6 +5,7 @@ import com.parkingreservation.iuh.demologinmvp.model.Station
 import com.parkingreservation.iuh.demologinmvp.model.StationLocation
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -27,5 +28,5 @@ interface MapService {
      * @return a specific Station
      */
     @GET("api/stations/{id}")
-    fun getStationDetail(@Path("id")id: String): Observable<Station>
+    fun getStationDetail(@Path("id")id: String, @Header("Authorization") token: String): Observable<Station>
 }

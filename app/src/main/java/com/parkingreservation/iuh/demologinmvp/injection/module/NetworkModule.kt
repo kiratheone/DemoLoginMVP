@@ -9,8 +9,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import okhttp3.OkHttpClient
-import com.google.android.gms.analytics.Logger.LogLevel
-import com.google.android.gms.tagmanager.zzdj.setLogLevel
 import okhttp3.logging.HttpLoggingInterceptor
 
 
@@ -19,7 +17,7 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 @Module
 @Suppress("unused")
-object NetworkModule {
+object  NetworkModule {
 
     private const val BASE_URL = "http://45.119.81.16:8080/parking_reservation_1.0-1.0.0/"
 

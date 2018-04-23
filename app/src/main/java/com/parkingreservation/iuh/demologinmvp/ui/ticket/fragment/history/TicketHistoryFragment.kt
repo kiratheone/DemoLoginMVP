@@ -15,6 +15,7 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentTicketHistoryBinding
 import com.parkingreservation.iuh.demologinmvp.model.Ticket
+import com.parkingreservation.iuh.demologinmvp.model.Tickets
 
 class TicketHistoryFragment : BaseFragment<TicketHistoryPresenter>(), TicketHistoryContract.View {
 
@@ -58,7 +59,7 @@ class TicketHistoryFragment : BaseFragment<TicketHistoryPresenter>(), TicketHist
         binding.progressVisibility = View.GONE
     }
 
-    override fun loadHistoryTicket(tickets: Array<Ticket>) {
+    override fun loadHistoryTicket(tickets: Array<Tickets>) {
         adapter = TicketHistoryAdapter(this.context!!, tickets)
         binding.adapter = adapter
     }

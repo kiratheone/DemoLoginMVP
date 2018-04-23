@@ -5,7 +5,7 @@ import com.parkingreservation.iuh.demologinmvp.model.User
 
 class EditingProfileContract {
     interface Presenter {
-//        fun editProfile(profile: User)
+        fun editDriver(driver: User)
     }
 
     interface View : BaseView {
@@ -13,5 +13,11 @@ class EditingProfileContract {
          *  pass profile from server or local to view
          */
         fun transferProfile(profile: User)
+
+        /**
+         * happening after the success
+         * back to home
+         */
+        fun onEditSuccess()
     }
 }

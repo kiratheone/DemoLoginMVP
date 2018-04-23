@@ -1,6 +1,7 @@
 package com.parkingreservation.iuh.demologinmvp.ui.login
 
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseActivity
 import com.parkingreservation.iuh.demologinmvp.databinding.ActivityLoginBinding
 import com.parkingreservation.iuh.demologinmvp.model.LoginModel
+import com.parkingreservation.iuh.demologinmvp.ui.login.register.RegisterActivity
 
 class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
 
@@ -29,13 +31,25 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         ButterKnife.bind(this)
-
+        configToolbar()
         presenter.onViewCreated()
     }
 
     override fun updateUser(users: List<LoginModel>) {
-//        inputUserName.setText("aaaa")
         binding.user = users[0]
+    }
+
+    @OnClick(R.id.btn_signIn)
+    fun signIn() {
+        val userName = getUserName()
+        val password = getPassword()
+        presenter.signIn(userName, password)
+    }
+
+    @OnClick(R.id.signup)
+    fun signUp() {
+        finish()
+        startActivity(Intent(this, RegisterActivity::class.java))
     }
 
     override fun onLoginSuccessfully() {
@@ -75,12 +89,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         return LoginPresenter(this)
     }
 
-    override fun getContexts(): Context { return this }
-
-    @OnClick(R.id.btn_signIn)
-    public fun signIn() {
-        val userName = getUserName()
-        val password = getPassword()
-        presenter.signIn(userName, password)
+    override fun getContexts(): Context {
+        return this
     }
+
 }

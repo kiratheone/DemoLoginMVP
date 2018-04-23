@@ -13,9 +13,9 @@ import com.github.florent37.expansionpanel.ExpansionLayout
 import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.databinding.TicketHistoryAdapterBinding
-import com.parkingreservation.iuh.demologinmvp.model.Ticket
+import com.parkingreservation.iuh.demologinmvp.model.Tickets
 
-class TicketHistoryAdapter(val context: Context, private val tickets: Array<Ticket>) : RecyclerView.Adapter<TicketHistoryAdapter.RecyclerHolder>() {
+class TicketHistoryAdapter(val context: Context, private val tickets: Array<Tickets>) : RecyclerView.Adapter<TicketHistoryAdapter.RecyclerHolder>() {
 
     private var expandCollections: ExpansionLayoutCollection = ExpansionLayoutCollection()
 
@@ -50,7 +50,7 @@ class TicketHistoryAdapter(val context: Context, private val tickets: Array<Tick
         @BindView(R.id.expansionLayout)
         lateinit var expansionLayout: ExpansionLayout
 
-        fun bind(ticket: Ticket) {
+        fun bind(ticket: Tickets) {
             this.binding.ticket = ticket
             ButterKnife.bind(this, binding.root)
             expansionLayout.collapse(false)

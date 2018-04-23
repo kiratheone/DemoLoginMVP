@@ -69,14 +69,20 @@
 
     <string name="app_name">DemoLoginMVP</string>
     <string name="login">Login</string>
-    <string name="no_account_yet_create_one">No account yet? Create one</string>
+    <string name="register">Register</string>
+    <string name="no_account_yet_create_one">No account yet?  <u>Create one</u></string>
     <string name="profile_vehicle">Vehicle</string>
 
     <!--    Vehicle    -->
     <string name="vehicle_name">Name</string>
     <string name="vehicle_type">Vehicle Type</string>
     <string name="vehicle_license_plates">license plates</string>
-    <string name="vehicle_name_adding">Your Vehicle Name</string>
-    <string name="vehicle_license_adding">your license plate</string>
+    <string name="vehicle_name_adding">Your vehicle name</string>
+    <string name="vehicle_license_adding">Your license plate</string>
     <string name="other">Other</string>
+    <string name="vehicle_bus">bus</string>
+    <string name="vehicle_truck">truck</string>
+    <string name="vehicle_bicycle">bicycle</string>
+    <string name="vehicle_motor_bike">Motorbike</string>
+    <string name="vehicle_car">car</string>
 </resources>

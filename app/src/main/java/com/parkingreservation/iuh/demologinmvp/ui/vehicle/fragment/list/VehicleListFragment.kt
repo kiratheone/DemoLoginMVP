@@ -3,7 +3,6 @@ package com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.list
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,7 @@ import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentVehicleListBinding
-import com.parkingreservation.iuh.demologinmvp.model.Vehicle
+import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 
 class VehicleListFragment: BaseFragment<VehicleListPresenter>(),VehicleListContract.View {
     companion object {
@@ -55,7 +54,7 @@ class VehicleListFragment: BaseFragment<VehicleListPresenter>(),VehicleListContr
         showStatus(string)
     }
 
-    override fun updateVehicle(vehicles: List<Vehicle>) {
+    override fun updateVehicle(vehicles: List<VehicleModel>) {
         adapter = VehicleListAdapter(getContexts(), vehicles)
         binding.adapter = adapter
     }

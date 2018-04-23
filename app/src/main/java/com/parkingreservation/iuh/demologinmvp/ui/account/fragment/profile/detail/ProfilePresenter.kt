@@ -3,10 +3,12 @@ package com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.deta
 import android.util.Log
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
+import com.parkingreservation.iuh.demologinmvp.exception.AuthorizationException
 import com.parkingreservation.iuh.demologinmvp.model.LoginModel
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
+import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -35,11 +37,9 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
     private fun loadProfile() {
         view.showLoading()
         if (isLoggedIn()) {
-            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID
             if (userAlreadyExistOnLocal()) {
                 loadLocalProfile()
             } else {
-                loadServerProfile(id)
             }
         } else {
             Log.w(TAG, "user are not logged in")
@@ -57,7 +57,17 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
     private fun loadServerProfile(id: String) {
         view.showLoading()
         Log.i(TAG, "on server profile loading")
-        profileService.getDriver(id)
+        try {
+            val token = TokenHandling.getTokenHeader(pref)
+            saveDriverToPref(id, token)
+        } catch (e: AuthorizationException) {
+            view.showError(e.message + "User cant access this view")
+            Log.w(TAG, e.message)
+        }
+    }
+
+    private fun saveDriverToPref(id: String, token: String) {
+        profileService.getDriver(id, token)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnTerminate { view.hideLoading() }

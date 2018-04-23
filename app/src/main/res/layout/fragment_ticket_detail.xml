@@ -3,11 +3,13 @@
     <data>
         <variable
             name="ticket"
-            type="com.parkingreservation.iuh.demologinmvp.model.Ticket"/>
+            type="com.parkingreservation.iuh.demologinmvp.model.Tickets"/>
 
         <variable
             name="progressVisibility"
             type="Integer" />
+
+        <import type="kotlin.text.StringsKt"/>
     </data>
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -81,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/ticket_number"
+                android:text="@{ticket.id}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorSecondaryText" />
 
@@ -102,20 +104,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/ticket_title"
+                android:text="@{ticket.stationName}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ticket_duration"
+                android:text="@{String.valueOf(ticket.totalPrice)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorSecondaryText" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ticket_type"
+                android:text="@{ticket.vehicleModel.licensePlate}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorSecondaryText" />
 
@@ -142,7 +144,7 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ticket_date_example"
+                        android:text='@{ticket.createdDate.split(" ")[0]}'
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorSecondaryText" />
 
@@ -172,7 +174,7 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ticket_time_example"
+                        android:text='@{ticket.createdDate.split(" ")[1]}'
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorSecondaryText" />
 
@@ -202,7 +204,7 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ticket_car_type_example"
+                        android:text="@{ticket.vehicleModel.vehicleTypeModel.typeName}"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorSecondaryText" />
 
