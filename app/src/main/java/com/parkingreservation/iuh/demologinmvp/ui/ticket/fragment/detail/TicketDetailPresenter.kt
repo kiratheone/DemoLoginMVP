@@ -6,6 +6,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
+import com.parkingreservation.iuh.demologinmvp.model.Tickets
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.TicketService
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
@@ -31,6 +32,8 @@ class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<Tic
     private
     var subscription: Disposable? = null
 
+    private var holdingTickets = emptyArray<Tickets>()
+
     override fun onViewCreated() {
         loadTicketDetail()
     }
@@ -45,14 +48,14 @@ class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<Tic
         if (isLoggedIn()) {
             val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID!!
             val token = TokenHandling.getTokenHeader(pref)
-            subscription = ticketService.getCurrentTicket(id, token)
+            subscription = ticketService.getHoldingTicket(id, token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnTerminate { view.hideLoading() }
                     .subscribe(
-                            { data ->
-                                view.loadTicketDetail(data[0])
-                                generateQrCode(data[0].qRCode)
+                            {
+                                holdingTickets = it
+                                view.loadTicketDetail(it)
                                 Log.i(TAG, "load ticket history successfully")
                             },
                             {
@@ -66,7 +69,7 @@ class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<Tic
 
     private fun isLoggedIn(): Boolean = pref.getData(USER, User::class.java) != null
 
-    private fun generateQrCode(code: String) {
+    fun generateQrCode(code: String) {
         val multiFormatWriter = MultiFormatWriter()
         try {
             val bitMatrix = multiFormatWriter.encode(code, BarcodeFormat.QR_CODE, 250, 250)
@@ -76,6 +79,13 @@ class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<Tic
         } catch (e: WriterException) {
             e.printStackTrace()
         }
+    }
 
+    fun getHoldingTickets(): Array<String>{
+        val list = mutableListOf<String>()
+        holdingTickets.forEach {
+            list.add(it.vehicleModel.licensePlate + " - " + it.vehicleModel.name)
+        }
+        return list.toTypedArray()
     }
 }

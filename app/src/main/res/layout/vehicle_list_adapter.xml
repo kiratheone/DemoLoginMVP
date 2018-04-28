@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="com.parkingreservation.iuh.demologinmvp.model.VehicleTypeModel"/>
         <variable
             name="vehicle"
             type="com.parkingreservation.iuh.demologinmvp.model.VehicleModel"/>
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:textColor="@android:color/secondary_text_light"
-            android:text="@{vehicle.id}"
+            android:text="@{vehicle.vehicleTypeModel.typeName}"
             tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>

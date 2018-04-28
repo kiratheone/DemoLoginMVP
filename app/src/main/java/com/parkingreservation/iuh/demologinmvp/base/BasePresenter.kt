@@ -8,6 +8,8 @@ import com.parkingreservation.iuh.demologinmvp.ui.account.AccountPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit.EditingProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.login.logout.LogoutPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.login.register.RegisterPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketPresenter
@@ -49,6 +51,8 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
     private fun inject() {
         when (this) {
             is LoginPresenter -> injector.inject(this)
+            is LogoutPresenter -> injector.inject(this)
+            is RegisterPresenter -> injector.inject(this)
 
             is MapPresenter -> injector.inject(this)
             is MapViewPresenter -> injector.inject(this)

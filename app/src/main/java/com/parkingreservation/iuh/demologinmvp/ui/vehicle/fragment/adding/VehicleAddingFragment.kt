@@ -17,7 +17,8 @@ import butterknife.OnClick
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentVehicleAddingBinding
-import com.parkingreservation.iuh.demologinmvp.model.Vehicle
+import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
+import com.parkingreservation.iuh.demologinmvp.model.VehicleTypeModel
 import com.parkingreservation.iuh.demologinmvp.model.VehicleTypes
 
 class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAddingContract.View {
@@ -52,6 +53,8 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
 
         adapter = VehicleAddingAdapter(this.activity!!, presenter.getListVehicleType())
         binding.adapter = adapter
+        binding.progressVisibility = View.GONE
+
         presenter.onViewCreated()
 
         val view = binding.root
@@ -89,10 +92,10 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
 
     @OnClick(R.id.save)
     fun save() {
-        presenter.saveVehicle(Vehicle(
-                vehicleTypeID = spinner.selectedItemPosition,
-                licensePlate = edtLicensePlate.text.toString(),
-                name =  edtLicense.text.toString()
+        presenter.saveVehicle(VehicleModel(
+                VehicleTypeModel(typeName = "", typeID = (spinner.selectedItem as VehicleTypes).id )
+                , licensePlate = edtLicensePlate.text.toString()
+                , name = edtLicense.text.toString()
         ))
     }
 

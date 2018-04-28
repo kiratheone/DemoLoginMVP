@@ -2,7 +2,6 @@ package com.parkingreservation.iuh.demologinmvp.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Build
@@ -54,6 +53,7 @@ import com.parkingreservation.iuh.demologinmvp.util.StringLengthHandler
 import com.parkingreservation.iuh.demologinmvp.model.Station
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginActivity
+import com.parkingreservation.iuh.demologinmvp.ui.login.logout.LogoutActivity
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehicleActivity
 
 class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
@@ -62,6 +62,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         var TAG = MapActivity::class.java.simpleName
         var navItemIndex = 0
         var CURRENT_TAG = NavbarSelectionType.HOME.tag
+        const val WIDTH_WAYS = 8
     }
 
     @BindView(R.id.nav_view)
@@ -87,10 +88,11 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_map)
         ButterKnife.bind(this)
 
+        binding.adapter = ParkingLotCoverPagerAdapter(getContexts(), images.toIntArray())
+
         bindingNavView()
         setUpRelativeView()
         createServicePack()
-        presenter.onViewCreated()
 
         /*  make sure this is the first times activity was called */
         if (savedInstanceState == null) {
@@ -98,6 +100,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
             CURRENT_TAG = NavbarSelectionType.HOME.tag
             loadNavView()
         }
+        sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
         sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN
     }
 
@@ -118,22 +121,34 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
                 R.id.nav_ticket -> {
                     navItemIndex = NavbarSelectionType.TICKET.index
                     CURRENT_TAG = NavbarSelectionType.TICKET.tag
-                    startActivity(Intent(this, TicketActivity::class.java))
+                    if (!presenter.loggedIn())
+                        moveLoginPage()
+                    else
+                        startActivity(Intent(this, TicketActivity::class.java))
                 }
                 R.id.nav_account -> {
                     navItemIndex = NavbarSelectionType.ACCOUNT.index
                     CURRENT_TAG = NavbarSelectionType.ACCOUNT.tag
-                    startActivity(Intent(this, AccountActivity::class.java))
+                    if (!presenter.loggedIn())
+                        moveLoginPage()
+                    else
+                        startActivity(Intent(this, AccountActivity::class.java))
                 }
                 R.id.nav_vehicle -> {
                     navItemIndex = NavbarSelectionType.VEHICLE.index
                     CURRENT_TAG = NavbarSelectionType.VEHICLE.tag
-                    startActivity(Intent(this, VehicleActivity::class.java))
+                    if (!presenter.loggedIn())
+                        moveLoginPage()
+                    else
+                        startActivity(Intent(this, VehicleActivity::class.java))
                 }
                 R.id.nav_notifications -> {
                     navItemIndex = NavbarSelectionType.NOTIFICATION.index
                     CURRENT_TAG = NavbarSelectionType.NOTIFICATION.tag
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    if (!presenter.loggedIn())
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    else
+                        startActivity(Intent(this, LogoutActivity::class.java))
                 }
                 else -> {
                     navItemIndex = NavbarSelectionType.HOME.index
@@ -145,6 +160,10 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
             item.isChecked = true
             true
         }
+    }
+
+    private fun moveLoginPage() {
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun changeCheckedItem(item: MenuItem) = !item.isChecked
@@ -166,48 +185,45 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
     private fun loadNavView() {
         setNavPicked()
         if (fragmentManager.findFragmentByTag(CURRENT_TAG) != null) {
-            drawer.closeDrawers()
+            closeDrawer()
             return
         }
-        val pendingFragment = Runnable {
-            currentFragment = getFragment()
-            if (currentFragment is MapViewFragment) {
 
-                (currentFragment as MapViewFragment).setOnMarkerClick(object : MapEvents.OnParkingMakerEvents {
-                    override fun onMarkerClickListener(marker: Marker) {
-                        currentMarker = marker
-                        images.shuffle()
-                        binding.adapter = ParkingLotCoverPagerAdapter(getContexts(), images.toIntArray())
-                        presenter.loadStationContent(marker)
-                    }
-                })
+        currentFragment = getFragment()
+        if (currentFragment is MapViewFragment) {
 
-                (currentFragment as MapViewFragment).setOnMapSelected(object : MapEvents.OnParkingMapSelection {
-                    override fun onMapSelected() {
-                        Log.i(TAG, "On map view selected, remove all item on map")
-                        sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN
-                        currentMarker = null
-                    }
-                })
+            (currentFragment as MapViewFragment).setOnMarkerClick(object : MapEvents.OnParkingMakerEvents {
+                override fun onMarkerClickListener(marker: Marker) {
+                    currentMarker = marker
+                    presenter.loadStationContent(marker)
+                }
+            })
 
-                (currentFragment as MapViewFragment).setOnNavBarClick(object : MapEvents.OnNavBarEvent {
-                    @SuppressLint("RtlHardcoded")
-                    override fun onNavBarClickListener() {
-                        openDrawer()
-                    }
-                })
-            }
-            val transaction = fragmentManager.beginTransaction()
-            transaction.setCustomAnimations(android.R.animator.fade_in,
-                    android.R.animator.fade_out)
-            transaction.replace(R.id.replace_fragment, currentFragment, CURRENT_TAG)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                transaction.commitNowAllowingStateLoss()
-            } else {
-                transaction.commit()
-            }
-        } // on Map Event
-        mHandler.post(pendingFragment)
+            (currentFragment as MapViewFragment).setOnMapSelected(object : MapEvents.OnParkingMapSelection {
+                override fun onMapSelected() {
+                    Log.i(TAG, "On map view selected, remove all item on map")
+                    sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN
+                    currentMarker = null
+                }
+            })
+
+            (currentFragment as MapViewFragment).setOnNavBarClick(object : MapEvents.OnNavBarEvent {
+                @SuppressLint("RtlHardcoded")
+                override fun onNavBarClickListener() {
+                    openDrawer()
+                }
+            })
+        }
+
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setCustomAnimations(android.R.animator.fade_in,
+                android.R.animator.fade_out)
+        transaction.replace(R.id.replace_fragment, currentFragment, CURRENT_TAG)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            transaction.commitNowAllowingStateLoss()
+        } else {
+            transaction.commit()
+        }
         closeDrawer()
     }
 
@@ -240,7 +256,8 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     override fun addStationContent(station: Station?) {
         if (station != null) {
-            binding.station = StringLengthHandler.getText(station.name)
+            binding.stationName = StringLengthHandler.getText(station.name)
+            binding.star = station.star
             sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
             mergedBehavior.setToolbarTitle(StringLengthHandler.getText(station.name))
         }
@@ -274,6 +291,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     override fun onResume() {
         Log.d(TAG, "On Resume map view")
+        presenter.onViewCreated()
         navigation.menu.getItem(0).isChecked = true // set back to home
         navItemIndex = NavbarSelectionType.HOME.index
         CURRENT_TAG = NavbarSelectionType.HOME.tag
@@ -342,7 +360,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         val adapterSp = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getUserVehicle())
         adapterSp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        val spTypes= view.findViewById<AppCompatSpinner>(R.id.sp_ticket_types)
+        val spTypes = view.findViewById<AppCompatSpinner>(R.id.sp_ticket_types)
         val adapterSpTypes = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getTicketTypes())
         adapterSpTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
@@ -397,7 +415,6 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         }
     }
 
-    private val WIDTH_WAYS = 8
     fun drawDirectionWays(map: GoogleMap, direction: Direction?, context: Context): Polyline {
         Log.i(TAG, "in direct way function draw a line from your location to destination")
         val route = direction!!.routeList[0]
@@ -412,8 +429,5 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         return polyline
     }
 
-    private val images = mutableListOf(R.drawable.z1, R.drawable.z2,
-            R.drawable.z3, R.drawable.z4, R.drawable.z5, R.drawable.z6
-            , R.drawable.z3, R.drawable.z8, R.drawable.z10, R.drawable.z11, R.drawable.z13
-            , R.drawable.z14, R.drawable.z15, R.drawable.z16, R.drawable.z17)
+    private val images = mutableListOf(R.drawable.z1, R.drawable.z2)
 }

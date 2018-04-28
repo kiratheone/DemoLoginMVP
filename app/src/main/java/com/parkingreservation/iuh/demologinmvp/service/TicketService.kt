@@ -1,7 +1,7 @@
 package com.parkingreservation.iuh.demologinmvp.service
 
 import com.parkingreservation.iuh.demologinmvp.model.Reservation
-import com.parkingreservation.iuh.demologinmvp.model.Ticket
+import com.parkingreservation.iuh.demologinmvp.model.TicketTypeModels
 import com.parkingreservation.iuh.demologinmvp.model.Tickets
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -21,15 +21,15 @@ interface TicketService {
      * @userID: user userID
      * @return: list of Ticket
      */
-    @GET("api/tickets/user/{userID}?status=Used")
-    fun getCurrentTicket(@Path("userID") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
+    @GET("api/tickets/user/{userID}?status=Holding&page=1")
+    fun getHoldingTicket(@Path("userID") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
 
     /**
      * get list of tickets were used
      * @userID user userID
      * @return list of ticket
      */
-    @GET("api/tickets/user/{id}?status=Used")
+    @GET("api/tickets/user/{id}?status=Used&page=1")
     fun getUsedTicket(@Path("id") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
 
     /**
@@ -37,4 +37,13 @@ interface TicketService {
      */
     @POST("api/tickets/reservation")
     fun bookParkingLot(@Body tickets: Reservation, @Header("Authorization") token: String): Observable<Tickets>
+
+    /**
+     * get ticket type by service and station's vehicle type ID
+     */
+    @GET("api/tickettypes/find")
+    fun findServiceType(@Query("serviceID") serviceID: Int
+                        , @Query("stationID") stationID: Int
+                        , @Query("vehicleTypeID") vehicleTypeID: Int
+                        , @Header("Authorization") token: String): Observable<List<TicketTypeModels>>
 }

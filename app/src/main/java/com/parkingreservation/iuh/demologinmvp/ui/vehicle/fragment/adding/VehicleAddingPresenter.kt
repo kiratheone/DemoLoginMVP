@@ -5,11 +5,13 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.model.Vehicle
+import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 import com.parkingreservation.iuh.demologinmvp.model.VehicleTypes
 import com.parkingreservation.iuh.demologinmvp.service.VehicleService
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
+import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -29,13 +31,14 @@ class VehicleAddingPresenter(view: VehicleAddingContract.View): BasePresenter<Ve
     @Inject
     lateinit var vehicleService: VehicleService
 
-    override fun saveVehicle(vehicle: Vehicle) {
+    override fun saveVehicle(vehicle: VehicleModel) {
         view.showLoading()
         Log.i(TAG, "saving... vehicle of user")
         if(isLoggedIn()) {
             val id = getUserId()
+            val token =  TokenHandling.getTokenHeader(pref)
             vehicle.driverID = id!!
-            subscription = vehicleService.addVehicle(vehicle)
+            subscription = vehicleService.addVehicle(vehicle, token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnTerminate { view.hideLoading() }
@@ -57,10 +60,10 @@ class VehicleAddingPresenter(view: VehicleAddingContract.View): BasePresenter<Ve
 
     fun getListVehicleType(): MutableList<VehicleTypes> {
         val list = mutableListOf<VehicleTypes>()
-        list.add(VehicleTypes("2", "Car", R.drawable.ic_vehicle_car))
-        list.add(VehicleTypes("4", "Bus", R.drawable.ic_vehicle_bus))
-        list.add(VehicleTypes("1", "Bike", R.drawable.ic_vehicle_bike))
-        list.add(VehicleTypes("3", "Truck", R.drawable.ic_vehicle_truck))
+        list.add(VehicleTypes(1, "Car", R.drawable.ic_vehicle_car))
+        list.add(VehicleTypes(2, "Bus", R.drawable.ic_vehicle_bus))
+        list.add(VehicleTypes(3, "Bike", R.drawable.ic_vehicle_bike))
+        list.add(VehicleTypes(4, "Truck", R.drawable.ic_vehicle_truck))
         return list
     }
 

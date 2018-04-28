@@ -13,12 +13,9 @@
             type="android.support.v7.widget.LinearLayoutManager" />
 
         <variable
-            name="dividerItemDecoration"
-            type="android.support.v7.widget.DividerItemDecoration" />
-
-        <variable
             name="progressVisibility"
             type="Integer" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -38,15 +35,15 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_vehicle_list"
+            app:adapter="@{adapter}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:adapter="@{adapter}"
             app:layoutManager="@{layoutManager}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <!--app:dividerItemDecoration="@{dividerItemDecoration}"-->
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>

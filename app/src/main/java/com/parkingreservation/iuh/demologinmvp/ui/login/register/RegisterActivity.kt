@@ -56,16 +56,14 @@ class RegisterActivity : BaseActivity<RegisterPresenter>(), RegisterContract.Vie
         Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
 
-    override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onRegisterSuccess() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        finish()
     }
 
     override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showLoading() {
     }
 
     override fun getContexts(): Context {

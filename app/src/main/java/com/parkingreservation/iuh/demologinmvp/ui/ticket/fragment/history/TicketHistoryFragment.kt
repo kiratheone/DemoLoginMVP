@@ -4,17 +4,14 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import butterknife.BindView
 import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
 import com.parkingreservation.iuh.demologinmvp.databinding.FragmentTicketHistoryBinding
-import com.parkingreservation.iuh.demologinmvp.model.Ticket
 import com.parkingreservation.iuh.demologinmvp.model.Tickets
 
 class TicketHistoryFragment : BaseFragment<TicketHistoryPresenter>(), TicketHistoryContract.View {

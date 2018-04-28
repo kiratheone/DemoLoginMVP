@@ -8,6 +8,7 @@ import com.parkingreservation.iuh.demologinmvp.ui.account.AccountPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit.EditingProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.login.logout.LogoutPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.login.register.RegisterPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPresenter
@@ -30,6 +31,7 @@ import javax.inject.Singleton
 interface PresenterInjector {
 
     fun inject(presenter: LoginPresenter)
+    fun inject(presenter: LogoutPresenter)
     fun inject(presenter: RegisterPresenter)
 
     fun inject(presenter: MapPresenter)

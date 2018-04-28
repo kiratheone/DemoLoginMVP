@@ -12,8 +12,12 @@
             type="com.parkingreservation.iuh.demologinmvp.model.LoginModel" />
 
         <variable
-            name="station"
+            name="stationName"
             type="String"/>
+
+        <variable
+            name="star"
+            type="Integer"/>
         
         <variable
             name="adapter"
@@ -110,7 +114,8 @@
                 <!--Bottom bar content-->
                 <include
                     layout="@layout/parking_lot_bottom_sheet_bar_layout"
-                    bind:station="@{station}"/>
+                    bind:stationName="@{stationName}"
+                    bind:star="@{safeUnbox(star)}"/>
 
                 <!--Merged App BarLayout-->
                 <include layout="@layout/parking_lot_merge_app_bar_layout" />

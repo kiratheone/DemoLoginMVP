@@ -12,7 +12,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class RegisterPresenter(view: RegisterContract.View): BasePresenter<RegisterContract.View>(view), RegisterContract.Presenter {
+class RegisterPresenter(view: RegisterContract.View) : BasePresenter<RegisterContract.View>(view), RegisterContract.Presenter {
 
     companion object {
         val TAG = RegisterPresenter::class.java.simpleName
@@ -42,8 +42,9 @@ class RegisterPresenter(view: RegisterContract.View): BasePresenter<RegisterCont
                 .doOnTerminate { view.hideLoading() }
                 .subscribe(
                         {
-                            if(it != null) {
+                            if (it != null) {
                                 Log.i(TAG, "register user successfully")
+                                view.showSuccess("register user successfully")
                                 view.onRegisterSuccess()
                             } else {
                                 Log.i(TAG, "something error from user")

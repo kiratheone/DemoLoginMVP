@@ -3,8 +3,12 @@
 
     <data>
         <variable
-            name="station"
+            name="stationName"
             type="String"/>
+        
+        <variable
+            name="star"
+            type="Integer"/>
     </data>
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -50,7 +54,7 @@
                             android:id="@+id/tv_bs_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{station}"
+                            android:text="@{stationName}"
                             android:textColor="@android:color/white"
                             android:textSize="19sp" />
 
@@ -59,7 +63,7 @@
                             android:id="@+id/tv_bs_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{station}"
+                            android:text="@{stationName}"
                             android:textColor="@android:color/white"
                             android:textSize="14sp" />
 
@@ -69,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:numStars="5"
-                            android:rating="3.5"
+                            android:rating="@{safeUnbox(star)}"
                             android:stepSize=".5"
                             android:theme="@style/RatingBar" />
                     </LinearLayout>

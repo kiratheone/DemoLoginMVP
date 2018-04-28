@@ -13,6 +13,9 @@
         <variable
             name="progressVisibility"
             type="Integer" />
+        <variable
+            name="divider"
+            type="android.support.v7.widget.DividerItemDecoration"/>
     </data>
     <LinearLayout
         android:paddingBottom="60dp"
@@ -35,6 +38,7 @@
             android:id="@+id/ticket_recycle_view"
             android:adapter="@{adapter}"
             android:orientation="vertical"
+            android:layout_marginTop="32dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="@{layoutManager}"/>

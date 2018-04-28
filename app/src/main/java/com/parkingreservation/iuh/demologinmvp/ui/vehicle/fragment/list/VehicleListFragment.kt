@@ -3,6 +3,7 @@ package com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.list
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +32,6 @@ class VehicleListFragment: BaseFragment<VehicleListPresenter>(),VehicleListContr
         ButterKnife.bind(this, binding.root)
 
         binding.layoutManager = LinearLayoutManager(getContexts())
-//        binding.dividerItemDecoration = DividerItemDecoration(getContexts(), LinearLayoutManager.VERTICAL)
 
         presenter.onViewCreated()
         val view = binding.root

@@ -53,25 +53,15 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         fun getInstance() = when (instance) { null -> MapViewFragment()
             else -> instance
         }
+
     }
 
     /* event handling */
     private lateinit var onParkingEvent: MapEvents.OnParkingMakerEvents
     private lateinit var onMapSelected: MapEvents.OnParkingMapSelection
     private lateinit var onNavbarClick: MapEvents.OnNavBarEvent
-
-    /* Resource*/
-//    @SuppressLint("ResourceType")
-//    @BindView(R.integer.map_zoom_level)
-        var MAP_ZOOM_LEVEL = 14f
-
-//    @SuppressLint("ResourceType")
-//    @BindView(R.string.map_last_lat_location)
-//    lateinit var LAST_LAT_LOCATION: String
-//
-//    @SuppressLint("ResourceType")
-//    @BindView(R.string.map_last_lng_location)
-//    lateinit var LAST_LNG_LOCATION: String
+    private var markerPoints : MutableList<String> = mutableListOf()
+    var MAP_ZOOM_LEVEL = 14f
 
 
     lateinit var mMap: GoogleMap
@@ -92,7 +82,7 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
     }
 
     // set up auto complete searching
-    private lateinit var autoCompleteFindPlace : PlaceAutocompleteFragment
+    private lateinit var autoCompleteFindPlace: PlaceAutocompleteFragment
 
     private fun setUpAutoComplete() {
         val typeFilter = AutocompleteFilter.Builder()
@@ -245,13 +235,17 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         } else {
             Log.i(TAG, "there is too high to load station")
             mMap.clear()
+            markerPoints.clear()
         }
     }
 
     override fun loadNearbyStation(stationLocations: Array<StationLocation>) {
         stationLocations.forEach {
             val mOption = MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.stationID.toString()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker))
-            mMap.addMarker(mOption)
+            if(!markerPoints.contains(mOption.title)) {
+                mMap.addMarker(mOption)
+                markerPoints.add(mOption.title)
+            }
         }
     }
 

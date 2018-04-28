@@ -94,6 +94,6 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
         subscription?.dispose()
     }
 
-    private fun isLoggedIn(): Boolean = pref.getData(MySharedPreference.SharedPrefKey.USER, LoginModel::class.java) != null
-    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(MySharedPreference.SharedPrefKey.USER, LoginModel::class.java) != null
+    private fun isLoggedIn(): Boolean = pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) != null
+    private fun userAlreadyExistOnLocal(): Boolean = pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) != null
 }

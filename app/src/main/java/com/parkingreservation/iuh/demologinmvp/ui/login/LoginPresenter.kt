@@ -60,20 +60,21 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
                 .subscribe(
                         { data ->
                             if (data != null) {
-                                saveUserTokenPref(data)
+                                this.saveUserTokenPref(data)
                                 view.onLoginSuccessfully()
                                 view.showSuccess("Login Successfully")
                                 thread {
                                     saveUserProfile(name)
                                 }
                             }
-                        }, {
-                    Log.e(TAG, "Cannot login ${it.message}")
-                    if (it is HttpException)
-                        if (it.code() == 400)
-                            view.showError("User Name or Password is Wrong")
-                    view.showError("oOps!!!, Something error while logging In, please check your network ")
-                })
+                        },
+                        {
+                            Log.e(TAG, "Cannot login ${it.message}")
+                            if (it is HttpException)
+                                if (it.code() == 400)
+                                    view.showError("User Name or Password is Wrong")
+                            view.showError("oOps!!!, Something error while logging In, please check your network ")
+                        })
     }
 
     private fun saveUserTokenPref(data: UserAccessToken) {

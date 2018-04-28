@@ -85,4 +85,5 @@
     <string name="vehicle_bicycle">bicycle</string>
     <string name="vehicle_motor_bike">Motorbike</string>
     <string name="vehicle_car">car</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

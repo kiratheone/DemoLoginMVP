@@ -20,5 +20,5 @@ interface VehicleService {
      * @userID who created vehicle
      */
     @POST("api/vehicles/")
-    fun addVehicle(@Body vehicle: Vehicle): Observable<VehicleModel>
+    fun addVehicle(@Body vehicle: VehicleModel, @Header("Authorization") token: String): Observable<VehicleModel>
 }

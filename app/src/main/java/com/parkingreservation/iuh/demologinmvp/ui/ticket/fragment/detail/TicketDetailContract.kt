@@ -9,7 +9,7 @@ class TicketDetailContract {
     }
 
     interface View: BaseView {
-        fun loadTicketDetail(ticket: Tickets)
+        fun loadTicketDetail(tickets: Array<Tickets>)
         fun setQrCodeView(bitmap: Bitmap)
     }
 }
