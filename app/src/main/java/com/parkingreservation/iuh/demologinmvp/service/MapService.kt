@@ -1,13 +1,11 @@
 package com.parkingreservation.iuh.demologinmvp.service
 
+import com.parkingreservation.iuh.demologinmvp.model.Comment
 import com.parkingreservation.iuh.demologinmvp.util.MapUtil
 import com.parkingreservation.iuh.demologinmvp.model.Station
 import com.parkingreservation.iuh.demologinmvp.model.StationLocation
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface MapService {
 
@@ -24,9 +22,28 @@ interface MapService {
 
     /**
      * get specific Station
-     * @userID Station userID
+     * @id Station id
      * @return a specific Station
      */
     @GET("api/stations/{id}")
-    fun getStationDetail(@Path("id")id: String, @Header("Authorization") token: String): Observable<Station>
+    fun getStationDetail(@Path("id") id: String, @Header("Authorization") token: String): Observable<Station>
+
+    /**
+     * get station image
+     * @id Station Id
+     * @return list images
+     */
+    @GET("api/stations/{id}/images")
+    fun getStationImage(@Path("id") id: String, @Header("Authorization") token: String): Observable<List<String>>
+
+    /**
+     * get station comment
+     * @id station id
+     * @page number of page, each page have
+     * @return list of comment by user
+     */
+    @GET("api/comments/station/{id}")
+    fun getStationComment(@Path("id") id: String
+                          , @Query("page") page: Int
+                          , @Header("Authorization") token: String): Observable<List<Comment>>
 }

@@ -23,7 +23,7 @@ class LogoutActivity : BaseActivity<LogoutPresenter>(), LogoutContract.View {
         setContentView(R.layout.activity_logout)
     }
 
-    public fun signOut(v: View) {
+    public fun signOut(view: View) {
         presenter.signOut()
     }
 

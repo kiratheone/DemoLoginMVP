@@ -56,16 +56,11 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
         loginService.signIn(authHeader, name, pass)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnTerminate { view.hideLoading() }
                 .subscribe(
                         { data ->
                             if (data != null) {
                                 this.saveUserTokenPref(data)
-                                view.onLoginSuccessfully()
-                                view.showSuccess("Login Successfully")
-                                thread {
-                                    saveUserProfile(name)
-                                }
+                                saveUserProfile(name)
                             }
                         },
                         {
@@ -99,10 +94,13 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
         profileService.getDriver(id, token)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .doOnTerminate { view.hideLoading() }
                 .subscribe(
                         { data ->
                             Log.i(TAG, "load user successful with user name: ${data.driverName}")
                             saveUserPref(data)
+                            view.onLoginSuccessfully()
+                            view.showSuccess("Login Successfully")
                         },
                         {
                             it.printStackTrace()

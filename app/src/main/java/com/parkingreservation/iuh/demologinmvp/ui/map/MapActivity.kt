@@ -12,16 +12,16 @@ import android.support.design.widget.NavigationView
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.AppCompatSpinner
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -44,14 +44,13 @@ import com.mahc.custombottomsheetbehavior.MergedAppBarLayoutBehavior
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseActivity
 import com.parkingreservation.iuh.demologinmvp.databinding.ActivityMapBinding
+import com.parkingreservation.iuh.demologinmvp.model.*
 import com.parkingreservation.iuh.demologinmvp.ui.account.AccountActivity
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewFragment
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.servicepack.ServicePackFragment
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketActivity
 import com.parkingreservation.iuh.demologinmvp.util.NavbarSelectionType
 import com.parkingreservation.iuh.demologinmvp.util.StringLengthHandler
-import com.parkingreservation.iuh.demologinmvp.model.Station
-import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginActivity
 import com.parkingreservation.iuh.demologinmvp.ui.login.logout.LogoutActivity
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehicleActivity
@@ -59,7 +58,7 @@ import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehicleActivity
 class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     companion object {
-        var TAG = MapActivity::class.java.simpleName
+        val TAG = MapActivity::class.java.simpleName
         var navItemIndex = 0
         var CURRENT_TAG = NavbarSelectionType.HOME.tag
         const val WIDTH_WAYS = 8
@@ -88,8 +87,8 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_map)
         ButterKnife.bind(this)
 
-        binding.adapter = ParkingLotCoverPagerAdapter(getContexts(), images.toIntArray())
-
+        binding.layoutManager = LinearLayoutManager(getContexts())
+        binding.layoutManagerComment = LinearLayoutManager(getContexts())
         bindingNavView()
         setUpRelativeView()
         createServicePack()
@@ -174,6 +173,13 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         tvWebsite.text = user.email
         navigation.menu.getItem(NavbarSelectionType.NOTIFICATION.index).setActionView(R.layout.menu_dot)
         Glide.with(this).load(R.mipmap.ic_launcher).thumbnail(0.5f).apply(RequestOptions.circleCropTransform()).into(ivProfile)
+    }
+
+    override fun onStationImageLoaded(images: List<String>) {
+        binding.coverPageAdapter = ParkingLotCoverPagerAdapter(getContexts(), images)
+    }
+    override fun onStationCommentLoaded(comments: List<Comment>) {
+        binding.stationCommentAdapter = StationCommentAdapter(getContexts(), comments)
     }
 
 
@@ -263,6 +269,11 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         }
     }
 
+    override fun onLoadTicketTypesSuccess(s: MutableList<StationServiceModel>) {
+        binding.adapterService = StationServiceAdapter(this, s)
+    }
+
+
     override fun getContexts(): Context {
         return this
     }
@@ -309,9 +320,11 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         setUpMergeAppBar()
     }
 
+    private lateinit var bottomSheet: NestedScrollView
+
     private fun setupParkingDetailBottomSheet() {
         val coordLayout = findViewById<CoordinatorLayout>(R.id.coordinator_layout)
-        val bottomSheet = coordLayout.findViewById<View>(R.id.bottom_sheet)
+        bottomSheet = coordLayout.findViewById(R.id.bottom_sheet)
         sheetBehavior = BottomSheetBehaviorGoogleMapsLike.from(bottomSheet)
         sheetBehavior.isHideable = true
     }
@@ -319,7 +332,10 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
     private fun setUpMergeAppBar() {
         val mergedAppbar = findViewById<MergedAppBarLayout>(R.id.merged_appbar_layout)
         mergedBehavior = MergedAppBarLayoutBehavior.from(mergedAppbar)
-        mergedBehavior.setNavigationOnClickListener { sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED }
+        mergedBehavior.setNavigationOnClickListener {
+            bottomSheet.scrollTo(0, 0)
+            sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
+        }
     }
 
     @OnClick(R.id.float_button)
@@ -350,9 +366,8 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         builder.create().show()
     }
 
-    @SuppressLint("InflateParams")
     private fun createVehiclesDialog(builder: AlertDialog.Builder) {
-
+        //spinner create for choose vehicle user
         val view = layoutInflater.inflate(R.layout.dialog_vehicles, null)
         builder.setTitle("Choose Your Vehicle")
 
@@ -360,19 +375,28 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         val adapterSp = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getUserVehicle())
         adapterSp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        val spTypes = view.findViewById<AppCompatSpinner>(R.id.sp_ticket_types)
-        val adapterSpTypes = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getTicketTypes())
-        adapterSpTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        // spinner for choose service
+        val spTypes = view.findViewById<RecyclerView>(R.id.rv_ticket_type)
+        val ticketType = presenter.getTicketTypes()
+        val adapterSpTypes = TicketTypeAdapter(this, ticketType)
 
         builder.setPositiveButton(R.string.booking) { dialog, _ ->
-            presenter.bookParkingLot(currentMarker!!.title, sp.selectedItemPosition, spTypes.selectedItemPosition)
+
+            val ticketTypes = mutableListOf<TicketTypeModels>()
+            for ((key, value) in adapterSpTypes.checkItem) {
+                if (ticketType[key]!!.isNotEmpty()) {
+                    Log.d(TAG, "$key: ${ticketType[key]!![value]}")
+                    ticketTypes.add(ticketType[key]!![value])
+                }
+            }
+            presenter.bookParkingLot(currentMarker!!.title, sp.selectedItemPosition, ticketTypes)
             dialog.dismiss()
         }
         builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
 
         sp.adapter = adapterSp
         spTypes.adapter = adapterSpTypes
-
+        spTypes.layoutManager = LinearLayoutManager(getContexts())
         builder.setView(view)
     }
 

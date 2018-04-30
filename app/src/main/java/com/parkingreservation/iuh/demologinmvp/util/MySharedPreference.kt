@@ -1,5 +1,6 @@
 package com.parkingreservation.iuh.demologinmvp.util
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.util.Log
 import com.parkingreservation.iuh.demologinmvp.model.User
@@ -16,8 +17,9 @@ class MySharedPreference @Inject constructor(private val mSharedPreferences: Sha
         var TAG = MySharedPreference::class.java.simpleName!!
     }
 
+    @SuppressLint("ApplySharedPref")
     fun <T> putData(key: String, value: T, type: Class<T>) {
-        mSharedPreferences.edit().putString(key, DataJsonConverter(type).toJson(value)).apply()
+       mSharedPreferences.edit().putString(key, DataJsonConverter(type).toJson(value)).commit()
         Log.i(TAG, "put data to pref successfully")
     }
 
@@ -26,12 +28,13 @@ class MySharedPreference @Inject constructor(private val mSharedPreferences: Sha
         return DataJsonConverter(type).toObject(mSharedPreferences.getString(key, ""))
     }
 
+    @SuppressLint("ApplySharedPref")
     fun removeUser() {
         Log.i(TAG, "remove authorization method")
-        mSharedPreferences.edit().remove(USER).apply()
-        mSharedPreferences.edit().remove(TOKEN).apply()
-        mSharedPreferences.edit().remove(VEHICLES).apply()
-        mSharedPreferences.edit().remove(USER_PROFILE).apply()
+        mSharedPreferences.edit().remove(USER).commit()
+        mSharedPreferences.edit().remove(TOKEN).commit()
+        mSharedPreferences.edit().remove(VEHICLES).commit()
+        mSharedPreferences.edit().remove(USER_PROFILE).commit()
     }
 
     class SharedPrefKey {

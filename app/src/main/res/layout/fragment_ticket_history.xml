@@ -17,7 +17,7 @@
             name="divider"
             type="android.support.v7.widget.DividerItemDecoration"/>
     </data>
-    <LinearLayout
+    <RelativeLayout
         android:paddingBottom="60dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -29,10 +29,7 @@
             android:layout_height="wrap_content"
             style="?android:attr/progressBarStyle"
             android:visibility="@{safeUnbox(progressVisibility)}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_centerInParent="true"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ticket_recycle_view"
@@ -42,6 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="@{layoutManager}"/>
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>

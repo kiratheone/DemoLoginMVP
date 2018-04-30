@@ -31,6 +31,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         ButterKnife.bind(this)
+
+        binding.progressVisibility = View.GONE
         configToolbar()
         presenter.onViewCreated()
     }
@@ -46,7 +48,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         presenter.signIn(userName, password)
     }
 
-    @OnClick(R.id.signup)
+    @OnClick(R.id.tv_sign_up)
     fun signUp() {
         finish()
         startActivity(Intent(this, RegisterActivity::class.java))

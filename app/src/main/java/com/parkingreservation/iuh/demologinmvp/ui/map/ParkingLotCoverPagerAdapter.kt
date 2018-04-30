@@ -10,14 +10,10 @@ import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import com.parkingreservation.iuh.demologinmvp.R
 
-class ParkingLotCoverPagerAdapter(private val context: Context, private var images: IntArray) : PagerAdapter() {
+class ParkingLotCoverPagerAdapter(private val context: Context, private val images: List<String>) : PagerAdapter() {
 
     override fun isViewFromObject(view: View, objects: Any): Boolean {
-        return view == `objects` as RelativeLayout
-    }
-
-    fun setImages(images: IntArray){
-        this.images = images
+        return view == objects as RelativeLayout
     }
 
     override fun getCount(): Int {

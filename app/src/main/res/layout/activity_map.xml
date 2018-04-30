@@ -20,8 +20,24 @@
             type="Integer"/>
         
         <variable
-            name="adapter"
+            name="coverPageAdapter"
             type="com.parkingreservation.iuh.demologinmvp.ui.map.ParkingLotCoverPagerAdapter"/>
+
+        <variable
+            name="stationCommentAdapter"
+            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationCommentAdapter"/>
+
+        <variable
+            name="adapterService"
+            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationServiceAdapter"/>
+
+        <variable
+            name="layoutManager"
+            type="android.support.v7.widget.LinearLayoutManager" />
+
+        <variable
+            name="layoutManagerComment"
+            type="android.support.v7.widget.LinearLayoutManager" />
     </data>
 
     <LinearLayout
@@ -108,14 +124,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/anchor_point"
                     android:fitsSystemWindows="true"
-                    android:adapter="@{adapter}"
+                    android:adapter="@{coverPageAdapter}"
                     app:layout_behavior="@string/BackDropBottomSheetBehavior"/>
 
                 <!--Bottom bar content-->
                 <include
                     layout="@layout/parking_lot_bottom_sheet_bar_layout"
                     bind:stationName="@{stationName}"
-                    bind:star="@{safeUnbox(star)}"/>
+                    bind:star="@{safeUnbox(star)}"
+                    bind:layoutManager ="@{layoutManager}"
+                    bind:layoutManagerComment ="@{layoutManagerComment}"
+                    bind:adapterService= "@{adapterService}"
+                    bind:stationCommentAdapter= "@{stationCommentAdapter}"/>
 
                 <!--Merged App BarLayout-->
                 <include layout="@layout/parking_lot_merge_app_bar_layout" />

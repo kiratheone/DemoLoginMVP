@@ -10,7 +10,8 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.databinding.VehicleListAdapterBinding
 import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 
-class VehicleListAdapter(val context: Context, private val vehicles: List<VehicleModel> ): RecyclerView.Adapter<VehicleListAdapter.RecyclerHolder>() {
+class VehicleListAdapter(val context: Context, private val vehicles: List<VehicleModel> )
+    : RecyclerView.Adapter<VehicleListAdapter.RecyclerHolder>() {
 
     lateinit var  binding: VehicleListAdapterBinding
 

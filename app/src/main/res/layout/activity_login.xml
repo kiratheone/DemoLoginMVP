@@ -23,10 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{safeUnbox(progressVisibility)}"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_centerInParent="true"/>
 
         <include layout="@layout/toolbar_layout" />
 
@@ -94,12 +91,11 @@
                     android:text="@string/login" />
 
                 <TextView
-                    android:id="@+id/signup"
+                    android:id="@+id/tv_sign_up"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
                     android:gravity="center"
-
                     android:text="@string/no_account_yet_create_one"
                     android:textSize="16sp" />
 

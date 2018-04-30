@@ -11,6 +11,7 @@ import com.parkingreservation.iuh.demologinmvp.service.VehicleService
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
 import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -39,12 +40,15 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
     var subscription: Disposable? = null
 
     private var vehicle = emptyList<VehicleModel>()
+
     private lateinit var currentStation: Station
 
+    private var ticketTypes: LinkedHashMap<String, List<TicketTypeModels>> = linkedMapOf()
+
     override fun onViewCreated() {
-//        fakeUser()
         loadUserNav()
-        loadUserVehicle()
+        loadImages()
+        loadComments()
     }
 
     private fun loadUserVehicle() {
@@ -59,12 +63,51 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
                                 this.vehicle = it
                             },
                             {
-                                if (it is HttpException) {
+                                if (it is HttpException)
                                     when (it.response().code()) {
                                         401 -> pref.removeUser()
                                     }
-                                }
                             })
+        } else {
+            Log.w(TAG, "User is not login yet")
+        }
+    }
+
+    private fun loadImages() {
+        if (loggedIn()) {
+            val token = TokenHandling.getTokenHeader(pref)
+            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID!!
+            subscription = mapService.getStationImage(id, token)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                            {
+                                Log.d(TAG, "Image Load successful")
+                                view.onStationImageLoaded(it)
+                            },
+                            {
+                                Log.e(TAG, " some thing error while loading image: ${it.message}")
+                            }
+                    )
+        }
+    }
+
+    private fun loadComments() {
+        if (loggedIn()) {
+            val token = TokenHandling.getTokenHeader(pref)
+            val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID!!
+            subscription = mapService.getStationComment(id, 1, token)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                            {
+                                Log.d(TAG, "Comment load successful")
+                                view.onStationCommentLoaded(it)
+                            },
+                            {
+                                Log.e(TAG, " some thing error while loading comment: ${it.message}")
+                            }
+                    )
         }
     }
 
@@ -76,10 +119,8 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
         return numbers.toTypedArray()
     }
 
-    fun getTicketTypes(): Array<String> {
-        val numbers: MutableList<String> = mutableListOf()
-        this.currentStation.services!!.forEach({ numbers.add(it.serviceName) })
-        return numbers.toTypedArray()
+    fun getTicketTypes(): LinkedHashMap<String, List<TicketTypeModels>> {
+        return this.ticketTypes
     }
 
     override fun onViewDestroyed() {
@@ -87,8 +128,47 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
     }
 
     private fun loadUserNav() {
-        if (loggedIn())
+        if (loggedIn()) {
             view.loadUserHeader(pref.getData(USER, User::class.java)!!)
+            loadUserVehicle()
+        } else {
+            Log.d(TAG, "user are not login yet")
+        }
+    }
+
+    override fun loadTicketTypes(marker: Marker) {
+        val token = TokenHandling.getTokenHeader(pref)
+        val observables = mutableListOf<Observable<StationServiceModel>>()
+
+        this.currentStation.services!!.forEach({ service ->
+            observables.add(reservation.findServiceType(service.serviceID, this.currentStation.id, null, token)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .map {
+                        var minPrice = Int.MAX_VALUE
+                        var maxPrice = Int.MIN_VALUE
+                        var holding = ""
+                        it.forEach {
+                            minPrice = if (minPrice > it.price) it.price else minPrice
+                            maxPrice = if (maxPrice < it.price) it.price else maxPrice
+                            holding = it.holdingTime
+                        }
+                        ticketTypes[service.serviceName] = it
+                        StationServiceModel(StationServiceUtil.getCarImg()[service.serviceName]
+                                , service.serviceName
+                                , "$minPrice  - $maxPrice vnd"
+                                , holding)
+                    })
+        })
+
+        Observable.zip(observables, {
+            Log.d(TAG, it.toString())
+            val list = mutableListOf<StationServiceModel>()
+            it.toMutableList().forEach({
+                list.add(it as StationServiceModel)
+            })
+            view.onLoadTicketTypesSuccess(list)
+        }).subscribe()
     }
 
 
@@ -110,6 +190,8 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
                 .subscribe({
                     currentStation = it
                     view.addStationContent(it)
+                    // load tickettype
+                    loadTicketTypes(marker)
                     Log.i(TAG, "get station successfully")
                 }, {
                     Log.w(TAG, "error while loading station from server + ${it.message}")
@@ -120,20 +202,14 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
 
     fun loggedIn(): Boolean = pref.getData(USER, User::class.java) != null
 
-    override fun bookParkingLot(station: String, vehiclePosition: Int, type: Int) {
+    override fun bookParkingLot(station: String, vehiclePosition: Int, type: List<TicketTypeModels>) {
+
         view.showLoading()
         val vehicleID = this.vehicle[vehiclePosition]
-        val service = currentStation.services!![type]
-        var hasService = false
-        currentStation.stationVehicleTypes!!.forEach {
-            if (it.vehicleTypeId == vehicleID.vehicleTypeModel.typeID) {
-                hasService = true
-                this.findServiceType(service, vehicleID, it)
-                return@forEach
-            }
-        }
-        if (!hasService)
-            view.showError("There is no service support this vehicle")
+        val res = getReservationInfo(type, vehicleID)
+        val token = TokenHandling.getTokenHeader(pref)
+        reserveParkingLot(res, token)
+
     }
 
     private fun findServiceType(service: Service, vehicleID: VehicleModel, stationVehicleType: StationVehicleTypes) {

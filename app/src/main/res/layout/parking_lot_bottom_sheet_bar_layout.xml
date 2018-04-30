@@ -2,14 +2,32 @@
 <layout>
 
     <data>
+
         <variable
             name="stationName"
-            type="String"/>
-        
+            type="String" />
+
         <variable
             name="star"
-            type="Integer"/>
+            type="Integer" />
+
+        <variable
+            name="adapterService"
+            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationServiceAdapter"/>
+
+        <variable
+            name="layoutManager"
+            type="android.support.v7.widget.LinearLayoutManager" />
+
+        <variable
+            name="layoutManagerComment"
+            type="android.support.v7.widget.LinearLayoutManager" />
+
+        <variable
+            name="stationCommentAdapter"
+            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationCommentAdapter"/>
     </data>
+
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/bottom_sheet"
@@ -259,67 +277,12 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_bottom">
 
-                <ImageView
-                    android:id="@+id/establecimiento_icon_sucursales"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    app:srcCompat="@android:drawable/ic_secure" />
-
-
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_ticket_service"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/establecimiento_icon_sucursales"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp">
-
-                        <Button
-                            android:id="@+id/establecimiento_sucursal_row_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Text dummy 1"
-                            android:textAllCaps="false"
-                            android:textColor="@android:color/black" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp">
-
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Text dummy 2"
-                            android:textAllCaps="false"
-                            android:textColor="@android:color/black" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp">
-
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Text dummy 3"
-                            android:textAllCaps="false"
-                            android:textColor="@android:color/black" />
-                    </FrameLayout>
-
-                </LinearLayout>
+                    app:layoutManager="@{layoutManager}"
+                    app:adapter="@{adapterService}"/>
 
             </RelativeLayout>
 
@@ -333,19 +296,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="APACHE LICENSE"
+                    android:text="Comment"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="18sp" />
             </FrameLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-
-                android:text="@string/dummy_text"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                app:layoutManager="@{layoutManagerComment}"
+                android:adapter="@{stationCommentAdapter}"/>
 
             <FrameLayout
                 android:layout_width="match_parent"

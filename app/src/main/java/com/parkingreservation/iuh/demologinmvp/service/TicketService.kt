@@ -44,6 +44,6 @@ interface TicketService {
     @GET("api/tickettypes/find")
     fun findServiceType(@Query("serviceID") serviceID: Int
                         , @Query("stationID") stationID: Int
-                        , @Query("vehicleTypeID") vehicleTypeID: Int
+                        , @Query("vehicleTypeID") vehicleTypeID: Int?
                         , @Header("Authorization") token: String): Observable<List<TicketTypeModels>>
 }
