@@ -1,27 +1,46 @@
 package com.parkingreservation.iuh.demologinmvp.ui.map.fragment.servicepack
 
+import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.GridView
 import com.parkingreservation.iuh.demologinmvp.model.ServicePack
 import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.BottomSheetDialog
+import android.util.Log
+import android.widget.AdapterView
 import com.parkingreservation.iuh.demologinmvp.R
+import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import java.lang.reflect.Field
 
 
 class ServicePackFragment : BottomSheetDialogFragment() {
 
-    var behavior : BottomSheetBehavior<*>? = null
+    var behavior: BottomSheetBehavior<*>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_service_pack, container, false)
+    companion object {
+        var TAG = ServicePackFragment::class.java.simpleName!!
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val pref = MySharedPreference(this.context!!.getSharedPreferences(MySharedPreference.SharedPrefKey.DATA_STORE,
+                Context.MODE_PRIVATE))
+
+        val rootView = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        rootView.setContentView(R.layout.fragment_service_pack)
         val gv = rootView.findViewById<GridView>(R.id.gv_pack)
         val list = convertEnumToList()
-        gv.adapter = ServicePackAdapter(context!!, list)
 
+
+        gv!!.adapter = ServicePackAdapter(context!!, list)
+        gv.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            Log.d(TAG, "position = $position")
+            pref.putData(MySharedPreference.SharedPrefKey.SERVICE_TYPE, position + 1, Int::class.java)
+            this.dismiss()
+        }
         try {
             val mBehaviorField = rootView.javaClass.getDeclaredField("mBehavior") as Field
             mBehaviorField.isAccessible = true
@@ -32,6 +51,7 @@ class ServicePackFragment : BottomSheetDialogFragment() {
                         behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
                     }
                 }
+
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {}
             })
         } catch (e: NoSuchFieldException) {

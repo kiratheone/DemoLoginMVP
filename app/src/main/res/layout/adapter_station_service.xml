@@ -53,7 +53,7 @@
                 android:layout_marginEnd="15dp"
                 android:ellipsize="end"
                 android:paddingBottom="10dp"
-                android:text="@{service.holding}"
+                android:text="@{service.status}"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>

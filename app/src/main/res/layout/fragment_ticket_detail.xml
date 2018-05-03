@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{safeUnbox(progressVisibility)}"
+            android:elevation="2dp"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,13 +83,10 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_qr_code" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+            <pl.droidsonroids.gif.GifTextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@{ticket.id}"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorSecondaryText" />
+                android:background="@drawable/gif_ticket" />
 
         </LinearLayout>
 
@@ -113,14 +111,28 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(ticket.totalPrice)}"
+                android:text="@{@string/ticket_price(String.valueOf(ticket.totalPrice))}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorSecondaryText" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{ticket.vehicleModel.licensePlate}"
+                android:text="@{@string/ticket_license(ticket.vehicleModel.licensePlate)}"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorSecondaryText" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/ticket_status(ticket.status)}"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorSecondaryText" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/ticket_holding_time(ticket.ticketTypeModels[0].holdingTime)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorSecondaryText" />
 

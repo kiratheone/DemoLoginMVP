@@ -160,53 +160,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!--Address-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/ic_location"
-                android:tint="@color/colorPrimary"
-                android:contentDescription="@string/profile_address" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="Roboto Regular"
-                    android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
-                    android:text="@string/profile_address"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    tools:ignore="RtlSymmetry" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="Roboto Regular"
-                    android:paddingStart="16dp"
-                    android:text="@{profile.address}"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="16sp"
-                    tools:ignore="RtlSymmetry" />
-            </LinearLayout>
-        </LinearLayout>
-
         <!--Vehicle-->
         <LinearLayout
             android:layout_width="match_parent"

@@ -60,11 +60,11 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
     private lateinit var onParkingEvent: MapEvents.OnParkingMakerEvents
     private lateinit var onMapSelected: MapEvents.OnParkingMapSelection
     private lateinit var onNavbarClick: MapEvents.OnNavBarEvent
-    private var markerPoints : MutableList<String> = mutableListOf()
+    private var markerPoints: MutableList<String> = mutableListOf()
     var MAP_ZOOM_LEVEL = 14f
 
 
-    lateinit var mMap: GoogleMap
+    var mMap: GoogleMap? = null
     private lateinit var mapView: MapView
 
     private val default_location = LatLngBounds(LatLng(-33.880490, 151.184363), LatLng(-33.858754, 151.229596))
@@ -73,7 +73,6 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         val rootView = inflater.inflate(R.layout.fragment_map_view, container, false) as View
         mapView = rootView.findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
-        mapView.onResume()
 
         setUpAutoComplete()
         setUpClientLocation()
@@ -86,9 +85,6 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
 
     private fun setUpAutoComplete() {
         val typeFilter = AutocompleteFilter.Builder()
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_REGIONS)
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
                 .setCountry("VN")
                 .build()
 
@@ -118,7 +114,7 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
                     moveToLocation(LatLng(location.latitude, location.longitude))
                 }
                 else -> // move to HCM city
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(10.7546664, 106.4150419),
+                    mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(10.7546664, 106.4150419),
                             MAP_ZOOM_LEVEL * 1.0f))
             }
         }
@@ -143,11 +139,11 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
             mMap = map
             setPositionFindMyLocation()
             if (checkPermissions()) {
-                mMap.setOnCameraIdleListener(this)
-                mMap.uiSettings.isMyLocationButtonEnabled = false
-                mMap.setOnMapClickListener { onMapSelected.onMapSelected() }
+                mMap!!.setOnCameraIdleListener(this)
+                mMap!!.uiSettings.isMyLocationButtonEnabled = false
+                mMap!!.setOnMapClickListener { onMapSelected.onMapSelected() }
 
-                mMap.setOnMarkerClickListener { marker ->
+                mMap!!.setOnMarkerClickListener { marker ->
                     onParkingEvent.onMarkerClickListener(marker)
                     true
                 }
@@ -184,7 +180,7 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
     private fun checkPermissions(): Boolean {
         return if (ContextCompat.checkSelfPermission(getContexts(),
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.isMyLocationEnabled = true
+            mMap!!.isMyLocationEnabled = true
             true
         } else {
             requestPermissions()
@@ -218,7 +214,7 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
     }
 
     private fun moveToLocation(latLng: LatLng) {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOM_LEVEL * 1.0f))
+        mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOM_LEVEL * 1.0f))
     }
 
 
@@ -226,15 +222,19 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
     }
 
     override fun onCameraIdle() {
-        val pos = mMap.cameraPosition.target
-        val zoomLevel = mMap.cameraPosition.zoom
+        findStation()
+    }
+
+    private fun findStation() {
+        val pos = mMap!!.cameraPosition.target
+        val zoomLevel = mMap!!.cameraPosition.zoom
         Log.d(TAG, "Center location is lat = " + pos.latitude + ", long = {}" + pos.longitude + " zoom level = " + zoomLevel)
         if (zoomLevel >= 13) {
             Log.i(TAG, "map is high enough for loading station")
             presenter.getNearbyStation(com.parkingreservation.iuh.demologinmvp.model.temp.Location(pos.latitude, pos.longitude))
         } else {
             Log.i(TAG, "there is too high to load station")
-            mMap.clear()
+            mMap!!.clear()
             markerPoints.clear()
         }
     }
@@ -242,8 +242,8 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
     override fun loadNearbyStation(stationLocations: Array<StationLocation>) {
         stationLocations.forEach {
             val mOption = MarkerOptions().position(LatLng(it.lat, it.lng)).title(it.stationID.toString()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker))
-            if(!markerPoints.contains(mOption.title)) {
-                mMap.addMarker(mOption)
+            if (!markerPoints.contains(mOption.title)) {
+                mMap!!.addMarker(mOption)
                 markerPoints.add(mOption.title)
             }
         }
@@ -272,6 +272,8 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         super.onResume()
         mapView.onResume()
     }
+
+
 
     override fun onLowMemory() {
         super.onLowMemory()

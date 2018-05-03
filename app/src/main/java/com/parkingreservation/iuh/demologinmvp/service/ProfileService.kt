@@ -19,7 +19,7 @@ interface ProfileService {
      * @return a User
      */
     @GET("api/drivers/find")
-    fun getDriver(@Query("userName")name: String, @Header("Authorization") token: String): Observable<User>
+    fun getDriver(@Query("userName") name: String, @Header("Authorization") token: String): Observable<User>
 
     /**
      * update driver detail
@@ -28,7 +28,7 @@ interface ProfileService {
      * @return a User
      */
     @PUT("api/drivers/{id}")
-    fun updateDriver(@Path("id")id: String,@Body user: User): Observable<User>
+    fun updateDriver(@Path("id") id: String, @Body user: User, @Header("Authorization") token: String): Observable<User>
 
     /**
      *  create new driver

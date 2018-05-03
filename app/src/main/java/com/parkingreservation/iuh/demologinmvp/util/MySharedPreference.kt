@@ -44,6 +44,7 @@ class MySharedPreference @Inject constructor(private val mSharedPreferences: Sha
             const val VEHICLES = "vehicles"
             const val DATA_STORE = "data store"
             const val USER_PROFILE = "user_profile"
+            const val SERVICE_TYPE = "service_type"
         }
     }
 }

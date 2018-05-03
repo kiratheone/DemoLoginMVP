@@ -33,7 +33,9 @@ class MapViewPresenter(mapView: MapViewContract.View) : BasePresenter<MapViewCon
     }
 
     override fun getNearbyStation(location: Location) {
-        mapService.getNearbyStation(location.lat.toString(), location.lng.toString())
+        var serviceID = pref.getData(MySharedPreference.SharedPrefKey.SERVICE_TYPE, Int::class.java)
+        serviceID = if(serviceID == null) 1 else serviceID
+        mapService.findNearbyStation(location.lat.toString(), location.lng.toString(), serviceID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe ({

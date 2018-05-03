@@ -4,6 +4,7 @@ import android.util.Log
 import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.exception.AuthorizationException
 import com.parkingreservation.iuh.demologinmvp.model.User
+import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 import com.parkingreservation.iuh.demologinmvp.service.VehicleService
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfilePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.login.LoginPresenter
@@ -37,6 +38,28 @@ class VehicleListPresenter(view: VehicleListContract.View) : BasePresenter<Vehic
 
     override fun onViewDestroyed() {
         subscription?.dispose()
+    }
+
+    override fun removeVehicle(vehicle: VehicleModel) {
+        Log.i(TAG, "removing user vehicle")
+        if (isLoggedIn()) {
+            vehicleService.removeVehicle(vehicle.id, TokenHandling.getTokenHeader(pref))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .doOnTerminate { view.hideLoading() }
+                    .subscribe(
+                            {
+
+                            },
+                            {
+                                it.printStackTrace()
+                                Log.e(TAG, "something error ${it.message}")
+                            }
+                    )
+        } else {
+            view.showError("Hey!!, You are not logged in yet")
+            Log.w(TicketHistoryPresenter.TAG, "User are not logged in yet")
+        }
     }
 
     private fun loadUserVehicle() {

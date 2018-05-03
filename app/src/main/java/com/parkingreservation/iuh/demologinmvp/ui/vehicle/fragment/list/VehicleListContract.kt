@@ -5,10 +5,11 @@ import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 
 class VehicleListContract {
     interface Presenter {
-
+        fun removeVehicle(vehicle: VehicleModel)
     }
 
     interface View: BaseView {
         fun updateVehicle(vehicles: List<VehicleModel>)
+        fun requestRemoveVehicle(vehicle: VehicleModel)
     }
 }

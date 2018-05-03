@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,25 +10,22 @@
             name="user"
             type="com.parkingreservation.iuh.demologinmvp.model.LoginModel" />
 
-        <variable
-            name="stationName"
-            type="String"/>
 
         <variable
-            name="star"
-            type="Integer"/>
-        
+            name="station"
+            type="com.parkingreservation.iuh.demologinmvp.model.Station" />
+
         <variable
             name="coverPageAdapter"
-            type="com.parkingreservation.iuh.demologinmvp.ui.map.ParkingLotCoverPagerAdapter"/>
+            type="com.parkingreservation.iuh.demologinmvp.ui.map.ParkingLotCoverPagerAdapter" />
 
         <variable
             name="stationCommentAdapter"
-            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationCommentAdapter"/>
+            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationCommentAdapter" />
 
         <variable
             name="adapterService"
-            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationServiceAdapter"/>
+            type="com.parkingreservation.iuh.demologinmvp.ui.map.StationServiceAdapter" />
 
         <variable
             name="layoutManager"
@@ -61,8 +57,9 @@
                 <!--Bottom navigation bar-->
                 <!--<include layout="@layout/bottom_navigation" />-->
 
-                <include layout="@layout/toolbar_layout"
-                    android:visibility="invisible"/>
+                <include
+                    layout="@layout/toolbar_layout"
+                    android:visibility="invisible" />
 
                 <FrameLayout
                     android:id="@+id/replace_fragment"
@@ -123,19 +120,18 @@
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/anchor_point"
-                    android:fitsSystemWindows="true"
                     android:adapter="@{coverPageAdapter}"
-                    app:layout_behavior="@string/BackDropBottomSheetBehavior"/>
+                    android:fitsSystemWindows="true"
+                    app:layout_behavior="@string/BackDropBottomSheetBehavior" />
 
                 <!--Bottom bar content-->
                 <include
                     layout="@layout/parking_lot_bottom_sheet_bar_layout"
-                    bind:stationName="@{stationName}"
-                    bind:star="@{safeUnbox(star)}"
-                    bind:layoutManager ="@{layoutManager}"
-                    bind:layoutManagerComment ="@{layoutManagerComment}"
-                    bind:adapterService= "@{adapterService}"
-                    bind:stationCommentAdapter= "@{stationCommentAdapter}"/>
+                    bind:station="@{station}"
+                    bind:layoutManager="@{layoutManager}"
+                    bind:adapterService="@{adapterService}"
+                    bind:layoutManagerComment="@{layoutManagerComment}"
+                    bind:stationCommentAdapter="@{stationCommentAdapter}" />
 
                 <!--Merged App BarLayout-->
                 <include layout="@layout/parking_lot_merge_app_bar_layout" />

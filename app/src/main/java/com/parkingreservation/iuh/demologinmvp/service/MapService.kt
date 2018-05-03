@@ -16,8 +16,9 @@ interface MapService {
      * @return List of Station
      */
     @GET("api/maps/place?rad=${MapUtil.PROXIMITY_RADIUS}")
-    fun getNearbyStation(@Query("lat") lat: String,
-                         @Query("lng") lng: String): Observable<Array<StationLocation>>
+    fun findNearbyStation(@Query("lat") lat: String,
+                          @Query("lng") lng: String,
+                          @Query("serviceID") serviceID: Int): Observable<Array<StationLocation>>
 
 
     /**
@@ -26,7 +27,7 @@ interface MapService {
      * @return a specific Station
      */
     @GET("api/stations/{id}")
-    fun getStationDetail(@Path("id") id: String, @Header("Authorization") token: String): Observable<Station>
+    fun getStationDetail(@Path("id") id: Int, @Header("Authorization") token: String): Observable<Station>
 
     /**
      * get station image
@@ -34,7 +35,7 @@ interface MapService {
      * @return list images
      */
     @GET("api/stations/{id}/images")
-    fun getStationImage(@Path("id") id: String, @Header("Authorization") token: String): Observable<List<String>>
+    fun getStationImage(@Path("id") id: Int, @Header("Authorization") token: String): Observable<String>
 
     /**
      * get station comment
@@ -43,7 +44,7 @@ interface MapService {
      * @return list of comment by user
      */
     @GET("api/comments/station/{id}")
-    fun getStationComment(@Path("id") id: String
+    fun getStationComment(@Path("id") id: Int
                           , @Query("page") page: Int
                           , @Header("Authorization") token: String): Observable<List<Comment>>
 }

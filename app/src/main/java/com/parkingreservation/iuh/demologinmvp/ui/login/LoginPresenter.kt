@@ -69,6 +69,7 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
                                 if (it.code() == 400)
                                     view.showError("User Name or Password is Wrong")
                             view.showError("oOps!!!, Something error while logging In, please check your network ")
+                            pref.removeUser()
                         })
     }
 

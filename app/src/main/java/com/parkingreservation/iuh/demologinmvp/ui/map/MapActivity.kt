@@ -89,6 +89,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
         binding.layoutManager = LinearLayoutManager(getContexts())
         binding.layoutManagerComment = LinearLayoutManager(getContexts())
+
         bindingNavView()
         setUpRelativeView()
         createServicePack()
@@ -99,7 +100,6 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
             CURRENT_TAG = NavbarSelectionType.HOME.tag
             loadNavView()
         }
-        sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
         sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN
     }
 
@@ -167,17 +167,18 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     private fun changeCheckedItem(item: MenuItem) = !item.isChecked
 
-    override fun loadUserHeader(user: User) {
+    override fun loadUserHeader(user: User?) {
         Log.i(TAG, "set navigation header user profile")
-        tvName.text = user.driverName
-        tvWebsite.text = user.email
-        navigation.menu.getItem(NavbarSelectionType.NOTIFICATION.index).setActionView(R.layout.menu_dot)
+        tvName.text = user?.driverName ?: ""
+        tvWebsite.text = user?.email ?: ""
+//        navigation.menu.getItem(NavbarSelectionType.NOTIFICATION.index).setActionView(R.layout.menu_dot)
         Glide.with(this).load(R.mipmap.ic_launcher).thumbnail(0.5f).apply(RequestOptions.circleCropTransform()).into(ivProfile)
     }
 
     override fun onStationImageLoaded(images: List<String>) {
         binding.coverPageAdapter = ParkingLotCoverPagerAdapter(getContexts(), images)
     }
+
     override fun onStationCommentLoaded(comments: List<Comment>) {
         binding.stationCommentAdapter = StationCommentAdapter(getContexts(), comments)
     }
@@ -262,10 +263,12 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     override fun addStationContent(station: Station?) {
         if (station != null) {
-            binding.stationName = StringLengthHandler.getText(station.name)
-            binding.star = station.star
-            sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
+            var s = station
+            s.name = StringLengthHandler.getText(station.name)
+            binding.station = station
             mergedBehavior.setToolbarTitle(StringLengthHandler.getText(station.name))
+
+            sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
         }
     }
 
@@ -354,16 +357,19 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
             (currentFragment as MapViewFragment)._gps()
     }
 
-    @OnClick(R.id.float_button_gps)
+    @OnClick(R.id.back_to_map)
     fun backToMap() {
         sheetBehavior.state = BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED
     }
 
     @OnClick(R.id.bt_booking)
     fun bookParkingLot() {
-        val builder = AlertDialog.Builder(this)
-        createVehiclesDialog(builder)
-        builder.create().show()
+        if (presenter.isStationValidate()) {
+            val builder = AlertDialog.Builder(this)
+            createVehiclesDialog(builder)
+            builder.create().show()
+        }
+
     }
 
     private fun createVehiclesDialog(builder: AlertDialog.Builder) {
@@ -375,13 +381,13 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         val adapterSp = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getUserVehicle())
         adapterSp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
+
         // spinner for choose service
         val spTypes = view.findViewById<RecyclerView>(R.id.rv_ticket_type)
-        val ticketType = presenter.getTicketTypes()
+        val ticketType = presenter.getTicketTypes(0) // first time get position 0
         val adapterSpTypes = TicketTypeAdapter(this, ticketType)
 
         builder.setPositiveButton(R.string.booking) { dialog, _ ->
-
             val ticketTypes = mutableListOf<TicketTypeModels>()
             for ((key, value) in adapterSpTypes.checkItem) {
                 if (ticketType[key]!!.isNotEmpty()) {
@@ -389,10 +395,22 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
                     ticketTypes.add(ticketType[key]!![value])
                 }
             }
-            presenter.bookParkingLot(currentMarker!!.title, sp.selectedItemPosition, ticketTypes)
+            when{
+                adapterSpTypes.checkItem.size <= 0 -> showStatus(resources.getString(R.string.empty_ticket_service))
+                else -> presenter.bookParkingLot(currentMarker!!.title, sp.selectedItemPosition, ticketTypes)
+            }
+
             dialog.dismiss()
         }
         builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+
+        sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                adapterSpTypes.serviceModels = presenter.getTicketTypes(position)
+            }
+        }
 
         sp.adapter = adapterSp
         spTypes.adapter = adapterSpTypes
@@ -401,7 +419,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
     }
 
     private var currentPolylineDirection: Polyline? = null
-    @OnClick(R.id.bt_direction, R.id.layout_direction)
+    @OnClick(R.id.bt_direction)
     fun directWays() {
         if (currentMarker != null) {
             val lastKnowLocation = (currentFragment as MapViewFragment).getLastKnowLocation()
@@ -420,7 +438,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
                                         if (currentPolylineDirection != null) // remove old line
                                             currentPolylineDirection!!.remove()
                                         currentPolylineDirection =
-                                                drawDirectionWays((currentFragment as MapViewFragment).mMap
+                                                drawDirectionWays((currentFragment as MapViewFragment).mMap!!
                                                         , direction, applicationContext)
                                     } else {
                                         Log.d(TAG, "status of direction way NOT OK")
@@ -453,5 +471,4 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         return polyline
     }
 
-    private val images = mutableListOf(R.drawable.z1, R.drawable.z2)
 }

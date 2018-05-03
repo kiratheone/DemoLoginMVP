@@ -1,14 +1,17 @@
 package com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.list
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import butterknife.BindView
 import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseFragment
@@ -19,10 +22,14 @@ class VehicleListFragment: BaseFragment<VehicleListPresenter>(),VehicleListContr
     companion object {
         val TAG = VehicleListFragment::class.java.simpleName
 
+        @SuppressLint("StaticFieldLeak")
         private var fragment = VehicleListFragment()
         @JvmStatic
         fun getInstance() = fragment
     }
+
+    @BindView(R.id.rv_vehicle_list)
+    lateinit var recyclerView: RecyclerView
 
     lateinit var adapter: VehicleListAdapter
     lateinit var binding: FragmentVehicleListBinding
@@ -36,6 +43,10 @@ class VehicleListFragment: BaseFragment<VehicleListPresenter>(),VehicleListContr
         presenter.onViewCreated()
         val view = binding.root
         return view
+    }
+
+    override fun requestRemoveVehicle(vehicle: VehicleModel) {
+        presenter.removeVehicle(vehicle)
     }
 
     override fun getContexts(): Context {
@@ -55,7 +66,7 @@ class VehicleListFragment: BaseFragment<VehicleListPresenter>(),VehicleListContr
     }
 
     override fun updateVehicle(vehicles: List<VehicleModel>) {
-        adapter = VehicleListAdapter(getContexts(), vehicles)
+        adapter = VehicleListAdapter(getContexts(), vehicles.toMutableList())
         binding.adapter = adapter
     }
 

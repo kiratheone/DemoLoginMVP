@@ -92,11 +92,16 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
 
     @OnClick(R.id.save)
     fun save() {
-        presenter.saveVehicle(VehicleModel(
-                VehicleTypeModel(typeName = "", typeID = (spinner.selectedItem as VehicleTypes).id )
-                , licensePlate = edtLicensePlate.text.toString()
-                , name = edtLicense.text.toString()
-        ))
+        if (edtLicensePlate.text.isEmpty() || edtLicense.text.isEmpty()) {
+            showStatus(resources.getString(R.string.vehicle_adding_empty))
+        } else {
+            presenter.saveVehicle(VehicleModel(
+                    VehicleTypeModel(typeName = "", typeID = (spinner.selectedItem as VehicleTypes).id)
+                    , licensePlate = edtLicensePlate.text.toString()
+                    , name = edtLicense.text.toString()
+            ))
+        }
+
     }
 
     @OnClick(R.id.cancel)

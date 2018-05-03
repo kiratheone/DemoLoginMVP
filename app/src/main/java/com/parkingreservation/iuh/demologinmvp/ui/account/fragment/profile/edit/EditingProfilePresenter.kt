@@ -7,6 +7,7 @@ import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.ProfileService
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
+import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -37,7 +38,8 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
         val id = getUserId()
         if (id != null) {
             driver.userID = id
-            profileService.updateDriver(id, driver)
+            val token = TokenHandling.getTokenHeader(pref)
+            profileService.updateDriver(id, driver, token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnTerminate { view.hideLoading() }
@@ -66,7 +68,7 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
         pref.putData(USER, user, User::class.java)
     }
 
-    fun getUserId(): String? {
+    private fun getUserId(): String? {
         return (pref.getData(USER, User::class.java) as User).userID
     }
 

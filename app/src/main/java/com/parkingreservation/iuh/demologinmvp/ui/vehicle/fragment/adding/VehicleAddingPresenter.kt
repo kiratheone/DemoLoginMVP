@@ -9,6 +9,7 @@ import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 import com.parkingreservation.iuh.demologinmvp.model.VehicleTypes
 import com.parkingreservation.iuh.demologinmvp.service.VehicleService
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehicleTypeUtil
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
 import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
@@ -60,10 +61,14 @@ class VehicleAddingPresenter(view: VehicleAddingContract.View): BasePresenter<Ve
 
     fun getListVehicleType(): MutableList<VehicleTypes> {
         val list = mutableListOf<VehicleTypes>()
-        list.add(VehicleTypes(1, "Car", R.drawable.ic_vehicle_car))
-        list.add(VehicleTypes(2, "Bus", R.drawable.ic_vehicle_bus))
-        list.add(VehicleTypes(3, "Bike", R.drawable.ic_vehicle_bike))
-        list.add(VehicleTypes(4, "Truck", R.drawable.ic_vehicle_truck))
+        val listVehicle = VehicleTypeUtil.getVehicleType()
+
+        var i = 0
+        for((key, value) in listVehicle) {
+            ++i
+            list.add(VehicleTypes(i, key, value))
+        }
+
         return list
     }
 

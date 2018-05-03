@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/iv_service_pack_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="center"
         android:src="@mipmap/ic_launcher"/>
     <TextView
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textColor="@color/cast_expanded_controller_ad_label_background_color"
+        android:textColor="@color/colorPrimaryText"
         android:text="@string/default_service_pack_name"/>
 
 </LinearLayout>

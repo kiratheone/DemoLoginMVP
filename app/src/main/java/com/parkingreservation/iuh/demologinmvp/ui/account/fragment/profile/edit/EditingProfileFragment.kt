@@ -35,9 +35,6 @@ class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingP
     @BindView(R.id.edt_input_mail)
     lateinit var mail: EditText
 
-    @BindView(R.id.edt_input_location)
-    lateinit var address: EditText
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing_profile, container, false)
         ButterKnife.bind(this, binding.root)
@@ -71,7 +68,8 @@ class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingP
     }
 
     override fun onEditSuccess() {
-        fragmentManager?.popBackStack()
+//        fragmentManager?.popBackStack()
+        this.baseActivity.finish()
     }
 
     override fun showLoading() {

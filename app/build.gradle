@@ -95,6 +95,9 @@ dependencies {
     // coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.19.3'
 
+    // gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
+
     implementation files('libs/DefaultValue.jar')
     implementation files('libs/KeypairHelper.jar')
     implementation files('libs/StationServices.jar')

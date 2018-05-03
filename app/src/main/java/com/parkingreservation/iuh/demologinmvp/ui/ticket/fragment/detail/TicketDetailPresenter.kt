@@ -54,8 +54,9 @@ class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<Tic
                     .doOnTerminate { view.hideLoading() }
                     .subscribe(
                             {
-                                holdingTickets = it
-                                view.loadTicketDetail(it)
+                                data ->
+                                holdingTickets = data
+                                view.loadTicketDetail(data.filter { it.status!!.toLowerCase() == "holding" }.toTypedArray())
                                 Log.i(TAG, "load ticket history successfully")
                             },
                             {

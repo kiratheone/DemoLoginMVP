@@ -30,6 +30,7 @@ class ServicePackAdapter(private val mContext: Context, private val packs: List<
         val currentPack = packs[pos]
         holder.name.text = mContext.resources.getString(currentPack.name)
         holder.imgUrl.setImageDrawable(ContextCompat.getDrawable(mContext, currentPack.imgUrl))
+
         return conView
     }
 

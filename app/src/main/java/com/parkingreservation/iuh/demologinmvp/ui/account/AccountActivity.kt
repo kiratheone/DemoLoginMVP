@@ -12,7 +12,7 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseActivity
 import com.parkingreservation.iuh.demologinmvp.databinding.ActivityAccountBinding
 
-class AccountActivity : BaseActivity<AccountPresenter>(),AccountContract.View {
+class AccountActivity : BaseActivity<AccountPresenter>(), AccountContract.View {
 
     companion object {
         var TAG = AccountActivity::class.java.simpleName
@@ -24,7 +24,6 @@ class AccountActivity : BaseActivity<AccountPresenter>(),AccountContract.View {
     @BindView(R.id.tabs)
     lateinit var tabs: TabLayout
 
-    private val accountAdapter = AccountPagerAdapter(this.supportFragmentManager)
 
     lateinit var binding: ActivityAccountBinding
 
@@ -32,8 +31,9 @@ class AccountActivity : BaseActivity<AccountPresenter>(),AccountContract.View {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_account)
-        binding.adapter = accountAdapter
 
+        val accountAdapter = AccountPagerAdapter(this, this.supportFragmentManager)
+        binding.adapter = accountAdapter
         ButterKnife.bind(this)
 
         configToolbar()
@@ -44,7 +44,6 @@ class AccountActivity : BaseActivity<AccountPresenter>(),AccountContract.View {
     private fun setUpPager() {
         tabs.setupWithViewPager(viewPager)
     }
-
 
 
     override fun showError(string: String) {
@@ -60,7 +59,7 @@ class AccountActivity : BaseActivity<AccountPresenter>(),AccountContract.View {
     }
 
     override fun getContexts(): Context {
-       return this
+        return this
     }
 
     override fun instantiatePresenter(): AccountPresenter {

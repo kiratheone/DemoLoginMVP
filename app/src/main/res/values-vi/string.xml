@@ -1,0 +1,114 @@
+<resources>
+    <string name="title_activity_maps">Map</string>
+
+    <!--              Permissions              -->
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
+    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
+    <string name="permission_required_toast">Location permission is required</string>
+
+    <!--              BottomNavBar             -->
+    <string name="home">Trang chủ</string>
+    <string name="profile">Thông tin Khách Hàng</string>
+    <string name="profile_edit">Sửa thông tin</string>
+    <string name="profile_view">Xem thông tin</string>
+    <string name="setting">Thiết Lập</string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_account">Tài Khoản</string>
+    <string name="nav_vehicle">Phương tiện</string>
+    <string name="nav_ticket">Vé</string>
+    <string name="nav_notifications">Thông báo</string>
+    <string name="nav_settings">Thiết Lập</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_service_pack_name">default service pack name</string>
+
+
+    <string name="service_clean">Rửa xe</string>
+    <string name="service_parking">Đỗ xe</string>
+    <string name="service_repair">Sửa Xe</string>
+    <string name="service_rescue">Rescue</string>
+    <string name="service_booking">Đặt Xe</string>
+    <string name="service_charging">Đỗ Xăng</string>
+    <string name="title_activity_test">test</string>
+    <string name="booking">Đặt Chỗ</string>
+    <string name="loading">Loading…</string>
+    <string name="time_travel">0 min</string>
+    <string name="call">Điện thoại</string>
+    <string name="map">Bản Đồ</string>
+    <string name="direction">Chỉ Đường</string>
+    <string name="more_information">Thông Tin Chi Tiết</string>
+
+
+    <string name="title_activity_account">Tài Khoản</string>
+    <string name="ticket_number">000011112222</string>
+    <string name="ticket_title">There Are TwoType Of Pain</string>
+    <string name="ticket_duration">2h 30min</string>
+    <string name="ticket_type">Car 4 seats</string>
+    <string name="date">Ngày</string>
+    <string name="ticket_date_example">03/08/2018</string>
+    <string name="ticket_time">Giờ</string>
+    <string name="ticket_holding">Vé Đã Đặt</string>
+    <string name="ticket_holding_time">Thời gian giữ vé: %s</string>
+    <string name="ticket_time_example">23:30</string>
+    <string name="ticket_car_type">Loại Xe</string>
+    <string name="ticket_car_type_example">Car 4 seats</string>
+    <string name="ticket_used">Vé Đã Dùng</string>
+    <string name="ticket_price"><b>Giá:</b> %s vnd</string>
+    <string name="ticket_license"><b>Biển số:</b> %s</string>
+    <string name="ticket_status"><b>Trạng thái:</b>  %s</string>
+
+    <!--    Map    -->
+    <string name="map_last_lat_location">last_lat_location</string>
+    <string name="map_last_lng_location">last_lng_location</string>
+    <string name="ic_gps">gps</string>
+    <string name="user_name">Tên</string>
+    <string name="access_map_denied">Đăng nhập trước khi sử dụng dịch vụ này</string>
+
+    <!--    Button    -->
+    <string name="save">Lưu</string>
+    <string name="cancel">Hủy bỏ</string>
+
+    <string name="profile_user_name">Tên Khách Hàng</string>
+    <string name="profile_phone">Số Điện Thoại</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_address">Địa chỉ</string>
+
+    <string name="app_name">Bãi Đỗ Xe</string>
+    <string name="login">Đăng Nhập</string>
+    <string name="register">Đăng Kí</string>
+    <string name="no_account_yet_create_one">Bạn chưa có tài khoản?  <u>Tạo mới</u></string>
+    <string name="profile_vehicle">Phương Tiện</string>
+
+    <!--    Vehicle    -->
+    <string name="vehicle_name">Tên Xe</string>
+    <string name="vehicle_type">Loại Xe</string>
+    <string name="vehicle_license_plates">Biển số</string>
+    <string name="vehicle_name_adding">Tên xe của bạn</string>
+    <string name="vehicle_license_adding">Biển số xe</string>
+    <string name="other">Khác</string>
+    <string name="vehicle_bus">Xe Khách</string>
+    <string name="vehicle_truck">Xe Tải</string>
+    <string name="vehicle_bicycle">Xe Đạp</string>
+    <string name="vehicle_motor_bike">Xe Máy</string>
+    <string name="vehicle_car">Ô Tô</string>
+    <string name="vehicle_adding_empty">Không được để trống</string>
+    <string name="empty_vehicle">Thêm xe để có thể đặt được vé</string>
+
+    <!--    Station    -->
+    <string name="station_not_open_yet">Không thể đặt, Trạm chưa mở cửa</string>
+    <string name="station_already_closed">Không thể đặt, Trạm đã đóng cửa</string>
+    <string name="station_not_active">Không thể đặt, Trạm chưa hoạt động</string>
+
+    <string name="sign_out">Đăng xuất</string>
+    <string name="total_slot">Tổng số chỗ</string>
+    <string name="used_slot">Đã dùng</string>
+    <string name="holding_slot">Đã được đặt</string>
+    <string name="empty_ticket_service">Không được để trống dịch vụ</string>
+
+    <string name="signout_accept">Đăng xuất</string>
+    <string name="signout_reject">Hủy bỏ</string>
+    <string name="signout_confirm">Bạn có chắc là muốn đăng xuất</string>
+</resources>

@@ -16,7 +16,7 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.databinding.AdapterTicketTypeBinding
 import com.parkingreservation.iuh.demologinmvp.model.TicketTypeModels
 
-class TicketTypeAdapter(private val context: Context, private val serviceModels: LinkedHashMap<String, List<TicketTypeModels>>)
+class TicketTypeAdapter(private val context: Context, public var serviceModels: LinkedHashMap<String, List<TicketTypeModels>>)
     : RecyclerView.Adapter<TicketTypeAdapter.RecyclerHolder>() {
 
     lateinit var binding: AdapterTicketTypeBinding
@@ -53,7 +53,7 @@ class TicketTypeAdapter(private val context: Context, private val serviceModels:
             this.binding.service = service
             ButterKnife.bind(this, binding.root)
             sp.isEnabled = false
-
+            if(service.toLowerCase() != "Đỗ xe".toLowerCase()) cb.isEnabled = false
             val lstType = mutableListOf<String>()
             types.forEach {
                 lstType.add("${it.name} - ${it.price}")
@@ -63,9 +63,9 @@ class TicketTypeAdapter(private val context: Context, private val serviceModels:
             adapterSp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             sp.adapter = adapterSp
 
-            cb.setOnClickListener{
+            cb.setOnClickListener {
                 sp.isEnabled = cb.isChecked
-                if(cb.isChecked) {
+                if (cb.isChecked) {
                     sp.setSelection(0)
                     checkItem[cb.text.toString()] = 0
                 } else {
@@ -73,8 +73,8 @@ class TicketTypeAdapter(private val context: Context, private val serviceModels:
                 }
             }
 
-            sp.onItemSelectedListener =object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) { }
+            sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     checkItem[cb.text.toString()] = position
                 }

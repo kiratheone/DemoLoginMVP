@@ -1,17 +1,20 @@
 package com.parkingreservation.iuh.demologinmvp.model
 
-import java.sql.Timestamp
-
 
 data class Station(val address: String = ""
                    , val coordinate: String = ""
-                   , val star: Int = 0
+                   , val star: Float = 0.0f
                    , val stationVehicleTypes: List<StationVehicleTypes>? = emptyList()
                    , val services: List<Service>? = emptyList()
                    , val ownerID: String = ""
                    , val createdDate: Int = 0
-                   , val name: String = ""
+                   , var name: String = ""
                    , val closeTime: String = ""
+                   , val imageLink: String
+                   , val openTime: String = ""
+                   , val totalSlots: Int = 0
+                   , val usedSlots: Int = 0
+                   , val holdingSlots: Int = 0
                    , val id: Int = 0
                    , val applicationID: String = ""
                    , val status: String = "")

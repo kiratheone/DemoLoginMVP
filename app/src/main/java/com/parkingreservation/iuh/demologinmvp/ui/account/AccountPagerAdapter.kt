@@ -1,12 +1,14 @@
 package com.parkingreservation.iuh.demologinmvp.ui.account
 
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.detail.ProfileFragment
 import com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit.EditingProfileFragment
 
-class AccountPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+class AccountPagerAdapter(val context: Context, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     companion object {
         const val NUMBER_VIEW_PAGER = 2
@@ -27,9 +29,9 @@ class AccountPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapt
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when(position) {
-            0 -> "Your Profile"
-            1 -> "Edit Profile"
-            else -> "Your Profile"
+            0 -> this.context.resources.getString(R.string.profile)
+            1 -> this.context.resources.getString(R.string.profile_edit)
+            else -> this.context.resources.getString(R.string.profile)
         }
     }
 }

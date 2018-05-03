@@ -19,7 +19,8 @@ data class TicketTypeModels(val stationVehicleTypeID: Int = 0
                             , val name: String = ""
                             , val ticketTypeID: Int = 0
                             , val holdingTime: String = ""
-                            , val serviceID: Int = 0)
+                            , val serviceID: Int = 0
+                            , val vehicleTypeName: String = "")
 
 data class VehicleModel(val vehicleTypeModel: VehicleTypeModel
                         , val licensePlate: String = ""
