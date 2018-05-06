@@ -263,8 +263,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     override fun addStationContent(station: Station?) {
         if (station != null) {
-            var s = station
-            s.name = StringLengthHandler.getText(station.name)
+            station.name = StringLengthHandler.getText(station.name)
             binding.station = station
             mergedBehavior.setToolbarTitle(StringLengthHandler.getText(station.name))
 
@@ -377,7 +376,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         val view = layoutInflater.inflate(R.layout.dialog_vehicles, null)
         builder.setTitle("Choose Your Vehicle")
 
-        val sp = view.findViewById<AppCompatSpinner>(R.id.sp_vehicles)
+        val userVehicleDropdown = view.findViewById<AppCompatSpinner>(R.id.sp_vehicles)
         val adapterSp = ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.getUserVehicle())
         adapterSp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
@@ -389,30 +388,33 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
         builder.setPositiveButton(R.string.booking) { dialog, _ ->
             val ticketTypes = mutableListOf<TicketTypeModels>()
+            val typeM = adapterSpTypes.serviceModels
             for ((key, value) in adapterSpTypes.checkItem) {
-                if (ticketType[key]!!.isNotEmpty()) {
+                if (typeM[key]!!.isNotEmpty()) {
                     Log.d(TAG, "$key: ${ticketType[key]!![value]}")
-                    ticketTypes.add(ticketType[key]!![value])
+                    ticketTypes.add(typeM[key]!![value])
                 }
             }
-            when{
+            when {
+                userVehicleDropdown.selectedItem == null -> showStatus(resources.getString(R.string.empty_vehicle))
                 adapterSpTypes.checkItem.size <= 0 -> showStatus(resources.getString(R.string.empty_ticket_service))
-                else -> presenter.bookParkingLot(currentMarker!!.title, sp.selectedItemPosition, ticketTypes)
+                else -> presenter.bookParkingLot(currentMarker!!.title, userVehicleDropdown.selectedItem.toString(), ticketTypes)
             }
 
             dialog.dismiss()
         }
         builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
 
-        sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        userVehicleDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 adapterSpTypes.serviceModels = presenter.getTicketTypes(position)
+                adapterSpTypes.notifyDataSetChanged()
             }
         }
 
-        sp.adapter = adapterSp
+        userVehicleDropdown.adapter = adapterSp
         spTypes.adapter = adapterSpTypes
         spTypes.layoutManager = LinearLayoutManager(getContexts())
         builder.setView(view)

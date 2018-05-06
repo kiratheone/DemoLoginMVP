@@ -13,7 +13,9 @@ import com.parkingreservation.iuh.demologinmvp.ui.login.register.RegisterPresent
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.checked.TicketCheckedPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.expired.TicketExpiredPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehiclePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.adding.VehicleAddingPresenter
@@ -44,6 +46,8 @@ interface PresenterInjector {
     fun inject(presenter: TicketPresenter)
     fun inject(presenter: TicketDetailPresenter)
     fun inject(presenter: TicketHistoryPresenter)
+    fun inject(presenter: TicketCheckedPresenter)
+    fun inject(presenter: TicketExpiredPresenter)
 
     fun inject(presenter: VehiclePresenter)
     fun inject(presenter: VehicleListPresenter)

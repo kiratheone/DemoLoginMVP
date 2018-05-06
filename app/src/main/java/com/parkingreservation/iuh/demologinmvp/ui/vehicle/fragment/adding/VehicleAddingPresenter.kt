@@ -46,7 +46,7 @@ class VehicleAddingPresenter(view: VehicleAddingContract.View): BasePresenter<Ve
                     .subscribe(
                             {
                                 Log.i(TAG, "add vehicle successfully")
-                                view.showSuccess("add vehicle successfully")
+                                view.showSuccess("Thêm xe thành công")
                             },
                             {
                                 view.showError("oOps!!, there is some error from server, pls try again")

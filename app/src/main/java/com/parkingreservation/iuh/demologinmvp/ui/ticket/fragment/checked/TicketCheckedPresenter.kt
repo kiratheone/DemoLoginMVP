@@ -1,4 +1,4 @@
-package com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail
+package com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.checked
 
 import android.util.Log
 import com.google.zxing.BarcodeFormat
@@ -17,10 +17,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<TicketDetailContract.View>(view), TicketDetailContract.Presenter {
+class TicketCheckedPresenter(view: TicketCheckedContract.View) : BasePresenter<TicketCheckedContract.View>(view), TicketCheckedContract.Presenter {
 
     companion object {
-        var TAG = TicketDetailPresenter::class.java.simpleName
+        var TAG = TicketCheckedPresenter::class.java.simpleName
     }
 
     @Inject
@@ -48,14 +48,14 @@ class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<Tic
         if (isLoggedIn()) {
             val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID!!
             val token = TokenHandling.getTokenHeader(pref)
-            subscription = ticketService.getHoldingTicket(id, token)
+            subscription = ticketService.getCheckedTicket(id, token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnTerminate { view.hideLoading() }
                     .subscribe(
                             {
                                 data ->
-                                holdingTickets = data
+                                holdingTickets = data.filter { it.status!!.toLowerCase() != "used" && it.status.toLowerCase() != "expired" }.toTypedArray()
                                 view.loadTicketDetail(holdingTickets)
                                 Log.i(TAG, "load ticket history successfully")
                             },

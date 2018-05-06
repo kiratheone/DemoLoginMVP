@@ -101,7 +101,7 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
                             Log.i(TAG, "load user successful with user name: ${data.driverName}")
                             saveUserPref(data)
                             view.onLoginSuccessfully()
-                            view.showSuccess("Login Successfully")
+                            view.showSuccess("Đăng Nhập thành công")
                         },
                         {
                             it.printStackTrace()

@@ -13,7 +13,9 @@ import com.parkingreservation.iuh.demologinmvp.ui.login.register.RegisterPresent
 import com.parkingreservation.iuh.demologinmvp.ui.map.MapPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.map.fragment.mapview.MapViewPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.TicketPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.checked.TicketCheckedPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailPresenter
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.expired.TicketExpiredPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryPresenter
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehiclePresenter
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.fragment.adding.VehicleAddingPresenter
@@ -64,6 +66,8 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
             is TicketPresenter -> injector.inject(this)
             is TicketDetailPresenter -> injector.inject(this)
             is TicketHistoryPresenter -> injector.inject(this)
+            is TicketExpiredPresenter -> injector.inject(this)
+            is TicketCheckedPresenter -> injector.inject(this)
 
             is VehiclePresenter -> injector.inject(this)
             is VehicleListPresenter -> injector.inject(this)

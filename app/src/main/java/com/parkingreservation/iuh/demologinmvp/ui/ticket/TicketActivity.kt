@@ -46,7 +46,7 @@ class TicketActivity : BaseActivity<TicketPresenter>(), TicketContract.View {
     private fun setUpBottomBar(){
         bottomBar.setOnNavigationItemSelectedListener { item ->
             currentFragment = when (item.itemId) {
-                R.id.ticket -> TicketDetailFragment.getInstance()
+                R.id.ticket_holding -> TicketDetailFragment.getInstance()
                 R.id.ticket_history -> TicketHistoryFragment.getInstance()
                 else -> TicketDetailFragment.getInstance()
             }

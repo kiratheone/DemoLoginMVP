@@ -16,7 +16,7 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.databinding.AdapterTicketTypeBinding
 import com.parkingreservation.iuh.demologinmvp.model.TicketTypeModels
 
-class TicketTypeAdapter(private val context: Context, public var serviceModels: LinkedHashMap<String, List<TicketTypeModels>>)
+class TicketTypeAdapter(private val context: Context, var serviceModels: LinkedHashMap<String, List<TicketTypeModels>>)
     : RecyclerView.Adapter<TicketTypeAdapter.RecyclerHolder>() {
 
     lateinit var binding: AdapterTicketTypeBinding
@@ -53,10 +53,11 @@ class TicketTypeAdapter(private val context: Context, public var serviceModels: 
             this.binding.service = service
             ButterKnife.bind(this, binding.root)
             sp.isEnabled = false
+            cb.isChecked = false
             if(service.toLowerCase() != "Đỗ xe".toLowerCase()) cb.isEnabled = false
             val lstType = mutableListOf<String>()
             types.forEach {
-                lstType.add("${it.name} - ${it.price}")
+                lstType.add("${it.vehicleTypeName} - ${it.price}")
             }
 
             val adapterSp = ArrayAdapter(context, android.R.layout.simple_spinner_item, lstType)
@@ -76,7 +77,8 @@ class TicketTypeAdapter(private val context: Context, public var serviceModels: 
             sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    checkItem[cb.text.toString()] = position
+                    if(sp.isEnabled)
+                        checkItem[cb.text.toString()] = position
                 }
             }
 

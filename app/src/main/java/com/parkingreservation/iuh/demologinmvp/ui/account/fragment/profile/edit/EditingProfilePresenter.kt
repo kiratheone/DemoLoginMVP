@@ -49,7 +49,7 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
                                   thread {
                                       updateUserProfilePref(user)
                                   }
-                                  view.showSuccess("Edit user successfully")
+                                  view.showSuccess("Sửa thông tin thành công")
                                   view.onEditSuccess()
                               }
                             },

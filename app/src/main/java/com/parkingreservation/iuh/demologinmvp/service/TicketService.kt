@@ -21,15 +21,32 @@ interface TicketService {
      * @userID: user userID
      * @return: list of Ticket
      */
-    @GET("api/tickets/user/{userID}?status=Holding&page=1")
+    @GET("api/tickets/user/{userID}?status=Holding")
     fun getHoldingTicket(@Path("userID") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
+
+
+    /**
+     * get list of Tickets are using
+     * @userID: user userID
+     * @return: list of Ticket
+     */
+    @GET("api/tickets/user/{userID}?status=Checked")
+    fun getCheckedTicket(@Path("userID") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
+
+    /**
+     * get list of Tickets are using
+     * @userID: user userID
+     * @return: list of Ticket
+     */
+    @GET("api/tickets/user/{userID}?status=Expired")
+    fun getExpiredTicket(@Path("userID") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
 
     /**
      * get list of tickets were used
      * @userID user userID
      * @return list of ticket
      */
-    @GET("api/tickets/user/{id}?status=Used&page=1")
+    @GET("api/tickets/user/{id}?status=Used?page=1")
     fun getUsedTicket(@Path("id") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
 
     /**

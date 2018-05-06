@@ -12,11 +12,12 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.databinding.VehicleListAdapterBinding
 import com.parkingreservation.iuh.demologinmvp.model.VehicleModel
 import com.parkingreservation.iuh.demologinmvp.ui.vehicle.VehicleTypeUtil
+import kotlin.concurrent.thread
 
-class VehicleListAdapter(val context: Context, private val vehicles: MutableList<VehicleModel> )
+class VehicleListAdapter(val context: Context, private val vehicles: MutableList<VehicleModel>, val fragment: VehicleListFragment)
     : RecyclerView.Adapter<VehicleListAdapter.RecyclerHolder>() {
 
-    lateinit var  binding: VehicleListAdapterBinding
+    lateinit var binding: VehicleListAdapterBinding
 
     @BindView(R.id.im_remove_vehicle)
     lateinit var rmVehicle: AppCompatImageView
@@ -35,13 +36,19 @@ class VehicleListAdapter(val context: Context, private val vehicles: MutableList
 
     override fun onBindViewHolder(holder: RecyclerHolder, position: Int) {
         holder.bind(vehicles[position])
-        rmVehicle.setOnClickListener{this.vehicles.removeAt(position)}
+        rmVehicle.setOnClickListener {
+            fragment.requestRemoveVehicle(this.vehicles[position])
+            this.vehicles.removeAt(position)
+            notifyItemRemoved(position)
+        }
+
     }
 
     class RecyclerHolder(val binding: VehicleListAdapterBinding, private val types: HashMap<String, Int>) : RecyclerView.ViewHolder(binding.root) {
 
         @BindView(R.id.vehicle_type_img)
         lateinit var img: AppCompatImageView
+
         /**
          *  binding data to view
          */

@@ -66,7 +66,7 @@ class VehicleListFragment: BaseFragment<VehicleListPresenter>(),VehicleListContr
     }
 
     override fun updateVehicle(vehicles: List<VehicleModel>) {
-        adapter = VehicleListAdapter(getContexts(), vehicles.toMutableList())
+        adapter = VehicleListAdapter(getContexts(), vehicles.toMutableList(), VehicleListFragment.fragment)
         binding.adapter = adapter
     }
 

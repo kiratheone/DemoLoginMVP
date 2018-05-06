@@ -7,7 +7,7 @@ import com.parkingreservation.iuh.demologinmvp.model.*
 class MapContract {
     interface Presenter {
         fun loadStationContent(marker: Marker)
-        fun bookParkingLot(station: String, vehiclePosition: Int, type: List<TicketTypeModels>)
+        fun bookParkingLot(station: String, vehiclePosition: String, type: List<TicketTypeModels>)
         fun loadTicketTypes(marker: Marker)
         fun isStationValidate(): Boolean
     }

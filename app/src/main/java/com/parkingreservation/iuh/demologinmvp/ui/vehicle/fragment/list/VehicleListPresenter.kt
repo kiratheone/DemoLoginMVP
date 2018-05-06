@@ -43,13 +43,13 @@ class VehicleListPresenter(view: VehicleListContract.View) : BasePresenter<Vehic
     override fun removeVehicle(vehicle: VehicleModel) {
         Log.i(TAG, "removing user vehicle")
         if (isLoggedIn()) {
-            vehicleService.removeVehicle(vehicle.id, TokenHandling.getTokenHeader(pref))
+            subscription = vehicleService.removeVehicle(vehicle.id, TokenHandling.getTokenHeader(pref))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnTerminate { view.hideLoading() }
                     .subscribe(
                             {
-
+                                view.showSuccess("Xóa Xe thành công")
                             },
                             {
                                 it.printStackTrace()

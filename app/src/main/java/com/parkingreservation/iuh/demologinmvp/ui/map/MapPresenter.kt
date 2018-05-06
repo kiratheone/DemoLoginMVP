@@ -21,6 +21,7 @@ import retrofit2.HttpException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.coroutines.experimental.buildIterator
 
 class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(mapView), MapContract.Presenter {
 
@@ -105,9 +106,8 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
 
     fun getUserVehicle(): Array<String> {
         val numbers: MutableList<String> = mutableListOf()
-
         this.vehicle.forEach({ vehicle ->
-            numbers.add("${vehicle.vehicleTypeModel.typeName} :  ${vehicle.licensePlate} : ${vehicle.vehicleTypeModel.typeID}")
+            numbers.add("${vehicle.vehicleTypeModel.typeName}---${vehicle.licensePlate}")
         })
         return numbers.toTypedArray()
     }
@@ -115,7 +115,7 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
     // filter ticket type by vehicle type
     fun getTicketTypes(pos: Int): LinkedHashMap<String, List<TicketTypeModels>> {
 
-        val vehicleTypeName = getUserVehicle()[pos].split(":")[0].trim() // last
+        val vehicleTypeName = getUserVehicle()[pos].split("---")[0] // last
         val filterTicketType = linkedMapOf<String, List<TicketTypeModels>>()
         for ((key, values) in ticketTypes) {
             filterTicketType[key] = values.filter { it.vehicleTypeName.toLowerCase() == vehicleTypeName.toLowerCase() }
@@ -231,12 +231,14 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
 
     fun loggedIn(): Boolean = pref.getData(USER, User::class.java) != null
 
-    override fun bookParkingLot(station: String, vehiclePosition: Int, type: List<TicketTypeModels>) {
+    override fun bookParkingLot(station: String, vehiclePosition: String
+                                , type: List<TicketTypeModels>) {
 
         view.showLoading()
+        val vehicleTypeName = vehiclePosition.split('-')[0]
         if (this.vehicle.size >= 0) {
-            val vehicleID = this.vehicle[vehiclePosition]
-            val res = getReservationInfo(type, vehicleID)
+            val vehicleID = this.vehicle.filter { it -> it.vehicleTypeModel.typeName == vehicleTypeName }
+            val res = getReservationInfo(type, vehicleID[0])
             val token = TokenHandling.getTokenHeader(pref)
             reserveParkingLot(res, token)
         } else {

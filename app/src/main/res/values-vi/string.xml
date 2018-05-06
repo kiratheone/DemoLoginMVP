@@ -16,7 +16,7 @@
     <string name="nav_account">Tài Khoản</string>
     <string name="nav_vehicle">Phương tiện</string>
     <string name="nav_ticket">Vé</string>
-    <string name="nav_notifications">Thông báo</string>
+    <string name="nav_notifications">Đăng Nhập / Đăng Xuất</string>
     <string name="nav_settings">Thiết Lập</string>
     <string name="nav_about_us">About Us</string>
     <string name="privacy_policy">Privacy Policy</string>
@@ -51,6 +51,8 @@
     <string name="ticket_date_example">03/08/2018</string>
     <string name="ticket_time">Giờ</string>
     <string name="ticket_holding">Vé Đã Đặt</string>
+    <string name="ticket_expired">Vé Hết Hạn</string>
+    <string name="ticket_checked">Vé Đang dùng</string>
     <string name="ticket_holding_time">Thời gian giữ vé: %s</string>
     <string name="ticket_time_example">23:30</string>
     <string name="ticket_car_type">Loại Xe</string>

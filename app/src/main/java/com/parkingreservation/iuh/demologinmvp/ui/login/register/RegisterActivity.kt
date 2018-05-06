@@ -24,6 +24,9 @@ class RegisterActivity : BaseActivity<RegisterPresenter>(), RegisterContract.Vie
     @BindView(R.id.input_email)
     lateinit var inputEmail: EditText
 
+    @BindView(R.id.input_phone)
+    lateinit var inputPhone: EditText
+
     lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +41,10 @@ class RegisterActivity : BaseActivity<RegisterPresenter>(), RegisterContract.Vie
     @OnClick(R.id.btn_register)
     fun register() {
         presenter.registerAccount(User(
-            password = inputPassword.text.toString(),
-            email = inputEmail.text.toString(),
-            driverName = inputUserName.text.toString()
+                password = inputPassword.text.toString(),
+                email = inputEmail.text.toString(),
+                driverName = inputUserName.text.toString(),
+                phoneNumber = inputPhone.text.toString()
         ))
     }
 

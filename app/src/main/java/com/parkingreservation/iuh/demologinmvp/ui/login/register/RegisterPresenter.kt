@@ -44,7 +44,7 @@ class RegisterPresenter(view: RegisterContract.View) : BasePresenter<RegisterCon
                         {
                             if (it != null) {
                                 Log.i(TAG, "register user successful")
-                                view.showSuccess("register user successful")
+                                view.showSuccess("Đăng kí thành công")
                                 view.onRegisterSuccess()
                             } else {
                                 Log.i(TAG, "something error from user")

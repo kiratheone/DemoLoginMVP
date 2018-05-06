@@ -1,4 +1,4 @@
-package com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail
+package com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.expired
 
 import android.util.Log
 import com.google.zxing.BarcodeFormat
@@ -9,6 +9,7 @@ import com.parkingreservation.iuh.demologinmvp.base.BasePresenter
 import com.parkingreservation.iuh.demologinmvp.model.Tickets
 import com.parkingreservation.iuh.demologinmvp.model.User
 import com.parkingreservation.iuh.demologinmvp.service.TicketService
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailPresenter
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference
 import com.parkingreservation.iuh.demologinmvp.util.MySharedPreference.SharedPrefKey.Companion.USER
 import com.parkingreservation.iuh.demologinmvp.util.TokenHandling
@@ -17,10 +18,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<TicketDetailContract.View>(view), TicketDetailContract.Presenter {
+class TicketExpiredPresenter(view: TicketExpiredContract.View) : BasePresenter<TicketExpiredContract.View>(view), TicketExpiredContract.Presenter {
 
     companion object {
-        var TAG = TicketDetailPresenter::class.java.simpleName
+        var TAG = TicketExpiredPresenter::class.java.simpleName
     }
 
     @Inject
@@ -48,7 +49,7 @@ class TicketDetailPresenter(view: TicketDetailContract.View) : BasePresenter<Tic
         if (isLoggedIn()) {
             val id = (pref.getData(MySharedPreference.SharedPrefKey.USER, User::class.java) as User).userID!!
             val token = TokenHandling.getTokenHeader(pref)
-            subscription = ticketService.getHoldingTicket(id, token)
+            subscription = ticketService.getExpiredTicket(id, token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .doOnTerminate { view.hideLoading() }

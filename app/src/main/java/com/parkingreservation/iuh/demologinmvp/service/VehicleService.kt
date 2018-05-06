@@ -27,6 +27,7 @@ interface VehicleService {
      * @vehicle vehicle of user
      * @userID who created vehicle
      */
-    @DELETE("api/vehicles/id")
-    fun removeVehicle(@Path("id") id: String, @Header("Authorization") token: String): Observable<Void>
+    @Headers("content-type: application/json")
+    @DELETE("api/vehicles/{id}")
+    fun removeVehicle(@Path("id") id: String, @Header("Authorization") token: String): Observable<String>
 }
