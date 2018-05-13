@@ -172,7 +172,7 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         tvName.text = user?.driverName ?: ""
         tvWebsite.text = user?.email ?: ""
 //        navigation.menu.getItem(NavbarSelectionType.NOTIFICATION.index).setActionView(R.layout.menu_dot)
-        Glide.with(this).load(R.mipmap.ic_launcher).thumbnail(0.5f).apply(RequestOptions.circleCropTransform()).into(ivProfile)
+        Glide.with(this).load(R.mipmap.ic_launcher_main).thumbnail(0.5f).apply(RequestOptions.circleCropTransform()).into(ivProfile)
     }
 
     override fun onStationImageLoaded(images: List<String>) {
@@ -396,7 +396,6 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
                 }
             }
             when {
-                userVehicleDropdown.selectedItem == null -> showStatus(resources.getString(R.string.empty_vehicle))
                 adapterSpTypes.checkItem.size <= 0 -> showStatus(resources.getString(R.string.empty_ticket_service))
                 else -> presenter.bookParkingLot(currentMarker!!.title, userVehicleDropdown.selectedItem.toString(), ticketTypes)
             }

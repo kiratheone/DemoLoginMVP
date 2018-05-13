@@ -96,6 +96,7 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
         val currentTime = sdf.format(Date(timesSecond)).toString()
 
         when {
+            getUserVehicle().isEmpty() -> view.showError(this.view.getContexts().resources.getString(R.string.empty_vehicle))
             currentTime < station.openTime -> view.showError(this.view.getContexts().resources.getString(R.string.station_not_open_yet))
             currentTime > station.closeTime -> view.showError(this.view.getContexts().resources.getString(R.string.station_already_closed))
             station.status.toLowerCase() != "active" -> view.showError(this.view.getContexts().resources.getString(R.string.station_not_active))

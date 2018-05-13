@@ -13,7 +13,9 @@ import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.base.BaseActivity
 import com.parkingreservation.iuh.demologinmvp.databinding.ActivityTicketBinding
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.checked.TicketCheckedFragment
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.detail.TicketDetailFragment
+import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.expired.TicketExpiredFragment
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryAdapter
 import com.parkingreservation.iuh.demologinmvp.ui.ticket.fragment.history.TicketHistoryFragment
 
@@ -48,6 +50,8 @@ class TicketActivity : BaseActivity<TicketPresenter>(), TicketContract.View {
             currentFragment = when (item.itemId) {
                 R.id.ticket_holding -> TicketDetailFragment.getInstance()
                 R.id.ticket_history -> TicketHistoryFragment.getInstance()
+                R.id.ticket_checked -> TicketCheckedFragment.getInstance()
+                R.id.ticket_expired -> TicketExpiredFragment.getInstance()
                 else -> TicketDetailFragment.getInstance()
             }
             transactionFragment()

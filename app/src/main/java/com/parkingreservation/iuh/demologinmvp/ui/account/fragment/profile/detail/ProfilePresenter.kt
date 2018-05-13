@@ -40,6 +40,7 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
             if (userAlreadyExistOnLocal()) {
                 loadLocalProfile()
             } else {
+
             }
         } else {
             Log.w(TAG, "user are not logged in")

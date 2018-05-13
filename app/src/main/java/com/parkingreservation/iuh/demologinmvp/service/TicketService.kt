@@ -46,8 +46,8 @@ interface TicketService {
      * @userID user userID
      * @return list of ticket
      */
-    @GET("api/tickets/user/{id}?status=Used?page=1")
-    fun getUsedTicket(@Path("id") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
+    @GET("api/tickets/user/{userID}?status=Used")
+    fun getUsedTicket(@Path("userID") id: String, @Header("Authorization") token: String): Observable<Array<Tickets>>
 
     /**
      * Booking a vehicle (Reservation)

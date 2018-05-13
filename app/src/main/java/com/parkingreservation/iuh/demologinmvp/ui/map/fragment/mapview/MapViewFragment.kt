@@ -98,8 +98,10 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
 
     private fun changeAutoCompleteIcon() {
         val navBarMenu = (autoCompleteFindPlace.view as? LinearLayout)?.getChildAt(0) as? ImageView
-        navBarMenu?.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_menu, null))
-        navBarMenu?.setOnClickListener { onNavbarClick.onNavBarClickListener() }
+        if (navBarMenu != null) {
+            navBarMenu.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_menu, null))
+            navBarMenu.setOnClickListener { onNavbarClick.onNavBarClickListener() }
+        }
     }
 
     private lateinit var lastKnowLocation: Location
@@ -272,7 +274,6 @@ class MapViewFragment : BaseV4Fragment<MapViewPresenter>()
         super.onResume()
         mapView.onResume()
     }
-
 
 
     override fun onLowMemory() {

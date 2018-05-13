@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="com.parkingreservation.iuh.demologinmvp.R"/>
+        <import type="com.parkingreservation.iuh.demologinmvp.R" />
 
         <variable
             name="profile"
@@ -76,10 +76,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/profile_phone"
                 android:padding="10dp"
                 android:src="@drawable/ic_phone"
-                android:tint="@color/colorPrimary"
-                android:contentDescription="@string/profile_phone" />
+                android:tint="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -123,10 +123,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/profile_email"
                 android:padding="10dp"
                 android:src="@drawable/ic_email"
-                android:tint="@color/colorPrimary"
-                android:contentDescription="@string/profile_email" />
+                android:tint="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -161,51 +161,51 @@
         </LinearLayout>
 
         <!--Vehicle-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="10dp">-->
 
-            <ImageView
-                android:padding="10dp"
-                android:tint="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_directions_car"
-                android:contentDescription="@string/profile_vehicle" />
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:contentDescription="@string/profile_vehicle"-->
+                <!--android:padding="10dp"-->
+                <!--android:src="@drawable/ic_directions_car"-->
+                <!--android:tint="@color/colorPrimary" />-->
 
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:orientation="vertical">-->
 
 
-                <TextView
-                    android:textSize="17sp"
-                    android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
-                    android:text="@string/profile_vehicle"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:fontFamily="Roboto Regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDark"
-                    tools:ignore="RtlSymmetry" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:fontFamily="Roboto Regular"-->
+                    <!--android:paddingBottom="8dp"-->
+                    <!--android:paddingStart="16dp"-->
+                    <!--android:text="@string/profile_vehicle"-->
+                    <!--android:textColor="@color/colorPrimaryDark"-->
+                    <!--android:textSize="17sp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
 
-                <TextView
-                    android:paddingStart="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="Roboto Regular"
-                    android:text="@string/loading"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="16sp"
-                    tools:ignore="RtlSymmetry" />
-            </LinearLayout>
-        </LinearLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:fontFamily="Roboto Regular"-->
+                    <!--android:paddingStart="16dp"-->
+                    <!--android:text='@{profile.vehicleModels != null?profile.vehicleModels.size() + "":"loading"}'-->
+                    <!--android:textColor="@color/colorSecondaryText"-->
+                    <!--android:textSize="16sp"-->
+                    <!--tools:ignore="RtlSymmetry" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
     </LinearLayout>
 </layout>

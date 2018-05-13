@@ -3,6 +3,7 @@ package com.parkingreservation.iuh.demologinmvp.base
 import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 abstract class BaseV4Fragment<P : BasePresenter<BaseView>> : BaseView, Fragment() {
@@ -12,6 +13,7 @@ abstract class BaseV4Fragment<P : BasePresenter<BaseView>> : BaseView, Fragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.setDefaultUncaughtExceptionHandler { _, _ -> Log.e("Alert", "Lets See if it Works !!!") }
         setHasOptionsMenu(false)
     }
 

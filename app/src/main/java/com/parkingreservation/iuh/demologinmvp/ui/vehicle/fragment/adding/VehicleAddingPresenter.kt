@@ -66,7 +66,7 @@ class VehicleAddingPresenter(view: VehicleAddingContract.View): BasePresenter<Ve
         var i = 0
         for((key, value) in listVehicle) {
             ++i
-            list.add(VehicleTypes(i, key, value))
+            list.add(VehicleTypes(value.second, key, value.first))
         }
 
         return list

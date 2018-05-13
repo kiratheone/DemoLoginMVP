@@ -9,7 +9,7 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_gravity="center"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_launcher_main"/>
     <TextView
         android:id="@+id/tv_service_pack_name"
         android:layout_gravity="center"

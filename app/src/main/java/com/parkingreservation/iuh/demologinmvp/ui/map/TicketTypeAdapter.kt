@@ -57,7 +57,7 @@ class TicketTypeAdapter(private val context: Context, var serviceModels: LinkedH
             if(service.toLowerCase() != "Đỗ xe".toLowerCase()) cb.isEnabled = false
             val lstType = mutableListOf<String>()
             types.forEach {
-                lstType.add("${it.vehicleTypeName} - ${it.price}")
+                lstType.add("${it.name} - ${it.price}")
             }
 
             val adapterSp = ArrayAdapter(context, android.R.layout.simple_spinner_item, lstType)

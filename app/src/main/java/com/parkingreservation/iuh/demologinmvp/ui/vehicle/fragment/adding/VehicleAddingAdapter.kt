@@ -12,7 +12,7 @@ import com.parkingreservation.iuh.demologinmvp.R
 import com.parkingreservation.iuh.demologinmvp.model.VehicleTypes
 
 
-class VehicleAddingAdapter(val contexts: Context, private val vehicleTypes: List<VehicleTypes>) : ArrayAdapter<VehicleTypes>(contexts, R.layout.vehicle_adding_adapter) {
+class VehicleAddingAdapter(val contexts: Context, public val vehicleTypes: List<VehicleTypes>) : ArrayAdapter<VehicleTypes>(contexts, R.layout.vehicle_adding_adapter) {
 
 
     override fun getCount(): Int {

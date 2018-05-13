@@ -40,11 +40,12 @@ class VehicleListAdapter(val context: Context, private val vehicles: MutableList
             fragment.requestRemoveVehicle(this.vehicles[position])
             this.vehicles.removeAt(position)
             notifyItemRemoved(position)
+            notifyDataSetChanged()
         }
 
     }
 
-    class RecyclerHolder(val binding: VehicleListAdapterBinding, private val types: HashMap<String, Int>) : RecyclerView.ViewHolder(binding.root) {
+    class RecyclerHolder(val binding: VehicleListAdapterBinding, private val types: HashMap<String, Pair<Int, Int>>) : RecyclerView.ViewHolder(binding.root) {
 
         @BindView(R.id.vehicle_type_img)
         lateinit var img: AppCompatImageView
@@ -55,7 +56,7 @@ class VehicleListAdapter(val context: Context, private val vehicles: MutableList
         fun bind(vehicle: VehicleModel) {
             this.binding.vehicle = vehicle
             ButterKnife.bind(this, binding.root)
-            img.setImageResource(types[vehicle.vehicleTypeModel.typeName]!!)
+            img.setImageResource(types[vehicle.vehicleTypeModel.typeName]!!.first)
             binding.executePendingBindings()
         }
     }

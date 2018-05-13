@@ -10,8 +10,8 @@ data class User(@SerializedName("password")
                 val address: String? = "",
                 @SerializedName("balance")
                 val balance: Int? = 0,
-                @SerializedName("vehicles")
-                val vehicles: List<Vehicle>? = emptyList(),
+                @SerializedName("vehicleModels")
+                val vehicleModels: List<VehicleModel>? = emptyList(),
                 @SerializedName("driverName")
                 val driverName: String = "",
                 @SerializedName("applicationID")

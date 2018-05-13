@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.parkingreservation.iuh.demologinmvp.R
@@ -19,6 +20,7 @@ abstract class BaseActivity<P : BasePresenter<BaseView>> : BaseView, AppCompatAc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.setDefaultUncaughtExceptionHandler { _, _ -> Log.e("Alert", "Lets See if it Works !!!") }
         presenter = instantiatePresenter()
     }
 
