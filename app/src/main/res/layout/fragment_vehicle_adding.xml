@@ -19,124 +19,130 @@
 
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{safeUnbox(progressVisibility)}"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!--Vehicle Name-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/vehicle_name"
-                android:padding="10dp"
-                android:src="@drawable/ic_vehicle_license"
-                android:tint="@color/colorPrimary" />
+                android:visibility="@{safeUnbox(progressVisibility)}"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/edt_vehicle_license"
+            <!--Vehicle Name-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/vehicle_name_adding"
-                android:inputType="text"
-                tools:ignore="LabelFor" />
-        </LinearLayout>
+                android:padding="10dp">
 
-        <!--Vehicle license plate-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/vehicle_name"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_vehicle_license"
+                    android:tint="@color/colorPrimary" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/vehicle_license_plates"
-                android:padding="10dp"
-                android:src="@drawable/ic_vehicle_license_plate"
-                android:tint="@color/colorPrimary" />
+                <EditText
+                    android:id="@+id/edt_vehicle_license"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/vehicle_name_adding"
+                    android:inputType="text"
+                    tools:ignore="LabelFor" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/edt_vehicle_license_plate"
+            <!--Vehicle license plate-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/vehicle_license_adding"
-                tools:ignore="LabelFor" />
-        </LinearLayout>
+                android:padding="10dp">
 
-        <!--Vehicle type-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/vehicle_license_plates"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_vehicle_license_plate"
+                    android:tint="@color/colorPrimary" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/vehicle_type"
-                android:padding="10dp"
-                android:src="@drawable/ic_vehicle_big"
-                android:tint="@color/colorPrimary" />
+                <EditText
+                    android:id="@+id/edt_vehicle_license_plate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/vehicle_license_adding"
+                    tools:ignore="LabelFor" />
+            </LinearLayout>
 
-
-            <Spinner
-                android:id="@+id/spinner"
+            <!--Vehicle type-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adapter="@{adapter}"
-                android:autofillHints="@string/vehicle_type" />
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/vehicle_type"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_vehicle_big"
+                    android:tint="@color/colorPrimary" />
+
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adapter="@{adapter}"
+                    android:autofillHints="@string/vehicle_type" />
+            </LinearLayout>
+
+            <!--Event-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/vehicle_name"
+                    android:padding="10dp"
+                    android:tint="@color/colorPrimary"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/save"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/save" />
+
+                <Button
+                    android:id="@+id/cancel"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel" />
+            </LinearLayout>
         </LinearLayout>
-
-        <!--Event-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/vehicle_name"
-                android:padding="10dp"
-                android:tint="@color/colorPrimary"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/save"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/save" />
-
-            <Button
-                android:id="@+id/cancel"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel" />
-        </LinearLayout>
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

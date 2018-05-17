@@ -36,119 +36,124 @@
             type="android.support.v7.widget.LinearLayoutManager" />
     </data>
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coord_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <android.support.v4.widget.DrawerLayout
-            android:id="@+id/drawer_layout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            tools:openDrawer="start">
+            android:layout_height="match_parent">
 
-            <android.support.design.widget.CoordinatorLayout
-                android:id="@+id/coordinator_layout"
+
+            <android.support.v4.widget.DrawerLayout
+                android:id="@+id/drawer_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:fitsSystemWindows="true"
+                tools:openDrawer="start">
 
-                <!--Bottom navigation bar-->
-                <!--<include layout="@layout/bottom_navigation" />-->
-
-                <include
-                    layout="@layout/toolbar_layout"
-                    android:visibility="invisible" />
-
-                <FrameLayout
-                    android:id="@+id/replace_fragment"
+                <android.support.design.widget.CoordinatorLayout
+                    android:id="@+id/coordinator_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true">
+                    android:orientation="vertical">
 
-                    <android.support.v7.widget.CardView
+                    <!--Bottom navigation bar-->
+                    <!--<include layout="@layout/bottom_navigation" />-->
+
+                    <include
+                        layout="@layout/toolbar_layout"
+                        android:visibility="invisible" />
+
+                    <FrameLayout
+                        android:id="@+id/replace_fragment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="25dp"
-                        app:cardElevation="2dp"
-                        app:cardUseCompatPadding="true">
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true">
 
-                        <fragment
-                            android:id="@+id/place_autocomplete_fragment"
-                            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                        <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </android.support.v7.widget.CardView>
-                </FrameLayout> <!--map-->
+                            android:layout_height="wrap_content"
+                            android:layout_margin="25dp"
+                            app:cardElevation="2dp"
+                            app:cardUseCompatPadding="true">
 
-                <!--Toolbar with bottom bar-->
-                <!--<include layout="@layout/toolbar_layout" />-->
-                <RelativeLayout
+                            <fragment
+                                android:id="@+id/place_autocomplete_fragment"
+                                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </android.support.v7.widget.CardView>
+                    </FrameLayout> <!--map-->
+
+                    <!--Toolbar with bottom bar-->
+                    <!--<include layout="@layout/toolbar_layout" />-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginBottom="@dimen/bottom_sheet_peek_height"
+                        android:layout_marginEnd="@dimen/fab_margin"
+                        app:layout_anchorGravity="bottom|right|end"
+                        tools:ignore="RtlHardcoded">
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/float_button_gps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:src="@drawable/ic_gps_fixed_white_24dp" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/float_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/float_button_gps"
+                            android:layout_marginTop="15dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:src="@drawable/ic_parking_service" />
+
+                    </RelativeLayout>
+                    <!--Toolbar with bottom bar-->
+                    <!--<include layout="@layout/viewpager_layout" />-->
+                    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/anchor_point"
+                        android:adapter="@{coverPageAdapter}"
+                        android:fitsSystemWindows="true"
+                        app:layout_behavior="@string/BackDropBottomSheetBehavior" />
+
+                    <!--Bottom bar content-->
+                    <include
+                        layout="@layout/parking_lot_bottom_sheet_bar_layout"
+                        bind:adapterService="@{adapterService}"
+                        bind:layoutManager="@{layoutManager}"
+                        bind:layoutManagerComment="@{layoutManagerComment}"
+                        bind:station="@{station}"
+                        bind:stationCommentAdapter="@{stationCommentAdapter}" />
+
+                    <!--Merged App BarLayout-->
+                    <include layout="@layout/parking_lot_merge_app_bar_layout" />
+
+
+                </android.support.design.widget.CoordinatorLayout>
+
+                <android.support.design.widget.NavigationView
+                    android:id="@+id/nav_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginBottom="@dimen/bottom_sheet_peek_height"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    app:layout_anchorGravity="bottom|right|end"
-                    tools:ignore="RtlHardcoded">
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/float_button_gps"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:src="@drawable/ic_gps_fixed_white_24dp" />
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/float_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/float_button_gps"
-                        android:layout_marginTop="15dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:src="@drawable/ic_parking_service" />
-
-                </RelativeLayout>
-                <!--Toolbar with bottom bar-->
-                <!--<include layout="@layout/viewpager_layout" />-->
-                <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/anchor_point"
-                    android:adapter="@{coverPageAdapter}"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
                     android:fitsSystemWindows="true"
-                    app:layout_behavior="@string/BackDropBottomSheetBehavior" />
-
-                <!--Bottom bar content-->
-                <include
-                    layout="@layout/parking_lot_bottom_sheet_bar_layout"
-                    bind:station="@{station}"
-                    bind:layoutManager="@{layoutManager}"
-                    bind:adapterService="@{adapterService}"
-                    bind:layoutManagerComment="@{layoutManagerComment}"
-                    bind:stationCommentAdapter="@{stationCommentAdapter}" />
-
-                <!--Merged App BarLayout-->
-                <include layout="@layout/parking_lot_merge_app_bar_layout" />
-
-
-            </android.support.design.widget.CoordinatorLayout>
-
-            <android.support.design.widget.NavigationView
-                android:id="@+id/nav_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:fitsSystemWindows="true"
-                app:headerLayout="@layout/nav_header_main"
-                app:menu="@menu/activity_main_drawer"
-                app:theme="@style/ThemeOverlay.AppCompat.Light" />
-        </android.support.v4.widget.DrawerLayout>
-    </LinearLayout>
-
+                    app:headerLayout="@layout/nav_header_main"
+                    app:menu="@menu/activity_main_drawer"
+                    app:theme="@style/ThemeOverlay.AppCompat.Light" />
+            </android.support.v4.widget.DrawerLayout>
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -98,6 +98,8 @@
     <string name="vehicle_car">car</string>
     <string name="vehicle_adding_empty">Please fill in the blanks</string>
     <string name="empty_vehicle">Please add your vehicle</string>
+    <string name="add_empty_vehicle">add Your Vehicle</string>
+
     <!--    Station    -->
     <string name="station_not_open_yet">Station is not opened yet</string>
     <string name="station_already_closed">Station is already closed</string>
@@ -114,6 +116,13 @@
     <string name="signout_reject">Cancel</string>
     <string name="signout_confirm">Are your sure?</string>
 
+    <string name="view_ticket">View Ticket</string>
+    <string name="reservation_successfull">Reservation successful</string>
+    <string name="email_not_valid">Email not valid</string>
+    <string name="pass_not_valid">Password is not valid</string>
+    <string name="phone_not_valid">Phone not Valid</string>
+    <string name="phone_exist">Phone is already exist</string>
+    <string name="warning_slot_confirm">There is too many holding slot in this station, are you sure for your reservation</string>
 
 
 </resources>

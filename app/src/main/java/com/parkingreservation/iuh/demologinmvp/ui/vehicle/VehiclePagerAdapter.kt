@@ -27,9 +27,9 @@ class VehiclePagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapt
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when(position) {
-            0 -> "Your Vehicle"
-            1 -> "Add New Vehicle"
-            else -> "Your Vehicle"
+            0 -> "Xe Của bạn"
+            1 -> "Thêm mới xe"
+            else -> "Xe C ủa bạn"
         }
     }
 }

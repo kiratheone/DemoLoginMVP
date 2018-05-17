@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,9 +41,11 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
     @BindView(R.id.edt_vehicle_license_plate)
     lateinit var edtLicensePlate: EditText
 
-
     @BindView(R.id.spinner)
     lateinit var spinner: Spinner
+
+    @BindView(R.id.coordinator)
+    lateinit var coordinatorLayout: CoordinatorLayout
 
     lateinit var binding: FragmentVehicleAddingBinding
     lateinit var adapter: VehicleAddingAdapter
@@ -67,11 +71,16 @@ class VehicleAddingFragment : BaseFragment<VehicleAddingPresenter>(), VehicleAdd
 
     override fun showSuccess(string: String) {
         showStatus(string)
-        this.baseActivity.finish()
+        resetView()
     }
 
     private fun showStatus(s: String) {
-        Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
+        Snackbar.make(coordinatorLayout, s, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun resetView() {
+        edtLicensePlate.setText("")
+        edtLicense.setText("")
     }
 
     override fun showLoading() {

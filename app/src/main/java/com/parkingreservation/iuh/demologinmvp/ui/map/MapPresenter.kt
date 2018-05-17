@@ -96,7 +96,7 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
         val currentTime = sdf.format(Date(timesSecond)).toString()
 
         when {
-            getUserVehicle().isEmpty() -> view.showError(this.view.getContexts().resources.getString(R.string.empty_vehicle))
+            getUserVehicle().isEmpty() -> view.onEmptyVehicle()
             currentTime < station.openTime -> view.showError(this.view.getContexts().resources.getString(R.string.station_not_open_yet))
             currentTime > station.closeTime -> view.showError(this.view.getContexts().resources.getString(R.string.station_already_closed))
             station.status.toLowerCase() != "active" -> view.showError(this.view.getContexts().resources.getString(R.string.station_not_active))
@@ -104,6 +104,13 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
         }
         return false
     }
+
+    override fun isSlotNotEnough(): Boolean {
+        val station = this.currentStation
+        return station.totalSlots < station.usedSlots + station.holdingSlots
+    }
+
+
 
     fun getUserVehicle(): Array<String> {
         val numbers: MutableList<String> = mutableListOf()
@@ -292,7 +299,8 @@ class MapPresenter(mapView: MapContract.View) : BasePresenter<MapContract.View>(
                 .doOnTerminate { view.hideLoading() }
                 .subscribe(
                         {
-                            view.showSuccess("reservation successfully")
+//                            view.showSuccess("reservation successfully")
+                            view.onReservationSuccessful()
                             Log.i(TAG, "ticket post successful")
                         },
                         {

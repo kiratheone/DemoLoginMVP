@@ -10,6 +10,7 @@ class MapContract {
         fun bookParkingLot(station: String, vehiclePosition: String, type: List<TicketTypeModels>)
         fun loadTicketTypes(marker: Marker)
         fun isStationValidate(): Boolean
+        fun isSlotNotEnough(): Boolean
     }
 
     interface View : BaseView {
@@ -18,6 +19,9 @@ class MapContract {
         fun onLoadTicketTypesSuccess(s: MutableList<StationServiceModel>)
         fun onStationImageLoaded(images: List<String>)
         fun onStationCommentLoaded(comments: List<Comment>)
+        fun onReservationSuccessful()
+        fun onEmptyVehicle()
     }
 }
+
 

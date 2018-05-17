@@ -68,7 +68,7 @@ class ProfilePresenter(profileView: ProfileContract.View) : BasePresenter<Profil
     }
 
     private fun saveDriverToPref(id: String, token: String) {
-        profileService.getDriver(id, token)
+        subscription = profileService.getDriver(id, token)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnTerminate { view.hideLoading() }

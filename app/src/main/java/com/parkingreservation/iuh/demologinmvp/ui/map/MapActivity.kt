@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
@@ -75,6 +76,9 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
 
     @BindView(R.id.drawer_layout)
     lateinit var drawer: DrawerLayout
+
+    @BindView(R.id.coord_layout)
+    lateinit var coordinatorLayout: CoordinatorLayout
 
     private lateinit var tvName: TextView
     private lateinit var tvWebsite: TextView
@@ -250,6 +254,13 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
         showStatus(string)
     }
 
+    override fun onEmptyVehicle() {
+        Snackbar.make(coordinatorLayout, getString(R.string.vehicle_adding_empty), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.add_empty_vehicle), {
+                    startActivity(Intent(this, VehicleActivity::class.java))
+                }).show() //qua trang them xe
+    }
+
     private fun showStatus(s: String) {
         Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
     }
@@ -259,6 +270,13 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
     }
 
     override fun hideLoading() {
+    }
+
+    override fun onReservationSuccessful() {
+        Snackbar.make(coordinatorLayout, getString(R.string.reservation_successfull), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.view_ticket), {
+                    startActivity(Intent(this, TicketActivity::class.java))
+                }).show() //Đặt Vé Thành Công
     }
 
     override fun addStationContent(station: Station?) {
@@ -364,11 +382,38 @@ class MapActivity : BaseActivity<MapPresenter>(), MapContract.View {
     @OnClick(R.id.bt_booking)
     fun bookParkingLot() {
         if (presenter.isStationValidate()) {
-            val builder = AlertDialog.Builder(this)
-            createVehiclesDialog(builder)
-            builder.create().show()
+            if (presenter.isSlotNotEnough())
+                checkWarningStationSlot()
+            else
+                createReservationForm()
         }
+    }
 
+    private lateinit var warningDialog: AlertDialog
+    private fun checkWarningStationSlot() {
+        val alertDialogBuilder: AlertDialog.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert)
+        } else {
+            AlertDialog.Builder(this)
+        }
+        alertDialogBuilder.setMessage(resources.getString(R.string.warning_slot_confirm))
+
+        alertDialogBuilder.setPositiveButton(R.string.signout_accept, { _, _ ->
+            createReservationForm()
+            warningDialog.dismiss()
+        })
+        alertDialogBuilder.setNegativeButton(R.string.signout_reject, { _, _ ->
+            warningDialog.dismiss()
+        })
+        warningDialog = alertDialogBuilder.create()
+        warningDialog.show()
+
+    }
+
+    private fun createReservationForm() {
+        val builder = AlertDialog.Builder(this)
+        createVehiclesDialog(builder)
+        builder.create().show()
     }
 
     private fun createVehiclesDialog(builder: AlertDialog.Builder) {

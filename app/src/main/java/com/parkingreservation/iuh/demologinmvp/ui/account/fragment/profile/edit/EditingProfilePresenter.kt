@@ -26,6 +26,7 @@ class EditingProfilePresenter(view: EditingProfileContract.View) : BasePresenter
 
     @Inject
     lateinit var pref: MySharedPreference
+
     private
     var subscription: Disposable? = null
 

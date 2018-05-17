@@ -28,6 +28,7 @@ class LogoutActivity : BaseActivity<LogoutPresenter>(), LogoutContract.View {
     }
 
     private lateinit var b: AlertDialog
+
     public fun signOut(view: View) {
         var alertDialogBuilder: AlertDialog.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert)

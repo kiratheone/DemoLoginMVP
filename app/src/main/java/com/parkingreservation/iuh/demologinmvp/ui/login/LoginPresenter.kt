@@ -65,11 +65,14 @@ class LoginPresenter(loginView: LoginContract.View) : BasePresenter<LoginContrac
                         },
                         {
                             Log.e(TAG, "Cannot login ${it.message}")
-                            if (it is HttpException)
+                            if (it is HttpException) {
                                 if (it.code() == 400)
-                                    view.showError("User Name or Password is Wrong")
-                            view.showError("oOps!!!, Something error while logging In, please check your network ")
+                                    view.showError("Sai tên đăng nhập hoặc mật khẩu")
+                            } else {
+                                view.showError("oOps!!!, Something error while logging In, please check your network ")
+                            }
                             pref.removeUser()
+                            view.hideLoading()
                         })
     }
 

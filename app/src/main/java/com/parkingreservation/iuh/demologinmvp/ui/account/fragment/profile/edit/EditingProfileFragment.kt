@@ -3,6 +3,8 @@ package com.parkingreservation.iuh.demologinmvp.ui.account.fragment.profile.edit
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +37,9 @@ class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingP
     @BindView(R.id.edt_input_mail)
     lateinit var mail: EditText
 
+    @BindView(R.id.coordinator)
+    lateinit var coordinatorLayout: CoordinatorLayout
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing_profile, container, false)
         ButterKnife.bind(this, binding.root)
@@ -64,12 +69,10 @@ class EditingProfileFragment : BaseFragment<EditingProfilePresenter>(), EditingP
     }
 
     private fun showStatus(s: String) {
-        Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
+        Snackbar.make(coordinatorLayout, s, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onEditSuccess() {
-//        fragmentManager?.popBackStack()
-        this.baseActivity.finish()
     }
 
     override fun showLoading() {

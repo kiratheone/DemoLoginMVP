@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -23,6 +25,9 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
 
     @BindView(R.id.input_password)
     lateinit var inputPassword: EditText
+
+    @BindView(R.id.coordinator)
+    lateinit var coordinatorLayout: CoordinatorLayout
 
     lateinit var binding: ActivityLoginBinding
 
@@ -75,7 +80,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     }
 
     private fun showStatus(s: String) {
-        Toast.makeText(getContexts(), s, Toast.LENGTH_LONG).show()
+        Snackbar.make(coordinatorLayout, s, Snackbar.LENGTH_LONG).show()
     }
 
     override fun showLoading() {
